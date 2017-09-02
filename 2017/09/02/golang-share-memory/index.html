@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="vim,plugin," />
+  <meta name="keywords" content="go,编程语言," />
 
 
 
@@ -95,21 +95,20 @@
 
 
 
-<meta name="description" content="YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。">
-<meta name="keywords" content="vim,plugin">
+<meta name="description" content="Golang不使用cgo，直接操作共享内存。">
+<meta name="keywords" content="go,编程语言">
 <meta property="og:type" content="article">
-<meta property="og:title" content="complete_parameter">
-<meta property="og:url" content="http://tenfy.cn/2017/09/02/complete-parameter/index.html">
+<meta property="og:title" content="Golang直接操作共享内存">
+<meta property="og:url" content="http://tenfy.cn/2017/09/02/golang-share-memory/index.html">
 <meta property="og:site_name" content="tenfy&#39; blog">
-<meta property="og:description" content="YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。">
+<meta property="og:description" content="Golang不使用cgo，直接操作共享内存。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1fh44miqsf3g30hs0dcakz.gif">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1fh44mlv3nbg30hs0dch2f.gif">
-<meta property="og:updated_time" content="2017-09-02T04:21:19.000Z">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1fh5udt213hj31kw0hln4r.jpg">
+<meta property="og:updated_time" content="2017-09-02T09:06:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="complete_parameter">
-<meta name="twitter:description" content="YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。">
-<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1fh44miqsf3g30hs0dcakz.gif">
+<meta name="twitter:title" content="Golang直接操作共享内存">
+<meta name="twitter:description" content="Golang不使用cgo，直接操作共享内存。">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tKfTcly1fh5udt213hj31kw0hln4r.jpg">
 
 
 
@@ -139,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://tenfy.cn/2017/09/02/complete-parameter/"/>
+  <link rel="canonical" href="http://tenfy.cn/2017/09/02/golang-share-memory/"/>
 
 
 
 
 
-  <title>complete_parameter | tenfy' blog</title>
+  <title>Golang直接操作共享内存 | tenfy' blog</title>
   
 
 
@@ -296,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://tenfy.cn/2017/09/02/complete-parameter/">
+    <link itemprop="mainEntityOfPage" href="http://tenfy.cn/2017/09/02/golang-share-memory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="tenfy zhong">
@@ -313,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">complete_parameter</h1>
+          <h1 class="post-title" itemprop="name headline">Golang直接操作共享内存</h1>
         
 
         <div class="post-meta">
@@ -325,7 +324,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-02T12:18:51+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-02T16:58:51+08:00">
                 2017-09-02
               </time>
             
@@ -348,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vim/" itemprop="url" rel="index">
-                    <span itemprop="name">vim</span>
+                  <a href="/categories/后台/" itemprop="url" rel="index">
+                    <span itemprop="name">后台</span>
                   </a>
                 </span>
 
@@ -365,7 +364,7 @@
 
           
           
-             <span id="/2017/09/02/complete-parameter/" class="leancloud_visitors" data-flag-title="complete_parameter">
+             <span id="/2017/09/02/golang-share-memory/" class="leancloud_visitors" data-flag-title="Golang直接操作共享内存">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -390,7 +389,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  609
+                  1,893
                 </span>
               
 
@@ -406,7 +405,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  7
                 </span>
               
             </div>
@@ -427,21 +426,50 @@
       
 
       
-        <p>YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个<br>辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。</p>
+        <p>Golang不使用cgo，直接操作共享内存。</p>
 <a id="more"></a>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个<br>辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。从此函数补<br>全完后，再也不用跳去看声明参数要怎么填了。<br>插件链接：<a href="https://github.com/tenfyzhong/CompleteParameter.vim" target="_blank" rel="external">tenfyzhong/CompleteParameter.vim</a></p>
-<h1 id="只有补全引擎的vim"><a href="#只有补全引擎的vim" class="headerlink" title="只有补全引擎的vim"></a>只有补全引擎的vim</h1><p><em>注：以下所有的例子都以YouCompleteMe为例子，使用deoplete、neocomplete也是一样的。<br>并且以golang为例子，当然目前已经支持了多种语言，详细请看github上的README</em><br>字不重要，看下图：<br><img src="https://ws3.sinaimg.cn/large/006tNc79ly1fh44miqsf3g30hs0dcakz.gif" alt=""><br>ycm呼起了补全菜单，选中补全列表中的一项后，按左括号开始填参数。对于大的函数，<br>这时候就蒙圈了，忘了要填什么参数了。就只有跳到函数声明或者文档上去看参数，而且<br>经常是看了第一个，回来填好后，再去看第二个，如此循环。</p>
-<h1 id="参数补全闪亮登场"><a href="#参数补全闪亮登场" class="headerlink" title="参数补全闪亮登场"></a>参数补全闪亮登场</h1><p>继续看图：<br><img src="https://ws2.sinaimg.cn/large/006tNc79ly1fh44mlv3nbg30hs0dch2f.gif" alt=""><br>还是ycm呼起了补全菜单，选中补全列表中的一项后，按左括号，形参的名字已经补全上来了，<br>并且这时使用选择模式选中了第一个参数，直接输入内容，当前选中的内容就会被删除，<br>而插入输入的内容。第一个参数填完后，按<code>&lt;m-n&gt;</code>(默认跳转到下一个参数的映射键)，<br>就跳到第二个参数，并且又进入了选择模式。修改完后，就可以继续按<code>&lt;m-n&gt;</code>跳到下一个<br>参数(如果没有下一个参数了，则会跳到右括号之后，并且进行插入模式)。<br>当跳到下一个参数后发现上一个参数输错了，这时还可以通过<code>&lt;m-p&gt;</code>来跳回到上一个参数，<br>并且选择了它，又可以进行修改了。<br>有时候调用函数，已经有了跟形参一样名字的变量了，这时候补全完之后，因为插入的形参<br>名字和变量名字一样，这时候就不用修改了。直接按<code>&lt;m-n&gt;</code>跳到下一个位置即可。  </p>
-<h2 id="已经支持的语言-截止到2017年7月1日"><a href="#已经支持的语言-截止到2017年7月1日" class="headerlink" title="已经支持的语言(截止到2017年7月1日)"></a>已经支持的语言(截止到2017年7月1日)</h2><ul>
-<li>c</li>
-<li>c++</li>
-<li>golang</li>
-<li>python</li>
-<li>erlang</li>
-<li>javascript</li>
-<li>typescript</li>
-<li>rust</li>
-</ul>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>故事起源于要搭一个高性能的日志中心。当然使用了elk这一套。但是，对于logstash来说，<br>它主要使用的是文件日志的方式了捕捉log。而写文件日志的话会非常慢。对于实时日志要<br>处理滚动的日志更是这样，每次检查是否需要流动日志，然后打开日志，然后写入，然后<br>关闭，当然这中间可以优化。这一切都是那么慢，发起了n个系统调用，硬盘寻道等。这时<br>候想到了用共享内存来通信。</p>
+<h1 id="共享内存的基本知识"><a href="#共享内存的基本知识" class="headerlink" title="共享内存的基本知识"></a>共享内存的基本知识</h1><p>要使用共享内存要执行以下几步：</p>
+<ol>
+<li>发起一个系统调用，让系统帮你生产一块内存，或者取得一块已经存在的内存来使用。</li>
+<li>把内存attach到当前进程，让当前进程可以使用。大家都知道，我们在进程中访问的是<br>虚拟内存地址，系统会把它映射到物理内存中。如果没有这一步，第1步创建的内存就<br>不能在当前进程访问。</li>
+<li>这时就可以对内存进程读写操作了。</li>
+<li>进程结束的时候要把上面attach的内存给释放。</li>
+</ol>
+<h1 id="系统调用的基础知识"><a href="#系统调用的基础知识" class="headerlink" title="系统调用的基础知识"></a>系统调用的基础知识</h1><p>什么是系统调用?  </p>
+<blockquote>
+<p>系统调用（英语：system call），又称为系统呼叫，指运行在使用者空间的程序向操作<br>  系统内核请求需要更高权限运行的服务。系统调用提供用户程序与操作系统之间的接口。</p>
+</blockquote>
+<p>以上引自维基百科。  </p>
+<p>对于每个系统调用，都一个编号。内核收到编号后，就根据编号去找到对应的内核函数函数<br>来执行。然后返回给应用程序。  </p>
+<p>系统调用是怎么发起的？以下以linux为例。  </p>
+<ol>
+<li>应用程序以系统调用号和对应的参数传给系统调用api</li>
+<li>系统调用api将系统调用号存到<code>eax</code>中，然后发起<code>0x80</code>的中断号进行中断</li>
+<li>内核中的中断处理函数根据系统调用号，调用对应的内核函数（系统调用）</li>
+<li>系统调用完成相应功能，将返回值存入 <code>eax</code>，返回到中断处理函数</li>
+<li>中断处理函数返回到 API 中</li>
+<li>API 将 <code>eax</code> 返回给应用程序</li>
+</ol>
+<p>以上就完成了系统调用。</p>
+<h1 id="在golang中使用共享内存"><a href="#在golang中使用共享内存" class="headerlink" title="在golang中使用共享内存"></a>在golang中使用共享内存</h1><p>了解了系统调用之后，下面就开始使用了。第一步当然是去找golang有没有直接提供共享内<br>存的api了。几经折腾后，发现它并没有提供直接的api。而其他很多系统调用都提供了直接<br>的api。究其原因，我想应该是因为这句话吧：</p>
+<blockquote>
+<p>“不要通过共享内存来通信，而应该通过通信来共享内存”</p>
+</blockquote>
+<p>golang不提供使用共享内存来通信。所以直接不提供了，折腾死你们，让你们用不了。<br>于是乎，google一下解决方案，都是通过cgo来调c语言来实现的。stackoverflow的答案也<br>都是这样。<br>回来再来看一下golang的<a href="https://golang.org/pkg/syscall/" target="_blank" rel="external">syscall</a>的文档。它提供了<br><code>Syscall</code>函数。声明如下：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Syscall</span><span class="params">(trap, a1, a2, a3 <span class="keyword">uintptr</span>)</span> <span class="params">(r1, r2 <span class="keyword">uintptr</span>, err Errno)</span></span></div></pre></td></tr></table></figure></p>
+<p>很显示trap是中断号，a1, a2, a3是系统调用相关的参数。<br>对于中断号，在文档中可以看到，所有的系统都已经定义了常量了。而我们要用到的系统调<br>用有：<br><code>SYS_SHMGET</code>: 创建或者取得共享内存。<br><code>SYS_SHMAT</code>: 将共享内存attach到当前进程空间。<br><code>SYS_SHMDT</code>: 将共享内存从当前进程中deattach。  </p>
+<p>具体这三个函数的使用，我们可以参考linux的<code>shmget</code>, <code>shmat</code>, <code>shmdt</code>函数。可以看<br>到这三个函数跟上面三个系统调用号的常量名字一样的。<br>以下是这三个函数的声明：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">shmget</span><span class="params">(<span class="keyword">key_t</span> key, <span class="keyword">size_t</span> size, <span class="keyword">int</span> shmflg)</span></span>;  </div><div class="line"><span class="function"><span class="keyword">void</span> *<span class="title">shmat</span><span class="params">(<span class="keyword">int</span> shm_id, <span class="keyword">const</span> <span class="keyword">void</span> *shm_addr, <span class="keyword">int</span> shmflg)</span></span>; </div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">shmdt</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *shmaddr)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>以下简单介绍一下这三个函数，具体可以直接去linux上man对应的文档。  </p>
+<h3 id="shmget函数"><a href="#shmget函数" class="headerlink" title="shmget函数"></a><code>shmget</code>函数</h3><p><code>key</code>，这个参数的类型<code>key_y</code>其实只是一个数字类型。这个参数命名了这一块内存。不要<br>提供0值就行了，0值是private的，不能在进程间共享。<br><code>size</code>，提供了共享内存的大小。<br><code>shmflg</code>，权限标志，它的作用与open函数的mode参数一样。如果需要在内存不存在时创建<br>它，则需要指定<code>IPC_CREAT</code>。<br>在golang的文档中可以看到，它并没定义<code>IPC_CREATE</code>的值。所以我们只能去找到它的值了。<br>在linux的man文档中，它也没有说明。于是乎，直接把linux的代码clone下来进行了grep<br>(我用ag，速度非常快的文档查找工具)。从结果中找到了<code>IPC_CREATE</code>是一个宏，它的值定<br>义成了<code>00001000</code>。一个8进制的数字。低三位都是0，因为低三位是用来标志权限位的。  </p>
+<p>下面我们直接来发起这个系统调用看一下效果，把调用c的参数一一对应到a1, a2, a3中：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shmid, _, err := syscall.Syscall(syscall.SYS_SHMGET, <span class="number">2</span>, <span class="number">4</span>, IpcCreate|<span class="number">0600</span>)</div></pre></td></tr></table></figure></p>
+<p><code>Syscall</code>函数返回了两个值和一个error字段。而c的<code>shmget</code>只返回了一个int值，因为这<br>个函数把结果错误和结果都通过返回值来承载了，如果是小于0的，则是错误，这时对应到<br>go中应该是err的值，没有错误的时候，我们只需要一个返回值，第二个返回值会一直是0。<br>第一个返回值就是给<code>shmat</code>调用的第一个参数。  </p>
+<h3 id="shmat函数"><a href="#shmat函数" class="headerlink" title="shmat函数"></a><code>shmat</code>函数</h3><p><code>shm_id</code>, 这是<code>shmget</code>返回id，以标志了要attach的是这一块内存<br><code>shm_addr</code>，这个标志需要把它attach到的内存地址，通常填0，让系统去选择地址来attach<br><code>shmflg</code>，这个可以值<code>SHM_RDONLY</code>表示只读，其他值为可以读写，我们直接传0就好。  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shmaddr, _, err := syscall.Syscall(syscall.SYS_SHMAT, shmid, <span class="number">0</span>, <span class="number">0</span>)</div></pre></td></tr></table></figure>
+<p>c函数返回了进程空间地址，这个调用也是只返回了一个值，所我们只接收第一个值。在c中，<br>如果调用失败，会返回<code>-1</code>。在go中，我们只要直接处理err的值就好了。  </p>
+<h3 id="shmdt函数"><a href="#shmdt函数" class="headerlink" title="shmdt函数"></a><code>shmdt</code>函数</h3><p><code>shmaddr</code>, 这个参数表示deattach的地址值，是从<code>shmat</code>中返回的。<br>我们在go中直接用defer来调用就好了：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">defer</span> syscall.Syscall(syscall.SYS_SHMDT, shmaddr, <span class="number">0</span>, <span class="number">0</span>)</div></pre></td></tr></table></figure></p>
+<p>以下是这个blog用到的代码，可以直接从<a href="https://gist.github.com/tenfyzhong/767b4a1ed59cc7ead2d446df9fb78e5f" target="_blank" rel="external">gist</a>里去下载：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// @file main.go</span></div><div class="line"><span class="comment">// @brief</span></div><div class="line"><span class="comment">// @author tenfyzhong</span></div><div class="line"><span class="comment">// @email tenfyzhong@qq.com</span></div><div class="line"><span class="comment">// @created 2017-06-26 17:54:34</span></div><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"flag"</span></div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"os"</span></div><div class="line">	<span class="string">"syscall"</span></div><div class="line">	<span class="string">"time"</span></div><div class="line">	<span class="string">"unsafe"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">const</span> (</div><div class="line">	<span class="comment">// IpcCreate create if key is nonexistent</span></div><div class="line">	IpcCreate = <span class="number">00001000</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">var</span> mode = flag.Int(<span class="string">"mode"</span>, <span class="number">0</span>, <span class="string">"0:write 1:read"</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	flag.Parse()</div><div class="line">	shmid, _, err := syscall.Syscall(syscall.SYS_SHMGET, <span class="number">2</span>, <span class="number">4</span>, IpcCreate|<span class="number">0600</span>)</div><div class="line">	<span class="keyword">if</span> err != <span class="number">0</span> &#123;</div><div class="line">		fmt.Printf(<span class="string">"syscall error, err: %v\n"</span>, err)</div><div class="line">		os.Exit(<span class="number">-1</span>)</div><div class="line">	&#125;</div><div class="line">	fmt.Printf(<span class="string">"shmid: %v\n"</span>, shmid)</div><div class="line"></div><div class="line">	shmaddr, _, err := syscall.Syscall(syscall.SYS_SHMAT, shmid, <span class="number">0</span>, <span class="number">0</span>)</div><div class="line">	<span class="keyword">if</span> err != <span class="number">0</span> &#123;</div><div class="line">		fmt.Printf(<span class="string">"syscall error, err: %v\n"</span>, err)</div><div class="line">		os.Exit(<span class="number">-2</span>)</div><div class="line">	&#125;</div><div class="line">	fmt.Printf(<span class="string">"shmaddr: %v\n"</span>, shmaddr)</div><div class="line"></div><div class="line">	<span class="keyword">defer</span> syscall.Syscall(syscall.SYS_SHMDT, shmaddr, <span class="number">0</span>, <span class="number">0</span>)</div><div class="line"></div><div class="line">	<span class="keyword">if</span> *mode == <span class="number">0</span> &#123;</div><div class="line">		fmt.Println(<span class="string">"write mode"</span>)</div><div class="line">		i := <span class="number">0</span></div><div class="line">		<span class="keyword">for</span> &#123;</div><div class="line">			fmt.Printf(<span class="string">"%d\n"</span>, i)</div><div class="line">			*(*<span class="keyword">int</span>)(unsafe.Pointer(<span class="keyword">uintptr</span>(shmaddr))) = i</div><div class="line">			i++</div><div class="line">			time.Sleep(<span class="number">1</span> * time.Second)</div><div class="line">		&#125;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		fmt.Println(<span class="string">"read mode"</span>)</div><div class="line">		<span class="keyword">for</span> &#123;</div><div class="line">			fmt.Println(*(*<span class="keyword">int</span>)(unsafe.Pointer(<span class="keyword">uintptr</span>(shmaddr))))</div><div class="line">			time.Sleep(<span class="number">1</span> * time.Second)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行一下这个代码块看一下结果：<br><img src="https://ws2.sinaimg.cn/large/006tKfTcly1fh5udt213hj31kw0hln4r.jpg" alt=""><br>用ipcs可以看到共享已经成功创建。</p>
+<p>对于共享内存的操作，大家还可以看一下<code>shmctl</code>这个系统调用的使用。</p>
 
       
     </div>
@@ -459,9 +487,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/vim/" rel="tag"># vim</a>
+            <a href="/tags/go/" rel="tag"># go</a>
           
-            <a href="/tags/plugin/" rel="tag"># plugin</a>
+            <a href="/tags/编程语言/" rel="tag"># 编程语言</a>
           
         </div>
       
@@ -474,8 +502,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/01/project-makefile/" rel="next" title="工程makefile管理的一种比较合理的方案">
-                <i class="fa fa-chevron-left"></i> 工程makefile管理的一种比较合理的方案
+              <a href="/2017/09/02/complete-parameter/" rel="next" title="complete_parameter">
+                <i class="fa fa-chevron-left"></i> complete_parameter
               </a>
             
           </div>
@@ -483,10 +511,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/02/golang-share-memory/" rel="prev" title="Golang直接操作共享内存">
-                Golang直接操作共享内存 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -651,7 +675,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#只有补全引擎的vim"><span class="nav-number">2.</span> <span class="nav-text">只有补全引擎的vim</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参数补全闪亮登场"><span class="nav-number">3.</span> <span class="nav-text">参数补全闪亮登场</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#已经支持的语言-截止到2017年7月1日"><span class="nav-number">3.1.</span> <span class="nav-text">已经支持的语言(截止到2017年7月1日)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#共享内存的基本知识"><span class="nav-number">2.</span> <span class="nav-text">共享内存的基本知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统调用的基础知识"><span class="nav-number">3.</span> <span class="nav-text">系统调用的基础知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在golang中使用共享内存"><span class="nav-number">4.</span> <span class="nav-text">在golang中使用共享内存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shmget函数"><span class="nav-number">4.0.1.</span> <span class="nav-text">shmget函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmat函数"><span class="nav-number">4.0.2.</span> <span class="nav-text">shmat函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmdt函数"><span class="nav-number">4.0.3.</span> <span class="nav-text">shmdt函数</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
