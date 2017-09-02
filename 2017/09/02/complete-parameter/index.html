@@ -95,20 +95,20 @@
 
 
 
-<meta name="description" content="YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。">
+<meta name="description" content="YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个 辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。">
 <meta name="keywords" content="vim,plugin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="complete_parameter">
 <meta property="og:url" content="https://tenfyzhong.github.io/2017/09/02/complete-parameter/index.html">
 <meta property="og:site_name" content="tenfy&#39; blog">
-<meta property="og:description" content="YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。">
+<meta property="og:description" content="YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个 辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1fh44miqsf3g30hs0dcakz.gif">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79ly1fh44mlv3nbg30hs0dch2f.gif">
 <meta property="og:updated_time" content="2017-09-02T09:33:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="complete_parameter">
-<meta name="twitter:description" content="YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。">
+<meta name="twitter:description" content="YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个 辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。">
 <meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tNc79ly1fh44miqsf3g30hs0dcakz.gif">
 
 
@@ -427,11 +427,25 @@
       
 
       
-        <p>YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个<br>辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。</p>
+        <p>YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个
+辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。</p>
 <a id="more"></a>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个<br>辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。从此函数补<br>全完后，再也不用跳去看声明参数要怎么填了。<br>插件链接：<a href="https://github.com/tenfyzhong/CompleteParameter.vim" target="_blank" rel="external">tenfyzhong/CompleteParameter.vim</a></p>
-<h1 id="只有补全引擎的vim"><a href="#只有补全引擎的vim" class="headerlink" title="只有补全引擎的vim"></a>只有补全引擎的vim</h1><p><em>注：以下所有的例子都以YouCompleteMe为例子，使用deoplete、neocomplete也是一样的。<br>并且以golang为例子，当然目前已经支持了多种语言，详细请看github上的README</em><br>字不重要，看下图：<br><img src="https://ws3.sinaimg.cn/large/006tNc79ly1fh44miqsf3g30hs0dcakz.gif" alt=""><br>ycm呼起了补全菜单，选中补全列表中的一项后，按左括号开始填参数。对于大的函数，<br>这时候就蒙圈了，忘了要填什么参数了。就只有跳到函数声明或者文档上去看参数，而且<br>经常是看了第一个，回来填好后，再去看第二个，如此循环。</p>
-<h1 id="参数补全闪亮登场"><a href="#参数补全闪亮登场" class="headerlink" title="参数补全闪亮登场"></a>参数补全闪亮登场</h1><p>继续看图：<br><img src="https://ws2.sinaimg.cn/large/006tNc79ly1fh44mlv3nbg30hs0dch2f.gif" alt=""><br>还是ycm呼起了补全菜单，选中补全列表中的一项后，按左括号，形参的名字已经补全上来了，<br>并且这时使用选择模式选中了第一个参数，直接输入内容，当前选中的内容就会被删除，<br>而插入输入的内容。第一个参数填完后，按<code>&lt;m-n&gt;</code>(默认跳转到下一个参数的映射键)，<br>就跳到第二个参数，并且又进入了选择模式。修改完后，就可以继续按<code>&lt;m-n&gt;</code>跳到下一个<br>参数(如果没有下一个参数了，则会跳到右括号之后，并且进行插入模式)。<br>当跳到下一个参数后发现上一个参数输错了，这时还可以通过<code>&lt;m-p&gt;</code>来跳回到上一个参数，<br>并且选择了它，又可以进行修改了。<br>有时候调用函数，已经有了跟形参一样名字的变量了，这时候补全完之后，因为插入的形参<br>名字和变量名字一样，这时候就不用修改了。直接按<code>&lt;m-n&gt;</code>跳到下一个位置即可。  </p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会补全上参数。这是一个
+辅助YouCompleteMe、deoplete、neocomplete补全插件进行补全参数的插件。从此函数补
+全完后，再也不用跳去看声明参数要怎么填了。<br>插件链接：<a href="https://github.com/tenfyzhong/CompleteParameter.vim" target="_blank" rel="external">tenfyzhong/CompleteParameter.vim</a></p>
+<h1 id="只有补全引擎的vim"><a href="#只有补全引擎的vim" class="headerlink" title="只有补全引擎的vim"></a>只有补全引擎的vim</h1><p><em>注：以下所有的例子都以YouCompleteMe为例子，使用deoplete、neocomplete也是一样的。
+并且以golang为例子，当然目前已经支持了多种语言，详细请看github上的README</em><br>字不重要，看下图：<br><img src="https://ws3.sinaimg.cn/large/006tNc79ly1fh44miqsf3g30hs0dcakz.gif" alt="">
+ycm呼起了补全菜单，选中补全列表中的一项后，按左括号开始填参数。对于大的函数，
+这时候就蒙圈了，忘了要填什么参数了。就只有跳到函数声明或者文档上去看参数，而且
+经常是看了第一个，回来填好后，再去看第二个，如此循环。</p>
+<h1 id="参数补全闪亮登场"><a href="#参数补全闪亮登场" class="headerlink" title="参数补全闪亮登场"></a>参数补全闪亮登场</h1><p>继续看图：<br><img src="https://ws2.sinaimg.cn/large/006tNc79ly1fh44mlv3nbg30hs0dch2f.gif" alt="">
+还是ycm呼起了补全菜单，选中补全列表中的一项后，按左括号，形参的名字已经补全上来了，
+并且这时使用选择模式选中了第一个参数，直接输入内容，当前选中的内容就会被删除，
+而插入输入的内容。第一个参数填完后，按<code>&lt;m-n&gt;</code>(默认跳转到下一个参数的映射键)，
+就跳到第二个参数，并且又进入了选择模式。修改完后，就可以继续按<code>&lt;m-n&gt;</code>跳到下一个
+参数(如果没有下一个参数了，则会跳到右括号之后，并且进行插入模式)。<br>当跳到下一个参数后发现上一个参数输错了，这时还可以通过<code>&lt;m-p&gt;</code>来跳回到上一个参数，
+并且选择了它，又可以进行修改了。<br>有时候调用函数，已经有了跟形参一样名字的变量了，这时候补全完之后，因为插入的形参
+名字和变量名字一样，这时候就不用修改了。直接按<code>&lt;m-n&gt;</code>跳到下一个位置即可。  </p>
 <h2 id="已经支持的语言-截止到2017年7月1日"><a href="#已经支持的语言-截止到2017年7月1日" class="headerlink" title="已经支持的语言(截止到2017年7月1日)"></a>已经支持的语言(截止到2017年7月1日)</h2><ul>
 <li>c</li>
 <li>c++</li>
@@ -588,7 +602,7 @@
             
               <a href="/archives">
             
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -610,7 +624,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -707,7 +721,7 @@
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
     <span title="Site words total count">
-      4.5k
+      6.3k
     </span>
   
 </div>
