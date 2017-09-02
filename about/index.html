@@ -602,10 +602,6 @@
 
 
   
-    
-
-    
-  
 
 
 
@@ -617,6 +613,28 @@
 
 
 
+
+
+
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+    
+        <script type="text/javascript">
+            var gitment = new Gitment({
+               id: document.location.href, 
+                owner: 'tenfyzhong',
+                repo: 'tenfyzhong.github.io',
+                oauth: {
+                    client_id: '6b972eaf9e2408260435',
+                    client_secret: '4a1fc9cba603e6c23d8c22873c9eb0d1e82b8662',
+                }});
+            gitment.render('gitment-container');
+        </script>
+    
 
 
 
