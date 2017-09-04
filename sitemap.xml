@@ -2,72 +2,79 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://tenfyzhong.github.io/2017/09/02/vim-feedkeys/</loc>
+    <loc>http://tenfy.cn/2017/09/04/psftp-and-pscp/</loc>
+    
+    <lastmod>2017-09-04T13:46:42.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tenfy.cn/2017/09/02/golang-share-memory/</loc>
+    
+    <lastmod>2017-09-03T11:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tenfy.cn/categories/index.html</loc>
+    
+    <lastmod>2017-09-03T11:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tenfy.cn/archives/index.html</loc>
+    
+    <lastmod>2017-09-03T11:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tenfy.cn/about/index.html</loc>
+    
+    <lastmod>2017-09-03T11:26:46.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tenfy.cn/tags/index.html</loc>
+    
+    <lastmod>2017-09-03T09:47:25.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tenfy.cn/2017/09/02/vim-feedkeys/</loc>
     
     <lastmod>2017-09-02T09:53:54.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tenfyzhong.github.io/2017/09/02/prometheus-lost-data/</loc>
+    <loc>http://tenfy.cn/2017/09/02/prometheus-lost-data/</loc>
     
     <lastmod>2017-09-02T09:41:27.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tenfyzhong.github.io/2017/09/02/complete-parameter/</loc>
+    <loc>http://tenfy.cn/2017/09/02/complete-parameter/</loc>
     
     <lastmod>2017-09-02T09:33:41.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tenfyzhong.github.io/2017/09/02/golang-share-memory/</loc>
-    
-    <lastmod>2017-09-02T09:06:35.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tenfyzhong.github.io/404.html</loc>
+    <loc>http://tenfy.cn/404.html</loc>
     
     <lastmod>2017-09-01T18:13:50.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tenfyzhong.github.io/about/index.html</loc>
-    
-    <lastmod>2017-09-01T18:10:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tenfyzhong.github.io/2017/09/01/project-makefile/</loc>
+    <loc>http://tenfy.cn/2017/09/01/project-makefile/</loc>
     
     <lastmod>2017-09-01T16:29:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tenfyzhong.github.io/archives/index.html</loc>
-    
-    <lastmod>2017-09-01T15:05:23.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tenfyzhong.github.io/tags/index.html</loc>
-    
-    <lastmod>2017-09-01T15:02:28.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tenfyzhong.github.io/categories/index.html</loc>
-    
-    <lastmod>2017-09-01T14:59:59.000Z</lastmod>
     
   </url>
   
