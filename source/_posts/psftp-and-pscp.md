@@ -128,9 +128,8 @@ except:
     pass
 ```
 
-
-具体文档可以clone repo下来用浏览器打开docs下的文档文件。
-
+[psftp文档](http://tenfy.cn/psftp/)
+[pscp文档](http://tenfy.cn/pscp/)
 
 [pscp]: https://github.com/tenfyzhong/pscp
 [psftp]: https://github.com/tenfyzhong/psftp
