@@ -5,7 +5,6 @@ categories: 后台
 tags: docker
 keywords: docker
 ---
-# 前言
 这篇文章是只是简单的入门，所以这里会教你怎么可以简单的上手。比如以前完全没有用过
 docker，现在要跑一个服务要用docker来跑。
 
