@@ -1,27 +1,23 @@
 language: node_js
-
-env:
-  global:
-    - secure: is3awmqF3XacjxoxzbJ43lSNvj1o9SSWMEnwnTvOz4pxgRq70C9U8x2onUbEeT3AzLffJl5QJfdxU3mcB2rnmVoK2IwJNqnHBOcKuSmBsDZrakn8f4x/ML1zeVPFvi7RQanlofkORuoBkpodud63PVgcNWs77eu5J60h8rqYoirOH/NLmXNV2PvAnugCbMMR6mHqWED/v5ouRMJHiqKN/fXlJ/dfHIPJBCApEvNIRUvhfMvHm/VduAn8Q8RF9WzBRg4Ty50FlC5L9+lrlC3zz5xvtAR6IIZYGx8u2jiBnaqw923L0Wd2WCutJGBB8fASnJduBmK5Jn8qHp5n58H+9RhCZ79QMVPOeLHkOJW0crU25IC7M+wYLocvKxjwXEHSMhHJfOCInaWvbzRPQhAPrEiaDLAUl7LeVqERL/sw7BW6RLRAn9v0zs+0ki8cAqO9zgT9A2efHsQkne+EnAN1Z6tCaKdhbdgaVO4bIouO0LlOT11gVXfF3uDbkCrhn2m/H8vEfwNTUshsO+1gI1p/cZpqFdVgdSkMdUD8CpKdqpiWqzNk6iTPfJhr4nC0T88amuTRR3N5fcgPOONQ+CkS3ECo9Lq2XaAkzspLSHRSYGaLUDOxNUT2X9l6oM3fKChezSCnZaJSKkhslSL9FxEAebt4y4YouyYEKLQax0PWjlQ=
+cache:
+   directories:
+   - node_modules
 
 install:
+  - nvm install 8.4.0
+  - nvm use 8.4.0
+  - node --version
+  - npm install -g npm@5.3.0
   - npm install -g hexo-cli
   - npm install
 
 before_script:
   - git config user.name "tenfyzhong"
   - git config user.email "tenfyzhong@qq.com"
+  - sed -i "s/https:\/\/\(github\.com\/tenfyzhong\/tenfyzhong\.github\.io\.git\)/https:\/\/$ACCESS_TOKEN@\1/" _config.yml
 
 script:
   - hexo clean
   - hexo g
+  - hexo d
 
-deploy:
-  provider: pages
-  local_dir: public
-  repo: tenfyzhong/tenfyzhong.github.io
-  skip_cleanup: true
-  github_token: $GH_TOKEN
-  on:
-    branch: source
-  target_branch: master
