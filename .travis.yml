@@ -12,7 +12,6 @@ install:
   - npm install
 
 before_script:
-  - ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
   - git submodule update --init --recursive
   - git config user.name "tenfyzhong"
   - git config user.email "tenfyzhong@qq.com"
