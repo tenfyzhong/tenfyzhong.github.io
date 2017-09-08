@@ -1,5 +1,5 @@
 ---
-title: about
+title: 
 date: 2017-09-01 22:58:24
 type: "about"
 toc: false
