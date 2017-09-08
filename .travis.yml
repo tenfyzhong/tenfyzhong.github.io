@@ -12,6 +12,7 @@ install:
   - npm install
 
 before_script:
+  - git submodule update --init --recursive
   - git config user.name "tenfyzhong"
   - git config user.email "tenfyzhong@qq.com"
   - sed -i "s/https:\/\/\(github\.com\/tenfyzhong\/tenfyzhong\.github\.io\.git\)/https:\/\/$ACCESS_TOKEN@\1/" _config.yml
