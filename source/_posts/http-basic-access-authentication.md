@@ -2,7 +2,9 @@
 title: nginx配置http basic认证
 date: 2017-09-21 17:47:26
 categories: 后台
-tags: http,nginx
+tags: 
+  - http
+  - nginx
 keywords: http,authentication,nginx
 ---
 
