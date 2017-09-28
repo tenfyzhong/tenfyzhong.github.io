@@ -100,7 +100,7 @@ enum Cmd
 ```
 需要对以上kOne赋0，kTwo赋1...  
 由于这个例子比较复杂，而且也是非常能体现魔法的例子，下面录了一个视频说明：
-<video src="https://blog-1254258176.cossh.myqcloud.com/vim-marco.mov" controls="controls" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;">
+<video src="https://blog-1254258176.cossh.myqcloud.com/vim-macro-32.mp4" controls="controls" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;">
 your browser does not support the video tag
 </video>
 
@@ -113,7 +113,7 @@ line three
 line four
 line five
 ```
-<video src="https://blog-1254258176.cossh.myqcloud.com/vim-macro2.mov" controls="controls" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;">
+<video src="https://blog-1254258176.cossh.myqcloud.com/vim-macro2-32.mp4" controls="controls" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;">
 your browser does not support the video tag
 </video>
 
