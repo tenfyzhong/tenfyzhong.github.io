@@ -15,9 +15,11 @@ keywords: man,netcat
 <!-- more -->
 # 概要
 ```
-nc [-46bCDdhklnrStUuvZz] [-I length] [-i interval] [-O length] [-P proxy_username] 
-   [-p source_port] [-q seconds] [-s source] [-T toskeyword] [-V rtable] [-w timeout]
-   [-X proxy_protocol] [-x proxy_address[:port]] [destination] [port]
+nc [-46bCDdhklnrStUuvZz] [-I length] [-i interval] 
+   [-O length] [-P proxy_username] [-p source_port] 
+   [-q seconds] [-s source] [-T toskeyword] 
+   [-V rtable] [-w timeout] [-X proxy_protocol] 
+   [-x proxy_address[:port]] [destination] [port]
 ```
 
 # 描述
@@ -150,26 +152,26 @@ EOF
 而不是建立一个连接。通常，结合`-v`参数可以非常有用的把详细输出到标准错误。
 
 例如：  
->`nc -zv host.example.com 20-30`
->Connection to host.example.com 22 port [tcp/ssh] succeeded!
->Connection to host.example.com 25 port [tcp/smtp] succeeded!
+>`nc -zv host.example.com 20-30`  
+>Connection to host.example.com 22 port [tcp/ssh] succeeded!  
+>Connection to host.example.com 25 port [tcp/smtp] succeeded!  
 
 这里指定了扫描20到30端口，它以增长的顺序进行搜索。
 
 也可以指定特定的端口进行扫描。  
-> `nc -zv host.example.com 80 20 22`
-> nc: connect to host.example.com 80 (tcp) failed: Connection refused
-> nc: connect to host.example.com 20 (tcp) failed: Connection refused
-> Connection to host.example.com port [tcp/ssh] succeeded!
+> `nc -zv host.example.com 80 20 22`  
+> nc: connect to host.example.com 80 (tcp) failed: Connection refused  
+> nc: connect to host.example.com 20 (tcp) failed: Connection refused  
+> Connection to host.example.com port [tcp/ssh] succeeded!  
 
 扫描的顺序为给出的顺序。
 
 另外，有时知道哪个服务器其其哪个版本在运行也是非常有用的。这些信息通常包含在欢迎信息上。
 为了取得这些信息，需要先建连接，取得欢迎信息后断开连接。可以通过`-w`指定超时或者使用`QUIT`命令。  
-> `echo "QUIT"` | nc host.example.com 20-30
-> SSH-1.99-OpenSSH_3.6.1p2
-> Protocol mismatch.
-> 220 host.example IMS SMTP Receiver Version 0.84 Ready
+> `echo "QUIT" | nc host.example.com 20-30`  
+> SSH-1.99-OpenSSH_3.6.1p2  
+> Protocol mismatch.  
+> 220 host.example IMS SMTP Receiver Version 0.84 Ready  
 
 # 例子
 打开一个TCP连接，连接到host.example.com的42端口，使用本地的31337端口，并用设置5秒超时：
