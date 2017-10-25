@@ -192,7 +192,7 @@ tcpdump 'tcp[tcpflags] & (tcp-syn|tcp-fin) != 0 and not src and dst net localnet
 tcpdump 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'
 ```
 
-打印所以发送经过snup大于576 bytes的包：
+打印所有发送经过snup大于576 bytes的包：
 ```bash
 tcpdump 'gateway snup and ip[2:2] > 576'
 ```
