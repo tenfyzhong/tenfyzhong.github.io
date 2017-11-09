@@ -16,6 +16,7 @@ url: https://tenfy.cn
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
+beian: 粤ICP备17141496号
 
 # Directory
 source_dir: source
