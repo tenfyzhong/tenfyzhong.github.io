@@ -102,7 +102,7 @@ route add -net 10.0.0.0 netmask 255.0.0.0 reject
 ## Gateway
 网关地址，或者`*`如果没设的话。
 
-## Netmask
+## Genmask
 目标网络的网关。`255.255.255.255`是目标主机，`0.0.0.0`是默认路由。
 
 ## Flags
