@@ -4,8 +4,13 @@ cache:
   directories:
   - node_modules
 before_install:
+- wget https://www.openssl.org/source/openssl-1.1.1.tar.gz
+- tar xzf openssl-1.1.1.tar.gz
+- cd openssl-1.1.1
+- ./config
+- make
+- sudo make install
 - sudo apt-get update
-- sudo apt-get upgrade -y openssl
 - sudo apt-get install -y python3-pip libffi-dev libssl-dev python-dev
 install:
 - nvm install 8.4.0
