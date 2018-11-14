@@ -14,7 +14,6 @@ install:
 - npm install -g hexo-cli
 - npm install
 - which python3.4
-- ls -l /usr/bin/
 - pip3 install --user pyopenssl ndg-httpsclient pyasn1 yaml requests
 before_script:
 - git submodule update --init --recursive
