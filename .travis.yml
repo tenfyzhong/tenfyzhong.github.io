@@ -1,24 +1,25 @@
 language: node_js
+sudo: true
 cache:
-   directories:
-   - node_modules
-
+  directories:
+  - node_modules
 install:
-  - nvm install 8.4.0
-  - nvm use 8.4.0
-  - node --version
-  - npm install -g npm@5.3.0
-  - npm install -g hexo-cli
-  - npm install
-
+- nvm install 8.4.0
+- nvm use 8.4.0
+- node --version
+- npm install -g npm@5.3.0
+- npm install -g hexo-cli
+- npm install
 before_script:
-  - git submodule update --init --recursive
-  - git config user.name "tenfyzhong"
-  - git config user.email "tenfyzhong@qq.com"
-  - sed -i "s/https:\/\/\(github\.com\/tenfyzhong\/tenfyzhong\.github\.io\.git\)/https:\/\/$ACCESS_TOKEN@\1/" _config.yml
-
+- git submodule update --init --recursive
+- git config user.name "tenfyzhong"
+- git config user.email "tenfyzhong@qq.com"
+- sed -i "s/https:\/\/\(github\.com\/tenfyzhong\/tenfyzhong\.github\.io\.git\)/https:\/\/$ACCESS_TOKEN@\1/" _config.yml
 script:
-  - hexo clean
-  - hexo g
-  - hexo d
-
+- hexo clean
+- hexo g
+- hexo d
+- ./bin/autoissue
+env:
+  global:
+    secure: XhQEqVNmVXWh2XsXSMgH8L8rz6epxTuJyL3l06weN5Yms8rIMH0IuQq2smwrCQLUfEOeHa1nch1RC4yqw4hIDYxmZQZxduOuVP9lsoYw1wmYorAhErnjXQ3d/5+1WqgLHlasD4VuLvoOfwqkhP9cpoVgaGMNuVycDFFIRIAmMEvTzfGF3i7+Vx+R8lMNHtCF6kzAaZu7WVpCbZNUWRPOB8/6yEwzJerpKDSryeWgVS9z87SQt7chw+2hQDHlJ/mxLh6ZmSDYD0eJZoGlvxECTbTDf26oMSopqR1YUYzARVD7kwhGsTcbQftsW+AZKi1wqEwFRxt6/Jn+m/bhW38zxx0XHNOU0Y31xOAI0mx7NTkgZqyT8Q8318+6/6cmVmVhcJefu64dQ8EhnMoxtx/qk933v7Pcd5uYXBrI+kFJhR2xGztQJIYBYGTo+vbrFG1ls1P0Wi2OoXx957z+6J3PHcD8KHcPrlj89Kif00necRlnD35quRU0z1dvkAQFtKe9DC6QxcPAgkB6NlFu8Ulzm0FkkCuph5XJ9hq3iH7H4qL3rF8g/tHR5SdP9n/QFOImb/nnavMPaoWHR6P4GuzmrC8KKtHykeURpuSuzAi0wiNYc3aisNyvFOSz5GL3Kx1s39pjp1i77lcTwZdMd81xCbb1+mnk25eAcnk2o6KQAb8=
