@@ -1,29 +1,28 @@
 language: node_js
 cache:
-   directories:
-   - node_modules
-
+  directories:
+  - node_modules
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y libffi-dev libssl-dev
-
+- sudo apt-get update
+- sudo apt-get install -y libffi-dev libssl-dev
 install:
-  - nvm install 8.4.0
-  - nvm use 8.4.0
-  - node --version
-  - npm install -g npm@5.3.0
-  - npm install -g hexo-cli
-  - npm install
-  - pip install pyopenssl ndg-httpsclient pyasn1 yaml requests
-
+- nvm install 8.4.0
+- nvm use 8.4.0
+- node --version
+- npm install -g npm@5.3.0
+- npm install -g hexo-cli
+- npm install
+- pip install pyopenssl ndg-httpsclient pyasn1 yaml requests
 before_script:
-  - git submodule update --init --recursive
-  - git config user.name "tenfyzhong"
-  - git config user.email "tenfyzhong@qq.com"
-  - sed -i "s/https:\/\/\(github\.com\/tenfyzhong\/tenfyzhong\.github\.io\.git\)/https:\/\/$ACCESS_TOKEN@\1/" _config.yml
-
+- git submodule update --init --recursive
+- git config user.name "tenfyzhong"
+- git config user.email "tenfyzhong@qq.com"
+- sed -i "s/https:\/\/\(github\.com\/tenfyzhong\/tenfyzhong\.github\.io\.git\)/https:\/\/$ACCESS_TOKEN@\1/" _config.yml
 script:
-  - hexo clean
-  - hexo g
-  - hexo d
-  - python init_comment.py
+- hexo clean
+- hexo g
+- hexo d
+- python init_comment.py
+env:
+  global:
+    secure: PNd3Rw4mT93n8qMDIZxPCmflafdZpGGDG7+IRPuAeu0iOlMXORU9my79eWpWVZ/uEB8eJUgKnQ2O1Q8IvpgIeqPYvjQaYZfbuKe5R10uusf03X8xXu30RLGbIGL51YDT3FKHCwLq6a+cuwuNVY7uMG4Wq+A+1Jh7QKEne7At3wsPWyMqgdyN0ZHTmFY1eZoKr9ftX5TvrrNE8MfbfnOhNe6245cprqNTBRxuOU5Y6mQ1DTmDdRqHvD9VaJxvuR9TDdYKauGCxzJUxjcsr35NR0iXTcNCa5qkafKcoVzsMfoMkz6x93x4KZVyq/U5DC9axB3J2Mr9LVNd6WolQ6urtBYTjDJnIr75H+dtbaj1BNS2gH1YOdxogZaMv26T1/EIH4pz763Wp8U8CqvvMlJ65Qnb1AkQrExmXvFk3CRaC8bWQXyrHZxvh8Bw5Mkqc7ijvZ44vUg7QO9eC2r5ADt1Kh7aDayfngMvBePYTYr1b8ADw+Wg3X3rDjEcTv2QA0yAV2GzI5Ge9pCFqJ2KfK37WxymWKmZJ2fDpUtB9Hf0if9nO0c31zg7t5cqoBDQgtAcMYNjNoP6OWZkmI1EwNaY2Xf1HsefPA/vsRhRGX61Ct+O0o25g8pv4HzWPKyMO5P3LDwZLdf249UxEYIFvPQhlIWjQsMyDU2f2BzldK0TDz8=
