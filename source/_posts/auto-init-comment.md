@@ -16,6 +16,8 @@ keywords: hexo,gitalk,gitment
 使用[hexo博客push到github的后自动部署到github pages](/2017/09/08/hexo-auto-deploy/)方法发表文章后，
 我们同样可以使用travis的能力来进行自动初始化评论功能。
 
+自动部署需要依赖`sitemap.yml`
+
 # 部署
 ## step 0 生成token
 到[github setting](https://github.com/settings/tokens)页面申请Personal access tokens，
@@ -62,6 +64,14 @@ script:
 env:
   global:
     secure:  # 已经删除
+```
+
+## step 3 配置评论使用的repo
+需要在博客的`_config.yml`上添加以下的配置，对应于gitalk或者gitment的配置
+```yml
+owner: tenfyzhong
+comment_repo: tenfyzhong.github.io # 对应于repo配置
+labels: ["comment"]
 ```
 
 修改完后就可以直接推一篇文章上去看效果了。
