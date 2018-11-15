@@ -28,7 +28,7 @@ keywords: hexo,gitalk,gitment
 
 ## step 1 编译自动初始化评论的工具
 下载自动初始化评论的工具
-`wget https://github.com/tenfyzhong/autoissue/releases/download/v0.1.0/autoissue-linux-x86 -O autoissue`
+`wget https://github.com/tenfyzhong/autoissue/releases/download/v0.1.1/autoissue-linux-x86 -O autoissue`
 
 把autoissue移动到自己的博客bin目录下。
 
