@@ -289,5 +289,5 @@ void pcap_close(pcap_t *handler);
 把第2步的返回值传进行进行关闭即可。
 
 # 引用
-[libpcapHakin9LuisMartinGarcia](http://recursos.aldabaknocking.com/libpcapHakin9LuisMartinGarcia.pdf)  
-[Programming with pcap](http://www.tcpdump.org/pcap.html)  
+[http://recursos.aldabaknocking.com/libpcapHakin9LuisMartinGarcia.pdf](http://recursos.aldabaknocking.com/libpcapHakin9LuisMartinGarcia.pdf)  
+[http://www.tcpdump.org/pcap.html](http://www.tcpdump.org/pcap.html)  
