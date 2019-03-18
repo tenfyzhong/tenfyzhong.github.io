@@ -143,14 +143,14 @@ var mode = flag.Int("mode", 0, "0:write 1:read")
 func main() {
 	flag.Parse()
 	shmid, _, err := syscall.Syscall(syscall.SYS_SHMGET, 2, 4, IpcCreate|0600)
-	if err != 0 {
+	if int(shmid) == -1 {
 		fmt.Printf("syscall error, err: %v\n", err)
 		os.Exit(-1)
 	}
 	fmt.Printf("shmid: %v\n", shmid)
 
 	shmaddr, _, err := syscall.Syscall(syscall.SYS_SHMAT, shmid, 0, 0)
-	if err != 0 {
+	if int(shmaddr) == -1 {
 		fmt.Printf("syscall error, err: %v\n", err)
 		os.Exit(-2)
 	}
