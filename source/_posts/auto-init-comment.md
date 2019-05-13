@@ -72,6 +72,8 @@ env:
 owner: tenfyzhong
 comment_repo: tenfyzhong.github.io # 对应于repo配置
 labels: ["comment"]
+sitemap:
+  path: sitemap.xml
 ```
 
 修改完后就可以直接推一篇文章上去看效果了。
