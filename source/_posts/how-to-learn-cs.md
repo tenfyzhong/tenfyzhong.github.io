@@ -23,7 +23,7 @@ keywords:
 
 **以下经验适合于以后想从事计算机技术相关工作的师弟师妹看。**
 
-![hometown](https://wx4.sinaimg.cn/mw690/69472223ly1fjkqmc0qe2j20mt084aao.jpg)
+![hometown](https://tenfy.cn/picture/hometown.jpg)
 
 # 学习
 很多人会比较难从高中的学习状态转变过来。高中时候，老师都帮你安排好了，每天有多少

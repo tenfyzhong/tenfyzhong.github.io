@@ -22,7 +22,7 @@ vim的宏就是把一系列动作录制起来，然后可以进行播放可以�
 样的宏存器，所以在宏的使用录制过程中，不能复制到跟宏一样的寄存器中。
 
 先来一张gif感受一下魔法:
-![](https://wx3.sinaimg.cn/mw690/69472223gy1fjyavakfcdg20hs0k0x6d.gif)
+![](https://tenfy.cn/picture/vim-micro.gif)
 
 # 怎么用
 宏的使用分两步，第1步录制，第2步播放。

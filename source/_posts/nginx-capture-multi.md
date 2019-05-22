@@ -21,14 +21,14 @@ keywords: nginx
 标准的nginx是不支持旁路的，我们用[lua-nginx-module][]模块，通过lua来控制多发多收。
 
 正常的流程应该是这样的
-![](https://wx3.sinaimg.cn/mw690/69472223gy1fjs9o2v1vij204g0bt3yf.jpg)
+![](https://tenfy.cn/picture/nginx-capture-single.jpg)
 1. nginx收到请求
 1. nginx把请求发到server A
 1. nginx收到server A的回包
 1. nginx回包给客户端
 
 加上旁路后，流程变成了这样
-![](https://wx1.sinaimg.cn/mw690/69472223gy1fjs9o3bf6dj209g0btq33.jpg)
+![](https://tenfy.cn/picture/nginx-capture-multi.jpg)
 1. nginx收到请求
 1. nginx把请求发给server A
 1. nginx把请求发给server B

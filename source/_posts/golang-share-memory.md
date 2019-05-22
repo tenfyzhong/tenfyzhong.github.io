@@ -178,7 +178,7 @@ func main() {
 ```
 
 运行一下这个代码块看一下结果：
-![](https://ws2.sinaimg.cn/large/006tKfTcly1fh5udt213hj31kw0hln4r.jpg)
+![](https://tenfy.cn/picture/ipcs-m.jpg)
 用ipcs可以看到共享已经成功创建。
 
 对于共享内存的操作，大家还可以看一下`shmctl`这个系统调用的使用。

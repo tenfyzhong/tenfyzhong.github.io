@@ -22,14 +22,14 @@ YouCompleteMe给vim做补全非常方便，但是补全出函数后，却不会�
 *注：以下所有的例子都以YouCompleteMe为例子，使用deoplete、neocomplete也是一样的。
 并且以golang为例子，当然目前已经支持了多种语言，详细请看github上的README*  
 字不重要，看下图：  
-![](https://ws3.sinaimg.cn/large/006tNc79ly1fh44miqsf3g30hs0dcakz.gif)
+![](https://tenfy.cn/picture/complete-parameter-without-cmp.gif)
 ycm呼起了补全菜单，选中补全列表中的一项后，按左括号开始填参数。对于大的函数，
 这时候就蒙圈了，忘了要填什么参数了。就只有跳到函数声明或者文档上去看参数，而且
 经常是看了第一个，回来填好后，再去看第二个，如此循环。
 
 # 参数补全闪亮登场
 继续看图：  
-![](https://ws2.sinaimg.cn/large/006tNc79ly1fh44mlv3nbg30hs0dch2f.gif)
+![](https://tenfy.cn/picture/complete-parameter-with-cmp.gif)
 还是ycm呼起了补全菜单，选中补全列表中的一项后，按左括号，形参的名字已经补全上来了，
 并且这时使用选择模式选中了第一个参数，直接输入内容，当前选中的内容就会被删除，
 而插入输入的内容。第一个参数填完后，按`<m-n>`(默认跳转到下一个参数的映射键)，

@@ -22,9 +22,9 @@ keywords: hexo,gitalk,gitment
 ## step 0 生成token
 到[github setting](https://github.com/settings/tokens)页面申请Personal access tokens，
 点击上面的Generate new token后，跳进去后，填好描述信息，同时勾上下面的选项：
-![generate token](http://wx1.sinaimg.cn/mw690/69472223gy1fjc8b1a9knj20hz0gp76s.jpg)
+![generate token](https://tenfy.cn/picture/generate-github-token.jpg)
 生成好把token复制出来，它只会显示一次。
-![token](http://wx1.sinaimg.cn/mw690/69472223gy1fjc8b1sxmtj20l406d3ze.jpg)
+![token](https://tenfy.cn/picture/copy-github-token.jpg)
 
 ## step 1 编译自动初始化评论的工具
 下载自动初始化评论的工具

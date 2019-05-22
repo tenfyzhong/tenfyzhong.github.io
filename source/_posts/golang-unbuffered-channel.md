@@ -150,8 +150,8 @@ func main() {
 
 例子代码传送门[gist](https://gist.github.com/tenfyzhong/0fc5819f4885d4a8877659ca24361f09)
 
-[chan0]: https://wx1.sinaimg.cn/mw690/69472223gy1fjq2q1hwabj20ad01s0sq.jpg
-[chan1]: https://wx3.sinaimg.cn/mw690/69472223gy1fjq2q1ux24j209j02nmx8.jpg
-[chan2]: https://wx2.sinaimg.cn/mw690/69472223gy1fjq2q26bx7j209j01oweh.jpg
-[chan3]: https://wx1.sinaimg.cn/mw690/69472223gy1fjq2q2iq6bj209302lt8s.jpg
+[chan0]: https://tenfy.cn/picture/golang-unbuffered-channel0.jpg
+[chan1]: https://tenfy.cn/picture/golang-unbuffered-channel1.jpg
+[chan2]: https://tenfy.cn/picture/golang-unbuffered-channel2.jpg
+[chan3]: https://tenfy.cn/picture/golang-unbuffered-channel3.jpg
 

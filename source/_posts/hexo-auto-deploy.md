@@ -20,15 +20,15 @@ pages。人都是懒惰的，多执行一个命令都懒。不信的话，按以
 ## step 0 生成token
 到[github setting](https://github.com/settings/tokens)页面申请Personal access tokens，
 点击上面的Generate new token后，跳进去后，填好描述信息，同时勾上下面的选项：
-![generate token](http://wx1.sinaimg.cn/mw690/69472223gy1fjc8b1a9knj20hz0gp76s.jpg)
+![generate token](https://tenfy.cn/picture/generate-github-token.jpg)
 生成好把token复制出来，它只会显示一次。
-![token](http://wx1.sinaimg.cn/mw690/69472223gy1fjc8b1sxmtj20l406d3ze.jpg)
+![token](https://tenfy.cn/picture/copy-github-token.jpg)
 
 ## step 1 配置travis
 登录[travis](https://travis-ci.org/)，然后用github登录后，找到你的存储博文工程点
 开。比如我的是：`tenfyzhong.github.io`，我把博文存在source分支，部署的静态页面放
 在master分支，这样就可以把它们放在一起了。
-![turn on](http://wx3.sinaimg.cn/mw690/69472223gy1fjc8b3j7vbj20c401v3yg.jpg)
+![turn on](https://tenfy.cn/picture/enable-travis.jpg)
 
 然后点旁边的启轮进入设置页面，可以把pull request的building给关了。如果你跟我一样
 把博文跟静态页面放在同一个工程，则需要把`Build only if .travis.yml is present`打
@@ -36,7 +36,7 @@ pages。人都是懒惰的，多执行一个命令都懒。不信的话，按以
 
 在Environment Variables下面的输入框里添加一个环境变量，Name填`ACCESS_TOKEN`，
 Value填上面申请到的token。
-![travis setting](http://wx4.sinaimg.cn/mw690/69472223gy1fjc8b40y5lj20wl0lsmzm.jpg)
+![travis setting](https://tenfy.cn/picture/set-access-token.jpg)
 
 ## step 2 配置travis构建的配置
 ```yaml
