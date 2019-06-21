@@ -14,7 +14,7 @@ keywords:
 netfilter是linux内在的一个软件框架，用来管理网络数据包。
 
 netfilter提供了5个hook来进行管理网络包。如下图：
-![netfilter-hooks](https://raw.githubusercontent.com/tenfyzhong/picture/master/netfilter-hooks.png)
+![netfilter-hooks](https://tenfy.cn/picture/netfilter-hooks.png)
 
 - PREROUTING, 所有包都会经过这个hook
 - LOCAL INPUT, 进入本机的包会经过这个hook
@@ -36,7 +36,7 @@ nf_conntrack记录的信息包括，源ip、端口，目标ip、端口，连接�
 - INVALID, 非法的连接，比如包的行为不合法。
 
 nf_conntrack需要保存这些信息在它自己的数据结构中。其数据结构如下：
-![connection-tracking-structure](https://raw.githubusercontent.com/tenfyzhong/picture/master/connection-tracking-structure.png)
+![connection-tracking-structure](https://tenfy.cn/picture/connection-tracking-structure.png)
 
 它是一个开链的哈希表，链表是一个双向表。每个哈希节点称为一个bucket，计算出同样哈希值的连接放到链表里连起来。
 每个节点记录了请求方向、响应方向的消息。
@@ -124,8 +124,10 @@ total_mem_used(MB) = (655360*328+163840*8)/1024^2 = 206.25
 在监控上看，可以看到脉冲式的请求。另外我们可以用`dmesg`命令看到系统的日志显示nf_conntrack表满的提示。
 
 监控图一般会有以下的表现
+![qps](https://tenfy.cn/picture/conntrack_full_qps.png)
 
 `dmesg`可以看到以下的输出
+![dmesg](https://tenfy.cn/picture/dmesg_nf_conntrack_table_full.png)
 
 
 
