@@ -1,5 +1,5 @@
 ---
-title: 关于redis geohash的性能测试
+title: redis geohash的性能测试
 categories:
   - 数据库
 tags:
