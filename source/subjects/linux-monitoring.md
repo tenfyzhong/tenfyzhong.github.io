@@ -10,7 +10,7 @@ date: 2019-07-04 14:50:14
 uptime: {% post_link linux-monitoring-uptime linux uptime查看负载 %}
 
 # 内存
-free
+free: {% post_link linux-monitoring-free linux free查看内存状态 %}
 
 # 磁盘
 df
