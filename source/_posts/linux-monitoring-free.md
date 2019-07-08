@@ -10,7 +10,10 @@ keywords: linux,free,监控
 ---
 
 `free`是一个查看内存状态的命令。
+
 <!-- more -->
+> 这是[《后台程序员应该懂的linux监控命令》](/subjects/linux-monitoring.html)的内存篇关于free的使用指南。  
+
 # free命令
 输出结果如下图：  
 ![linux-free-2line](https://tenfy.cn/picture/linux-free-2line.png)

@@ -5,4 +5,4 @@ toc: false
 comments: false
 ---
 
-- [linux监控](/subjects/linux-monitoring.html)
+- [后台程序员应该懂的linux监控命令](/subjects/linux-monitoring.html)

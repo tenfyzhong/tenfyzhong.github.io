@@ -13,6 +13,7 @@ toc: false
 
 `uptime`命令比较简单，用于查看机器启动时间、当前用户连接数、机器负载。
 <!-- more -->
+> 这是[《后台程序员应该懂的linux监控命令》](/subjects/linux-monitoring.html)的cpu篇关于update的使用指南。  
 
 输出如下图：  
 ![linux-uptime](https://tenfy.cn/picture/linux-uptime.png)
