@@ -16,7 +16,7 @@ free: {% post_link linux-monitoring-free linux free查看内存状态 %}
 # 磁盘
 df: {% post_link linux-monitoring-df linux df查看磁盘空间 %}
 
-iostat
+iostat: {% post_link linux-monitoring-iostat linux iostat查看磁盘io速率 %}
 
 iotop
 
