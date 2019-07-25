@@ -127,7 +127,7 @@ x<sub>1</sub> + x<sub>2</sub> + ... + x<sub>n</sub> - S = S - S = 0。
 假设节点j在第t轮(t &lt; S)之前，已经被选择了x<sub>j</sub>次，记此时第j个结点的当前权重为w<sub>j</sub>=t\*x<sub>j</sub>-x<sub>j</sub>\*S=(t-S)\*x<sub>j</sub>&lt;0，
 因为t恒小于S，所以w<sub>j</sub>&lt;0。  
 
-前面假设总共执行S轮选择，则剩下S-t轮，上面的公式w<sub>j</sub>=(t-S)\*x<sub>j</sub>+(S-t)\*x=0。
+前面假设总共执行S轮选择，则剩下S-t轮，上面的公式w<sub>j</sub>=(t-S)\*x<sub>j</sub>+(S-t)\*x<sub>j</sub>=0。
 所以在剩下的选择中，w<sub>j</sub>永远小于等于0，由于上面已经证明任何一轮选择后，
 数组总和都为0，则必定存在一个节点k使得w<sub>k</sub>&gt;0，永远不会再选中x<sub>j</sub>。
 
