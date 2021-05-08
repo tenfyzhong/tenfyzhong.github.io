@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="给我阳光，我就灿烂"><title>vim宏的使用 | tenfy' blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/css/socials.css?=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: "ca-pub-7494014438653422",
+  enable_page_level_ads: true
+});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">vim宏的使用</h1><a id="logo" href="/.">tenfy' blog</a><p class="description">腾飞中的个人博客</p></div><div id="site-visitors-count"><span id="leancloud-visitors-eye"> </span><span id="tenfy.cn" data-flag-title="tenfy' blog" class="leancloud-visitors">您是第<span class="leancloud-visitors-count site-visitors-count">0</span>位访客</span></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/subjects/"><i class="fa fa-tasks"> 专题</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a id="to_copy" href="javascript:void(0)" data-clipboard-action="copy" data-clipboard-text="https://tenfy.cn/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">vim宏的使用</h1><div class="post-meta">Sep 27, 2017<span> | </span><span class="category"><a href="/categories/vim/">vim</a></span><span id="2017/09/27/vim-macro/" data-flag-title="vim宏的使用" class="leancloud-visitors"> | <span id="leancloud-visitors-eye"> </span><span class="leancloud-visitors-count">0</span><span> 阅读</span></span><span id="page-wordcount"> | <span id="page-wordcount-page-value">1,131 </span>字</span></div><div class="clear"><div id="toc" class="toc-article"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#宏是什么"><span class="toc-number">1.</span> <span class="toc-text">宏是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#怎么用"><span class="toc-number">2.</span> <span class="toc-text">怎么用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#录制宏"><span class="toc-number">2.1.</span> <span class="toc-text">录制宏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#播放宏"><span class="toc-number">2.2.</span> <span class="toc-text">播放宏</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#通过例子来学习"><span class="toc-number">3.</span> <span class="toc-text">通过例子来学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一个简单的例子"><span class="toc-number">3.1.</span> <span class="toc-text">一个简单的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交换key-value"><span class="toc-number">3.2.</span> <span class="toc-text">交换key/value</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给枚举后面加上值"><span class="toc-number">3.3.</span> <span class="toc-text">给枚举后面加上值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给每行加上行号"><span class="toc-number">3.4.</span> <span class="toc-text">给每行加上行号</span></a></li></ol></li></ol></div></div><div class="post-content"><p>本文介绍vim宏以及它的魔法。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><a id="more"></a>
+<h1 id="宏是什么"><a href="#宏是什么" class="headerlink" title="宏是什么"></a>宏是什么</h1><p>vim的宏就是把一系列动作录制起来，然后可以进行播放可以执行同样动作的功能。<br>它是vim中最具有魔法的操作了。可能会有人觉得<code>.</code>重复操作更具有魔法，但是<code>.</code>只能记
+重复上一次命令，能做的事情有限，所以它最多就是最经常使用的命令而已，并没有魔法。</p>
+<p>宏可以组合一堆复杂的动作，再来重复这些动作，这就是它的魔法。</p>
+<p>录制存在寄存器<code>{0-9a-zA-Z&quot;}</code>里。然后我就可以重播这个寄存器了。因为宏跟复制用的是同
+样的宏存器，所以在宏的使用录制过程中，不能复制到跟宏一样的寄存器中。</p>
+<p>先来一张gif感受一下魔法:
+<img src="https://tenfy.cn/picture/vim-micro.gif" alt></p>
+<h1 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h1><p>宏的使用分两步，第1步录制，第2步播放。</p>
+<h2 id="录制宏"><a href="#录制宏" class="headerlink" title="录制宏"></a>录制宏</h2><p>在normal模式下按<code>q</code>再接着一个寄存器然，比如要录制到寄存器<code>a</code>中，则按<code>qa</code>。
+对于<code>[a-z]</code>，会直接覆盖写到对应的寄存器，对于<code>[A-Z]</code>则是原来寄存器上追加内容。
+开始录制后，所有的动作都会记录下来，最后按<code>q</code>完成录制。录制过程中，动作跟没有
+录制的一模一样。</p>
+<h2 id="播放宏"><a href="#播放宏" class="headerlink" title="播放宏"></a>播放宏</h2><p>播放宏非常简单，按<code>@</code>加寄存器就可以了。比如录制到了<code>a</code>上，则播放就是<code>@a</code>。要注意
+的是要移动到我们要播放的位置上，不然可能就产生不到我们想的要效果了。如果出现这种
+情况，按<code>u</code>可以取消。如果要重播宏n将，则在<code>@</code>前按对应的数字就行了。比如要播放宏
+10次，则输入<code>10@a</code>。</p>
+<p>很多时候，我们录制的动作要在特定的行上动作，对于多次播放的宏，如果播放失败，则会
+立即停止。</p>
+<p>另外，我们在录制宏的时候，最好要录制与行位置无关的宏。就是说在一行内的任何位置
+执行的结果都是一样的，不然的就无法录制对多行执行一样动作的宏了。后面会有例子说明。</p>
+<h1 id="通过例子来学习"><a href="#通过例子来学习" class="headerlink" title="通过例子来学习"></a>通过例子来学习</h1><p>我们来些直观的例子看一下这个玩意怎么玩。</p>
+<h2 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h2><p>例如有以下的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello</span><br><span class="line">world</span><br></pre></td></tr></table></figure>
+
+<p>我们要在删除每行的第2个字符，录制到a上。在normal模式下，输入以下的键<code>qa0lxq</code>。
+录制完后，<code>hello</code>就变成了<code>hllo</code>了。</p>
+<p>然后下移到<code>world</code>的行，按<code>@a</code>，则第2个字符就被删掉，变成了<code>wrld</code>了。</p>
+<p><code>qa0lxq</code>的讲解，<code>q</code>进入录制宏，<code>a</code>录制到a上，<code>0</code>移到一行的开头，<code>l</code>右移一位，<code>x</code>
+删除当前的字符，<code>q</code>录制完成。</p>
+<h2 id="交换key-value"><a href="#交换key-value" class="headerlink" title="交换key/value"></a>交换key/value</h2><p>例如有以下的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;foo&quot; = &quot;bar&quot;</span><br><span class="line">&quot;hello&quot; = &quot;world&quot;</span><br></pre></td></tr></table></figure>
+
+<p>我们要把它们等号两边互换，就成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;foo&quot; = &quot;bar&quot;</span><br><span class="line">&quot;world&quot; = &quot;hello&quot;</span><br></pre></td></tr></table></figure>
+
+<p>录到a上的动作为: <code>qa0df&quot;f&quot;Pldf&quot;0Pq</code>。
+命令就不一一讲解了，就是<code>qa</code>后，找到双引号，删除放到右边，再把右边的删除放到左边，
+再按<code>q</code>完成录制。</p>
+<h2 id="给枚举后面加上值"><a href="#给枚举后面加上值" class="headerlink" title="给枚举后面加上值"></a>给枚举后面加上值</h2><p>这个是出自我工作上的一个需求，有一个上百个成员的枚举，因为有人会在中间插入成员新
+的成员，导致其后面的成员值都变了。在网络传输中，传的是成员的值，所以就出现问题了。
+然后我要做的就是给每一个成员赋上它的值。
+比如以下的例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Cmd</span><br><span class="line">&#123;</span><br><span class="line">    kOne,</span><br><span class="line">    kTwo,</span><br><span class="line">    kThree,</span><br><span class="line">    kFour,</span><br><span class="line">    kHaha,</span><br><span class="line">    kHehe,</span><br><span class="line">    kFirst,</span><br><span class="line">    kSecond,</span><br><span class="line">    kThird,</span><br><span class="line">    k1,</span><br><span class="line">    k2,</span><br><span class="line">    k3,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>需要对以上kOne赋0，kTwo赋1…<br>由于这个例子比较复杂，而且也是非常能体现魔法的例子，下面录了一个视频说明：
+<video src="https://blog-1254258176.cossh.myqcloud.com/vim-macro-32.mp4" controls="controls" controlslist="nodownload" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;">
+your browser does not support the video tag
+</video></p>
+<h2 id="给每行加上行号"><a href="#给每行加上行号" class="headerlink" title="给每行加上行号"></a>给每行加上行号</h2><p>这个例子介绍一下宏结合命令行编程的使用，给每行开头加上行号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">line one</span><br><span class="line">line two</span><br><span class="line">line three</span><br><span class="line">line four</span><br><span class="line">line five</span><br></pre></td></tr></table></figure>
+
+<video src="https://blog-1254258176.cossh.myqcloud.com/vim-macro2-32.mp4" controls="controls" controlslist="nodownload" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;">
+your browser does not support the video tag
+</video>
+
+<p>步骤如下：</p>
+<ol>
+<li>设置一个变量i = 0  <code>let i = 0</code></li>
+<li>开始录制宏 <code>qa</code></li>
+<li>回到开头，插入进入插入模式，然后插入i的值  <code>0i&lt;c-r&gt;=i&lt;cr&gt; &lt;esc&gt;</code></li>
+<li>移到下一行 <code>j</code></li>
+<li>播放<code>9@a</code></li>
+</ol>
+</div><div class="copyright"><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>tenfy zhong</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://tenfy.cn/2017/09/27/vim-macro/" title="vim宏的使用">https://tenfy.cn/2017/09/27/vim-macro/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a>许可协议。转载请注明出处！</li></ul></div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="https://tenfy.cn/2017/09/27/vim-macro/" data-id="ckogaifo4001dztpyf0exicsy" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABxklEQVR42u3aQQ6DIBAF0N7/0nbbDfYPA9Qmj5UxRp4uyPCZ1yse18f4vDO6rt5ZPHBxcdvc63bcT3A/5dxHjgy4uLjnuaPJklfnzyTv/2LDxcV9JDf5mE7BhIuL+4/cfjGEi4v7L9wEMRdq/GyvhouL2+CunXLueku+i4uLO8W9iqMTi4yKnsLsuLi4R7j9ICMvjFYFKLi4uLu5cwFHtf0i+me3C9yrk8fg4uI2uJ3dx1xrV7XcwcXFPcPdcRSal0H95gxcXNwd3H7CmgQfyZ0kOsHFxT3PzafsN2TkW6NhfoOLi/sjbnXKaiCS/6xoIcPFxV3ErW54Vm1jqlEpLi7uee7cQUged84VRtGZMC4u7mZu3j6Vb2A6m5/hk7i4uMe5q4LOTrX1ZWHFxcX9EbfaGFGNS/IZh5sfXFzcI9xqcFkNWPO+jy/P4OLibuZexVEtYiYPU6sT4OLiLuV2GrDuo888Zk2aPMofg4uL2+ZWtzRzLVz5RxZaLnBxcTdz8yONZOIyohqY4uLiPoxbLVny49vCjg0XF/dh3E5o0kk5cHFxz3PnCpS8qSv5BdEyiouLe4RbXkqK0Wrn4KSV7+Li4s687Q2VrZp5tWIobwAAAABJRU5ErkJggg==" class="article-share-link">分享</a><div class="tags"><a href="/tags/vim/">vim</a></div><div class="post-nav"><a href="/2017/10/14/man-netcat/" class="pre">nc手册</a><a href="/2017/09/26/udisk-booter/" class="next">制作U盘启动盘</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+  clientID: '6b972eaf9e2408260435',
+  clientSecret: '4a1fc9cba603e6c23d8c22873c9eb0d1e82b8662',
+  repo: 'tenfyzhong.github.io',
+  owner: 'tenfyzhong',
+  admin: ['tenfyzhong'],
+  labels: ['comment'],
+  id: window.location.pathname,      
+  distractionFreeMode: false,
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div id="socials" class="widget"><span class="socials-span pure-u-1-2"><a href="https://github.com/tenfyzhong" target="_blank"><i class="socials-item fa fa-github"> Github</i></a></span><span class="socials-span pure-u-1-2"><a href="mailto:tenfy@tenfy.cn" target="_self"><i class="socials-item fa fa-envelope"> E-Mail</i></a></span></div><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/man/">man</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">misc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/后台/">后台</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程管理/">工程管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/操作系统/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/free/" style="font-size: 15px;">free</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/plugin/" style="font-size: 15px;">plugin</a> <a href="/tags/netfilter/" style="font-size: 15px;">netfilter</a> <a href="/tags/调优/" style="font-size: 15px;">调优</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/后台/" style="font-size: 15px;">后台</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/golang/" style="font-size: 15px;">golang</a> <a href="/tags/编程语言/" style="font-size: 15px;">编程语言</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/网络/" style="font-size: 15px;">网络</a> <a href="/tags/抓包/" style="font-size: 15px;">抓包</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/操作系统/" style="font-size: 15px;">操作系统</a> <a href="/tags/man/" style="font-size: 15px;">man</a> <a href="/tags/ip/" style="font-size: 15px;">ip</a> <a href="/tags/netcat/" style="font-size: 15px;">netcat</a> <a href="/tags/pcap-filter/" style="font-size: 15px;">pcap-filter</a> <a href="/tags/tcpdump/" style="font-size: 15px;">tcpdump</a> <a href="/tags/route/" style="font-size: 15px;">route</a> <a href="/tags/ss/" style="font-size: 15px;">ss</a> <a href="/tags/strace/" style="font-size: 15px;">strace</a> <a href="/tags/github-pages/" style="font-size: 15px;">github pages</a> <a href="/tags/mongo/" style="font-size: 15px;">mongo</a> <a href="/tags/linux-ntp/" style="font-size: 15px;">linux,ntp</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/prometheus/" style="font-size: 15px;">prometheus</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/负载均衡/" style="font-size: 15px;">负载均衡</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/linux-monitoring-iostat/">linux iostat查看磁盘io速率</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-df/">linux df查看磁盘空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-free/">linux free查看内存状态</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-uptime/">linux uptime查看负载</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/25/introduce-fdump/">fdump tcp抓包框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/redis-geo-bench/">redis geohash的性能测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/consistency/">一致性模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/ntp-client/">ntp客户端同步时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/server-timeout-queue-size/">服务器超时时间和请求队列大小设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/03/conntrack-tuning/">nf_conntrack调优</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://bigbuger.github.io" title="An's blog" target="_blank">An's blog</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a id="title" href="/." rel="nofollow">tenfy' blog</a><span class="hidden_mid_and_down">| </span><span id="total-count-title" class="hidden_mid_and_down">Site words total count</span><span id="total-count-value" class="hidden_mid_and_down">53.0k</span></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script>var _mtac = {};
+(function() {
+  var mta = document.createElement("script");
+    mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500516361");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script src="https://c.lcfile.com/static/js/av-core-mini-0.6.4.js"></script><script>AV.initialize('Glommc9CciMESa6zShJxuhKb-gzGzoHsz', 'prxRn0mO6lSIIz4PEL8yqjxX');</script><script type="text/javascript" src="/js/leancloud.js?=0.0.0"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><script type="text/javascript" src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script><script type="text/javascript" src="/js/rss.js?=0.0.0"></script></div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

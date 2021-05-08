@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="给我阳光，我就灿烂"><title>pcap-filter手册 | tenfy' blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/css/socials.css?=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: "ca-pub-7494014438653422",
+  enable_page_level_ads: true
+});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">pcap-filter手册</h1><a id="logo" href="/.">tenfy' blog</a><p class="description">腾飞中的个人博客</p></div><div id="site-visitors-count"><span id="leancloud-visitors-eye"> </span><span id="tenfy.cn" data-flag-title="tenfy' blog" class="leancloud-visitors">您是第<span class="leancloud-visitors-count site-visitors-count">0</span>位访客</span></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/subjects/"><i class="fa fa-tasks"> 专题</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a id="to_copy" href="javascript:void(0)" data-clipboard-action="copy" data-clipboard-text="https://tenfy.cn/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">pcap-filter手册</h1><div class="post-meta">Oct 25, 2017<span> | </span><span class="category"><a href="/categories/man/">man</a></span><span id="2017/10/25/man-pcap-filter/" data-flag-title="pcap-filter手册" class="leancloud-visitors"> | <span id="leancloud-visitors-eye"> </span><span class="leancloud-visitors-count">0</span><span> 阅读</span></span><span id="page-wordcount"> | <span id="page-wordcount-page-value">4,009 </span>字</span></div><div class="post-content"><p>网络包过滤语法。<code>tcpdump</code>的expression。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><a id="more"></a>
+<h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p><code>pcap_compile()</code>是用来编译一个字符串到过滤程序的函数。这导致过滤程序可以决定哪些包可以提供给<code>pcap_loop()</code>, 
+<code>pcap_dispatch()</code>, <code>pcap_next()</code>, <code>pcap_next_ex()</code>。</p>
+<p>过滤表达式由一个或者更多的原语组成。原语由一个id(名字或者编号)组成，id可以有一个或者多个修饰符。
+一共有三种不同的修饰符：</p>
+<ul>
+<li><strong>类型</strong> 修饰符表示id是什么类型的。可能的类型有<code>host</code>, <code>net</code>, <code>port</code>, <code>portrange</code>。
+例如，<code>host foo</code>, <code>net 128.3</code>, <code>port 20</code>, <code>portrange 6000-6008</code>。如果没有类型修饰符，
+则假设是<code>host</code>。</li>
+<li><strong>方向</strong> 修饰符指定了流的方向是到达id或者从id出发。可能的方向有<code>src</code>, <code>dst</code>, 
+<code>src or dst</code>, <code>src and dst</code>, <code>ra</code>, <code>ta</code>, <code>addr1</code>, <code>addr2</code>, <code>addr3</code>, <code>addr4</code>。
+例如，<code>src foo</code>, <code>dst net 128.3</code>, <code>src or dst port ftp-data</code>。如果没有方向修饰符，
+则假设是<code>src or dst</code>。<code>ra</code>, <code>ta</code>, <code>addr1</code>, <code>addr2</code>, <code>addr3</code>, <code>addr4</code>修饰符符只有对IEEE 802.11
+Wireless LAN link layers有效。对于一些链路层，例如SLIP和<code>cooked</code>使用<code>any</code>捕捉任意设备或者其他的设备类型，
+<code>inbound</code>和<code>outbound</code>修饰符可以指定希望的方向。</li>
+<li><strong>协议</strong> 修饰符限定了匹配的特殊协议。可能的协议有：<code>ether</code>, <code>fddi</code>, <code>tr</code>, <code>wlan</code>, 
+<code>ip</code>, <code>ip6</code>, <code>arp</code>, <code>rarp</code>, <code>decnet</code>, <code>tcp</code>, <code>udp</code>。例如，<code>ether src foo</code>, <code>arp net 128.3</code>, 
+<code>tcp port 21</code>, <code>udp portrange 7000-7009</code>, <code>wlan addr2 0:2:3:4:5:6</code>。如果没有指定协议修饰符，
+则使用所有合法的组合。例如，<code>src foo</code>意味着<code>(ip or arp or rarp) src foo</code>，
+<code>net bar</code>意味着<code>(ip or arp or rarp) net bar</code>，<code>port 53</code>意味着<code>(tcp or udp) port 53</code>。</li>
+</ul>
+<p>[<code>fddi</code>实际上是<code>ether</code>的别名。解析器相同的对待它们。FDDI头包含Ethernet-like源和目标地址，
+经常也包含Ethernet-like包类型。所以你可以使用类型于Ethernet的域来过滤FDDI域。
+FDDH头还包含其他的头，但是你不能明确地在过滤表达式中指定。</p>
+<p>类似的，<code>tr</code>和<code>wlan</code>是<code>ether</code>的别名。上一节关于FDDI头的说明同样可以用于令牌环形网络和802.11 wireless LAN头。
+对于802.11头，目标地址在DA域，源地址在SA域。]</p>
+<p>除了上述之外，还有一些原始的关键字不使用以上的模式：<code>gateway</code>, <code>broadcast</code>, <code>less</code>, 
+<code>greater</code>和一些算法表达式。这些都在下面描述。</p>
+<p>更多复杂的过滤表达式使用<code>and</code>, <code>or</code>, <code>not</code>来组合原语。例如，<code>host foo and not port ftp and not port ftp-data</code>。
+相同的修饰符可以忽略。例如，<code>tcp dst port ftp or ftp-data or domain</code>与
+<code>tcp dst port ftp or tcp dst port ftp-data or tcp dst port domain</code>是完全一样的。</p>
+<h2 id="合法的原语"><a href="#合法的原语" class="headerlink" title="合法的原语"></a>合法的原语</h2><h3 id="dst-host-lt-host-gt"><a href="#dst-host-lt-host-gt" class="headerlink" title="dst host &lt;host&gt;"></a><code>dst host &lt;host&gt;</code></h3><p>如果包的IPv4/v6目标域是<code>&lt;host&gt;</code>，可能是地址或者名字，则为true。</p>
+<h3 id="src-host-lt-host-gt"><a href="#src-host-lt-host-gt" class="headerlink" title="src host &lt;host&gt;"></a><code>src host &lt;host&gt;</code></h3><p>如果包的IPv4/v6源域是<code>&lt;host&gt;</code>则为true。</p>
+<h3 id="host-lt-host-gt"><a href="#host-lt-host-gt" class="headerlink" title="host &lt;host&gt;"></a><code>host &lt;host&gt;</code></h3><p>如果包的IPv4/v6的源或者目标是<code>&lt;host&gt;</code>则为true。</p>
+<p>以上任意的主机表达式可以在前面加上<code>ip</code>, <code>arp</code>, <code>rarp</code>, <code>ip6</code>的关键字。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip host &lt;host&gt;</span><br></pre></td></tr></table></figure>
+
+<p>等同于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ether proto \ip and host &lt;host&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果<code>&lt;host&gt;</code>包含多个IP地址，每个地址都会检查匹配。</p>
+<h3 id="ether-dst-lt-ehost-gt"><a href="#ether-dst-lt-ehost-gt" class="headerlink" title="ether dst &lt;ehost&gt;"></a><code>ether dst &lt;ehost&gt;</code></h3><p>如果Ethernet目标地址是<code>&lt;ehost&gt;</code>则为true。<code>&lt;ehost&gt;</code>可以是<code>/etc/ethers</code>里的一个名字或者数字。</p>
+<h3 id="ether-src-lt-ehost-gt"><a href="#ether-src-lt-ehost-gt" class="headerlink" title="ether src &lt;ehost&gt;"></a><code>ether src &lt;ehost&gt;</code></h3><p>如果Ethernet源地址是<code>&lt;ehost&gt;</code>则为true。</p>
+<h3 id="ether-host-lt-ehost-gt"><a href="#ether-host-lt-ehost-gt" class="headerlink" title="ether host &lt;ehost&gt;"></a><code>ether host &lt;ehost&gt;</code></h3><p>如果Ethernet源地址或者目标是址是<code>&lt;ehost&gt;</code>则为true。</p>
+<h3 id="gateway-lt-host-gt"><a href="#gateway-lt-host-gt" class="headerlink" title="gateway &lt;host&gt;"></a><code>gateway &lt;host&gt;</code></h3><p>如果包使用<code>&lt;host&gt;</code>作为一个网关则为true。例如，Ethernet的源或者目标地址是<code>&lt;host&gt;</code>，
+但是IP源和目标都不是<code>&lt;host&gt;</code>。<code>&lt;host&gt;</code>必须是一个名字，必须同时可以被机器的
+host-name-to-IP-address解析机制(host name file, DNS, NIS等)和
+host-name-to-Ethernet-address解析机制(<code>/etc/ethers</code>等)解释。一个等价的表达式是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ether host &lt;ehost&gt; and not host &lt;host&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这个语法在启动IPv6的机器上不能工作。</p>
+<h3 id="dst-net-lt-net-gt"><a href="#dst-net-lt-net-gt" class="headerlink" title="dst net &lt;net&gt;"></a><code>dst net &lt;net&gt;</code></h3><p>如果包中IPv4/v6的目标地址的网络号是<code>&lt;net&gt;</code>则为true。<code>&lt;net&gt;</code>可能是一个名字(<code>/etc/networks</code>等)，
+或者一个网络号。一个IPv4的网络号可以写成四段点分制(例如<code>192.168.1.0</code>)，三段点分制(例如<code>192.168.1</code>)，
+两段点分制(例如<code>172.16</code>)或者一个单独的数字(例如<code>10</code>)。四段点分制的掩码为<code>255.255.255.255</code>
+(意味着是一个主机地址)，三段点分制的掩码为<code>255.255.255.0</code>，二段点分制的掩码为<code>255.255.0.0</code>，
+单独数字的掩码为<code>255.0.0.0</code>。一个IPv6的网络号必须完整写出，掩码为<code>ff:ff:ff:ff:ff:ff:ff:ff</code>，
+所以IPv6的网络匹配真实的主机，一个网络匹配需要一个网络掩码长度。</p>
+<h3 id="src-net-lt-net-gt"><a href="#src-net-lt-net-gt" class="headerlink" title="src net &lt;net&gt;"></a><code>src net &lt;net&gt;</code></h3><p>如果包中IPv4/v6的源地址的网络号是<code>&lt;net&gt;</code>则为true。</p>
+<h3 id="net-lt-net-gt"><a href="#net-lt-net-gt" class="headerlink" title="net &lt;net&gt;"></a><code>net &lt;net&gt;</code></h3><p>如果包中的源或者目标地址的网络号是<code>&lt;net&gt;</code>则为true。</p>
+<h3 id="net-lt-net-gt-mask-lt-netmask-gt"><a href="#net-lt-net-gt-mask-lt-netmask-gt" class="headerlink" title="net &lt;net&gt; mask &lt;netmask&gt;"></a><code>net &lt;net&gt; mask &lt;netmask&gt;</code></h3><p>如果IPv4地址使用<code>&lt;netmask&gt;</code>的掩码匹配<code>&lt;net&gt;</code>网络号则为true。可以使用<code>src</code>和<code>dst</code>修饰符。
+这个请求对IPv6无效。</p>
+<h3 id="net-lt-net-gt-lt-len-gt"><a href="#net-lt-net-gt-lt-len-gt" class="headerlink" title="net &lt;net&gt;/&lt;len&gt;"></a><code>net &lt;net&gt;/&lt;len&gt;</code></h3><p>如果IPv4/v6使用<code>&lt;len&gt;</code>宽度的掩码匹配<code>&lt;net&gt;</code>网络号则为true。可以使用<code>src</code>和<code>dst</code>修饰符。</p>
+<h3 id="dst-port-lt-port-gt"><a href="#dst-port-lt-port-gt" class="headerlink" title="dst port &lt;port&gt;"></a><code>dst port &lt;port&gt;</code></h3><p>如果包是<code>ip/tcp</code>, <code>ip/udp</code>, <code>ip6/tcp</code>, <code>ip6/udp</code>并且目标端口为<code>&lt;port&gt;</code>则为true。
+<code>&lt;port&gt;</code>可以是一个数字或者<code>/etc/services</code>中定义的名字。如果使用名字，则端口名和协议都会被检查。
+如果使用数字或者模糊的名字，则只检查端口(例如，<code>dst port 513</code>会打印tcp/login和udp/who的通信，
+<code>port domain</code>会打印tcp/domain和udp/domain的通信)。</p>
+<h3 id="src-port-lt-port-gt"><a href="#src-port-lt-port-gt" class="headerlink" title="src port &lt;port&gt;"></a><code>src port &lt;port&gt;</code></h3><p>如果包的源端口为<code>&lt;port&gt;</code>则为true。</p>
+<h3 id="port-lt-port-gt"><a href="#port-lt-port-gt" class="headerlink" title="port &lt;port&gt;"></a><code>port &lt;port&gt;</code></h3><p>如果包的源端口或者目标端口为<code>&lt;port&gt;</code>则为true。</p>
+<h3 id="dst-portrange-lt-port1-gt-lt-port2-gt"><a href="#dst-portrange-lt-port1-gt-lt-port2-gt" class="headerlink" title="dst portrange &lt;port1&gt;-&lt;port2&gt;"></a><code>dst portrange &lt;port1&gt;-&lt;port2&gt;</code></h3><p>如果包是<code>ip/tcp</code>, <code>ip/udp</code>, <code>ip6/tcp</code>, <code>ip6/udp</code>并且目标端口在<code>&lt;port1&gt;</code>和<code>&lt;port2&gt;</code>之间则为true。</p>
+<h3 id="src-portrange-lt-port1-gt-lt-port2-gt"><a href="#src-portrange-lt-port1-gt-lt-port2-gt" class="headerlink" title="src portrange &lt;port1&gt;-&lt;port2&gt;"></a><code>src portrange &lt;port1&gt;-&lt;port2&gt;</code></h3><p>如果包的源端口在<code>&lt;port1&gt;</code>和<code>&lt;port2&gt;</code>之间则为true。</p>
+<h3 id="portrange-lt-port1-gt-lt-port2-gt"><a href="#portrange-lt-port1-gt-lt-port2-gt" class="headerlink" title="portrange &lt;port1&gt;-&lt;port2&gt;"></a><code>portrange &lt;port1&gt;-&lt;port2&gt;</code></h3><p>如果源端口或者目标端口在<code>&lt;port1&gt;</code>和<code>&lt;port2&gt;</code>之间则为true。</p>
+<p>任意以上的端口或者范围端口表达式前都可以跟<code>tcp</code>, <code>udp</code>关键字，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp src port &lt;port&gt;</span><br></pre></td></tr></table></figure>
+
+<p>只匹配tcp的<code>&lt;port&gt;</code>端口的包。</p>
+<h3 id="less-lt-length-gt"><a href="#less-lt-length-gt" class="headerlink" title="less &lt;length&gt;"></a><code>less &lt;length&gt;</code></h3><p>如果包长度小于等于<code>&lt;length&gt;</code>则为true。等价于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len &lt;= &lt;length&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="greater-lt-length-gt"><a href="#greater-lt-length-gt" class="headerlink" title="greater &lt;length&gt;"></a><code>greater &lt;length&gt;</code></h3><p>如果包长度大于等于<code>&lt;length&gt;</code>则为true。等价于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len &gt;= &lt;length&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ip-proto-lt-protocol-gt"><a href="#ip-proto-lt-protocol-gt" class="headerlink" title="ip proto &lt;protocol&gt;"></a><code>ip proto &lt;protocol&gt;</code></h3><p>如果是<code>&lt;protocol&gt;</code>协议的IPv4包则为true。<code>&lt;protocol&gt;</code>可以是一个数字或者以下的名字
+<code>icmp</code>, <code>icmp6</code>, <code>igmp</code>, <code>igrp</code>, <code>pim</code>, <code>ah</code>, <code>esp</code>, <code>vrrp</code>, <code>udp</code>, <code>tcp</code>。
+注意<code>tcp</code>, <code>udp</code>, <code>icmp</code>也是关键字，所以需要使用反斜杠转义。</p>
+<h3 id="ip6-proto-lt-protocol-gt"><a href="#ip6-proto-lt-protocol-gt" class="headerlink" title="ip6 proto &lt;protocol&gt;"></a><code>ip6 proto &lt;protocol&gt;</code></h3><p>如果是<code>&lt;protocol&gt;</code>协议的IPv6包则为true。</p>
+<h3 id="proto-lt-protocol-gt"><a href="#proto-lt-protocol-gt" class="headerlink" title="proto &lt;protocol&gt;"></a><code>proto &lt;protocol&gt;</code></h3><p>如果是<code>&lt;protocol&gt;</code>协议的IPv4/v6包则为true。</p>
+<h3 id="tcp-udp-icmp"><a href="#tcp-udp-icmp" class="headerlink" title="tcp, udp, icmp"></a><code>tcp, udp, icmp</code></h3><p><code>proto &lt;protocol&gt;</code>的缩写。</p>
+<h3 id="ip6-protochain-lt-protocol-gt"><a href="#ip6-protochain-lt-protocol-gt" class="headerlink" title="ip6 protochain &lt;protocol&gt;"></a><code>ip6 protochain &lt;protocol&gt;</code></h3><p>如果是IPv6的包，并且协议头包含<code>&lt;protocol&gt;</code>在它的协议头链中，则为true。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip6 protochain 6</span><br></pre></td></tr></table></figure>
+
+<p>匹配任意IPv6包含有TCP协议头在协议头链中。这个包可能包含，例如，鉴权头，路由头，
+hop-by-hop选项头等。</p>
+<h3 id="ip-protochain-lt-protocol-gt"><a href="#ip-protochain-lt-protocol-gt" class="headerlink" title="ip protochain &lt;protocol&gt;"></a><code>ip protochain &lt;protocol&gt;</code></h3><p>等价于<code>ip6 protochain &lt;protocol&gt;</code>，但是是IPv4。</p>
+<h3 id="protochain-lt-protocol-gt"><a href="#protochain-lt-protocol-gt" class="headerlink" title="protochain &lt;protocol&gt;"></a><code>protochain &lt;protocol&gt;</code></h3><p>等价于<code>ip protochain &lt;protocol&gt; or ip6 protochain &lt;protocol&gt;</code>。</p>
+<h3 id="ether-broadcast"><a href="#ether-broadcast" class="headerlink" title="ether broadcast"></a><code>ether broadcast</code></h3><p>如果是Ethernet广播包则为true。<code>ether</code>关键字是可选的。</p>
+<h3 id="ip-broadcast"><a href="#ip-broadcast" class="headerlink" title="ip broadcast"></a><code>ip broadcast</code></h3><p>如果是一个IPv4广播包则为true。它检查所有0和所有1的广播会话，也查询子网掩码。</p>
+<h3 id="ether-multicast"><a href="#ether-multicast" class="headerlink" title="ether multicast"></a><code>ether multicast</code></h3><p>如果是一个Ethernet广播包则为true。<code>ether</code>关键字是可选的。这是<code>ehter[0] &amp; 1 != 0</code>的简写。</p>
+<h3 id="ip-multicast"><a href="#ip-multicast" class="headerlink" title="ip multicast"></a><code>ip multicast</code></h3><p>如果是一个IPv4广播包则为true。</p>
+<h3 id="ip6-multicast"><a href="#ip6-multicast" class="headerlink" title="ip6 multicast"></a><code>ip6 multicast</code></h3><p>如果是一个IPv6广播包则为true。</p>
+<h3 id="ether-proto-lt-protocol-gt"><a href="#ether-proto-lt-protocol-gt" class="headerlink" title="ether proto &lt;protocol&gt;"></a><code>ether proto &lt;protocol&gt;</code></h3><p>如果包是ether的<code>&lt;protocol&gt;</code>协议则为true。<code>&lt;protocol&gt;</code>可以是一个数字或者
+<code>ip</code>, <code>ip6</code>, <code>arp</code>, <code>rarp</code>, <code>atalk</code>, <code>aarp</code>, <code>decnet</code>, <code>sca</code>, <code>lat</code>, <code>mopdl</code>, 
+<code>moprc</code>, <code>iso</code>, <code>stp</code>, <code>ipx</code>, <code>netbeui</code>。这些修饰符都是关键闻，需要使用反斜杠转义。</p>
+<h3 id="ip-ip6-arp-rarp-atalk-aarp-decnet-iso-stp-ipx-netbeui"><a href="#ip-ip6-arp-rarp-atalk-aarp-decnet-iso-stp-ipx-netbeui" class="headerlink" title="ip, ip6, arp, rarp, atalk, aarp, decnet, iso, stp, ipx, netbeui"></a><code>ip</code>, <code>ip6</code>, <code>arp</code>, <code>rarp</code>, <code>atalk</code>, <code>aarp</code>, <code>decnet</code>, <code>iso</code>, <code>stp</code>, <code>ipx</code>, <code>netbeui</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ether proto &lt;protocol&gt;</span><br></pre></td></tr></table></figure>
+
+<p>的缩写。<code>&lt;protocol&gt;</code>是以上的一个值。</p>
+<h3 id="lat-moprc-mopdl"><a href="#lat-moprc-mopdl" class="headerlink" title="lat, moprc, mopdl"></a><code>lat</code>, <code>moprc</code>, <code>mopdl</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ether proto &lt;protocol&gt;</span><br></pre></td></tr></table></figure>
+
+<p>的缩写。<code>&lt;protocol&gt;</code>是以上的一个值。并不是所有使用pcap的程序都能解析这些协议。</p>
+<h3 id="decnet-src-lt-host-gt"><a href="#decnet-src-lt-host-gt" class="headerlink" title="decnet src &lt;host&gt;"></a><code>decnet src &lt;host&gt;</code></h3><p>如果DECNET源地址是<code>&lt;host&gt;</code>则为true。<code>&lt;host&gt;</code>可能是一个<code>10.123</code>类型的址或者一个DECNET主机名。</p>
+<h3 id="decnet-dst-lt-host-gt"><a href="#decnet-dst-lt-host-gt" class="headerlink" title="decnet dst &lt;host&gt;"></a><code>decnet dst &lt;host&gt;</code></h3><p>如果DECNET的目标地址是<code>&lt;host&gt;</code>则为true。</p>
+<h3 id="decnet-host-lt-host-gt"><a href="#decnet-host-lt-host-gt" class="headerlink" title="decnet host &lt;host&gt;"></a><code>decnet host &lt;host&gt;</code></h3><p>如果DECNET的源或者目标地址是<code>&lt;host&gt;</code>则为true。</p>
+<h3 id="ifname-lt-interface-gt"><a href="#ifname-lt-interface-gt" class="headerlink" title="ifname &lt;interface&gt;"></a><code>ifname &lt;interface&gt;</code></h3><p>如果是通过指定的接口进来的包则为true。</p>
+<h3 id="on-lt-interface-gt"><a href="#on-lt-interface-gt" class="headerlink" title="on &lt;interface&gt;"></a><code>on &lt;interface&gt;</code></h3><p>与<code>ifname</code>同义。</p>
+<h3 id="rnr-lt-num-gt"><a href="#rnr-lt-num-gt" class="headerlink" title="rnr &lt;num&gt;"></a><code>rnr &lt;num&gt;</code></h3><p>如果包匹配PF rule number则为true。</p>
+<h3 id="rulenum-lt-num-gt"><a href="#rulenum-lt-num-gt" class="headerlink" title="rulenum &lt;num&gt;"></a><code>rulenum &lt;num&gt;</code></h3><p>与<code>rnr</code>同义。</p>
+<h3 id="reason-lt-code-gt"><a href="#reason-lt-code-gt" class="headerlink" title="reason &lt;code&gt;"></a><code>reason &lt;code&gt;</code></h3><p>如果包匹配PF reason code则为true。已知的code有: <code>match</code>, <code>badoffset</code>, <code>fragment</code>, 
+<code>short</code>, <code>normalize</code>, <code>memory</code>。</p>
+<h3 id="rset-lt-name-gt"><a href="#rset-lt-name-gt" class="headerlink" title="rset &lt;name&gt;"></a><code>rset &lt;name&gt;</code></h3><p>如果包匹配PF ruleset name则为true。</p>
+<h3 id="ruleset-lt-name-gt"><a href="#ruleset-lt-name-gt" class="headerlink" title="ruleset &lt;name&gt;"></a><code>ruleset &lt;name&gt;</code></h3><p>与<code>rset</code>同义。</p>
+<h3 id="srnr-lt-num-gt"><a href="#srnr-lt-num-gt" class="headerlink" title="srnr &lt;num&gt;"></a><code>srnr &lt;num&gt;</code></h3><p>如果包匹配PF rule number则为true。</p>
+<h3 id="subrulenum-lt-num-gt"><a href="#subrulenum-lt-num-gt" class="headerlink" title="subrulenum &lt;num&gt;"></a><code>subrulenum &lt;num&gt;</code></h3><p>与<code>srnr</code>同义。</p>
+<h3 id="action-lt-act-gt"><a href="#action-lt-act-gt" class="headerlink" title="action &lt;act&gt;"></a><code>action &lt;act&gt;</code></h3><p>如果PF使用一个特殊的action则为true。已经的action: <code>pass</code>, <code>block</code>, <code>nat</code>, <code>rdr</code>, <code>binat</code>, <code>scrub</code>。</p>
+<h3 id="wlan-ra-lt-ehost-gt"><a href="#wlan-ra-lt-ehost-gt" class="headerlink" title="wlan ra &lt;ehost&gt;"></a><code>wlan ra &lt;ehost&gt;</code></h3><p>如果IEEE 802.11 RA是<code>&lt;ehost&gt;</code>则为true。RA域会在所有的帧中使用，除了管理帧。</p>
+<h3 id="wlan-ta-lt-ehost-gt"><a href="#wlan-ta-lt-ehost-gt" class="headerlink" title="wlan ta &lt;ehost&gt;"></a><code>wlan ta &lt;ehost&gt;</code></h3><p>如果IEEE 802.11 TA是<code>&lt;ehost&gt;</code>则为true。TA域会在所有的帧中使用，除了管理贴、CTS(Clear To Send)和
+ACK控制帧。</p>
+<h3 id="wlan-addr1-lt-ehost-gt"><a href="#wlan-addr1-lt-ehost-gt" class="headerlink" title="wlan addr1 &lt;ehost&gt;"></a><code>wlan addr1 &lt;ehost&gt;</code></h3><p>如果第一个IEEE 802.11地址是<code>&lt;ehost&gt;</code>则为true。</p>
+<h3 id="wlan-addr2-lt-ehost-gt"><a href="#wlan-addr2-lt-ehost-gt" class="headerlink" title="wlan addr2 &lt;ehost&gt;"></a><code>wlan addr2 &lt;ehost&gt;</code></h3><p>如果第二个IEEE 802.11地址(如果存在)是<code>&lt;ehost&gt;</code>则为true。第二个地址域会有所有的帧中使用，
+除了CTS(Clear To Send)和ACK控制帧。</p>
+<h3 id="wlan-addr3-lt-ehost-gt"><a href="#wlan-addr3-lt-ehost-gt" class="headerlink" title="wlan addr3 &lt;ehost&gt;"></a><code>wlan addr3 &lt;ehost&gt;</code></h3><p>如果第三个IEEE 802.11地址(如果存在)是<code>&lt;ehost&gt;</code>则为true。第三个地址域会在管理帧和数据帧中使用，
+控制帧中没有。</p>
+<h3 id="wlan-addr4-lt-ehost-gt"><a href="#wlan-addr4-lt-ehost-gt" class="headerlink" title="wlan addr4 &lt;ehost&gt;"></a><code>wlan addr4 &lt;ehost&gt;</code></h3><p>如果第四个IEEE 802.11地址(如果存在)是<code>&lt;ehost&gt;</code>则为true。第四个地址域只有WDS(Wireless Distribution System)帧使用。</p>
+<h3 id="type-lt-wlan-type-gt"><a href="#type-lt-wlan-type-gt" class="headerlink" title="type &lt;wlan_type&gt;"></a><code>type &lt;wlan_type&gt;</code></h3><p>如果IEEE 802.11帧类型匹配<code>&lt;wlan_type&gt;</code>则为true。合法的<code>&lt;wlan_type&gt;</code>有：<code>mgt</code>, <code>ctl</code>, <code>data</code>。</p>
+<h3 id="type-lt-wlan-type-gt-subtype-lt-wlan-subtype-gt"><a href="#type-lt-wlan-type-gt-subtype-lt-wlan-subtype-gt" class="headerlink" title="type &lt;wlan_type&gt; subtype &lt;wlan_subtype&gt;"></a><code>type &lt;wlan_type&gt; subtype &lt;wlan_subtype&gt;</code></h3><p>如果IEEE 802.11帧类型匹配<code>&lt;wlan_type&gt;</code>并且帧子类型匹匹配<code>&lt;wlan_subtype&gt;</code>则为true。</p>
+<p>如果<code>&lt;wlan_type&gt;</code>是<code>mgt</code>，则可用的<code>&lt;wlan_subtype&gt;</code>有：<code>assoc-req</code>, <code>assoc-resp</code>, 
+<code>reassoc-req</code>, <code>reassoc-resp</code>, <code>probe-req</code>, <code>probe-resp</code>, <code>beacon</code>, <code>atim</code>, 
+<code>dissassoc</code>, <code>auth</code>, <code>deauth</code>。</p>
+<p>如果<code>&lt;wlan_type&gt;</code>是<code>ctl</code>，则可用的<code>&lt;wlan_subtype&gt;</code>有：<code>ps-poll</code>, <code>rts</code>, <code>cts</code>, 
+<code>ack</code>, <code>cf-end</code>, <code>cf-end-ack</code>。</p>
+<p>如果<code>&lt;wlan_type&gt;</code>是<code>data</code>，则可用的<code>&lt;wlan_subtype&gt;</code>有：<code>data</code>, <code>data-cf-ack</code>, 
+<code>data-cf-poll</code>, <code>data-cf-ack-poll</code>, <code>null</code>, <code>cf-ack</code>, <code>cf-poll</code>, <code>cf-ack-poll</code>, 
+<code>qos-data</code>, <code>qos-data-cf-ack</code>, <code>qos-data-cf-poll</code>, <code>qps-data-cf-ack-poll</code>, <code>qos</code>,
+<code>qos-cf-poll</code>, <code>qos-cf-ack-poll</code>。</p>
+<h3 id="subtype-lt-wlan-subtype-gt"><a href="#subtype-lt-wlan-subtype-gt" class="headerlink" title="subtype &lt;wlan_subtype&gt;"></a><code>subtype &lt;wlan_subtype&gt;</code></h3><p>如果IEEE 802.11帧的subtype匹配<code>&lt;wlan_subtype&gt;</code>，并且帧拥有这个<code>&lt;wlan_subtype&gt;</code>则为true。</p>
+<h3 id="dir-lt-dir-gt"><a href="#dir-lt-dir-gt" class="headerlink" title="dir &lt;dir&gt;"></a><code>dir &lt;dir&gt;</code></h3><p>如果IEEE 802.11帧方向匹配<code>&lt;dir&gt;</code>则为true。可用的方向有：<code>nods</code>, <code>tods</code>, <code>fromds</code>, 
+<code>dstods</code>, 或者是一个数字的值。</p>
+<h3 id="vlan-vlan-id"><a href="#vlan-vlan-id" class="headerlink" title="vlan [vlan_id]"></a><code>vlan [vlan_id]</code></h3><p>如果是IEEE 802.1Q VLAN包则为true。如果指定<code>[vlan_id]</code>，则需要包拥有的<code>vlan_id</code>才为true。</p>
+<h3 id="mpls-label-num"><a href="#mpls-label-num" class="headerlink" title="mpls [label_num]"></a><code>mpls [label_num]</code></h3><p>如果是MPLS包则为true。如果指定<code>[label_num]</code>，只有包拥有<code>label_num</code>的时候才为true。</p>
+<h3 id="pppoed"><a href="#pppoed" class="headerlink" title="pppoed"></a><code>pppoed</code></h3><p>如果是一个PPP-over-Ethernet Discovery包(Ethernet type 0x8863)则为true。</p>
+<h3 id="pppoes-session-id"><a href="#pppoes-session-id" class="headerlink" title="pppoes [session_id]"></a><code>pppoes [session_id]</code></h3><p>如果是PPP-over-Ethernet Session包(Ethernet type 0x8864)则为ture。如果指定<code>session_id</code>，
+只有包拥有<code>session_id</code>时才为true。</p>
+<h3 id="iso-proto-lt-protocol-gt"><a href="#iso-proto-lt-protocol-gt" class="headerlink" title="iso proto &lt;protocol&gt;"></a><code>iso proto &lt;protocol&gt;</code></h3><p>如果是一个拥有<code>&lt;protocol&gt;</code>协议的OSI包才为true。<code>&lt;protocol&gt;</code>可以是一个数字或者<code>clnp</code>, <code>esis</code>, <code>isis</code>。</p>
+<h3 id="clnp-esis-isis"><a href="#clnp-esis-isis" class="headerlink" title="clnp, esis, isis"></a><code>clnp</code>, <code>esis</code>, <code>isis</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iso proto &lt;protocol&gt;</span><br></pre></td></tr></table></figure>
+
+<p>的简写。<code>&lt;protocol&gt;</code>是以上的一个值。</p>
+<h3 id="l1-l2-iih-lsp-snp-csnp-psnp"><a href="#l1-l2-iih-lsp-snp-csnp-psnp" class="headerlink" title="l1, l2, iih, lsp, snp, csnp, psnp"></a><code>l1</code>, <code>l2</code>, <code>iih</code>, <code>lsp</code>, <code>snp</code>, <code>csnp</code>, <code>psnp</code></h3><p>IS-IS PDU类型的简写。</p>
+<h3 id="vpi-lt-n-gt"><a href="#vpi-lt-n-gt" class="headerlink" title="vpi &lt;n&gt;"></a><code>vpi &lt;n&gt;</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要一个虚拟的路径标识符<code>&lt;n&gt;</code>。</p>
+<h3 id="vci-lt-n-gt"><a href="#vci-lt-n-gt" class="headerlink" title="vci &lt;n&gt;"></a><code>vci &lt;n&gt;</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要一个虚拟的频道标识符<code>&lt;n&gt;</code>。</p>
+<h3 id="lane"><a href="#lane" class="headerlink" title="lane"></a><code>lane</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要是ATM LANE包。</p>
+<h3 id="llc"><a href="#llc" class="headerlink" title="llc"></a><code>llc</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要是LLC-encapsulated包。</p>
+<h3 id="oamf4s"><a href="#oamf4s" class="headerlink" title="oamf4s"></a><code>oamf4s</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要是OAM F4 flow cell(VPI=0 &amp; VCI=3)段。</p>
+<h3 id="oamf4e"><a href="#oamf4e" class="headerlink" title="oamf4e"></a><code>oamf4e</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要是end-to-end OAM F4 flow cell(VPI=0 &amp; VCI=4)段。</p>
+<h3 id="oamf4"><a href="#oamf4" class="headerlink" title="oamf4"></a><code>oamf4</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要是end-to-end OAM F4 flow cell(VPI=0 &amp; (VCI=3 | VCI=4))段。</p>
+<h3 id="oam"><a href="#oam" class="headerlink" title="oam"></a><code>oam</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要是end-to-end OAM F4 flow cell(VPI=0 &amp; (VCI=3 | VCI=4))段。</p>
+<h3 id="metac"><a href="#metac" class="headerlink" title="metac"></a><code>metac</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要meta signaling circuit(VPI=0 &amp; VCI=1)。</p>
+<h3 id="bcc"><a href="#bcc" class="headerlink" title="bcc"></a><code>bcc</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要broadcast signaling circuit(VPI=0 &amp; VCI=2)。</p>
+<h3 id="sc"><a href="#sc" class="headerlink" title="sc"></a><code>sc</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要signaling circuit(VPI=0 &amp; VCI=5)。</p>
+<h3 id="ilmic"><a href="#ilmic" class="headerlink" title="ilmic"></a><code>ilmic</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要ILMI circuit(VPI=0 &amp; VCI=16)。</p>
+<h3 id="connectmsg"><a href="#connectmsg" class="headerlink" title="connectmsg"></a><code>connectmsg</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要signaling circuit和Q.2931 Setup, 
+Call Proceeding, Connect, Connect Ack, Release, Release Done message。</p>
+<h3 id="metaconnect"><a href="#metaconnect" class="headerlink" title="metaconnect"></a><code>metaconnect</code></h3><p>如果是一个ATM包则为true。对于Solaris上的SunATM，需要signaling circuit和Q.2931 Setup, 
+Call Proceeding, Connect, Connect Ack, Release, Release Done message。</p>
+<h3 id="lt-expr-gt-lt-relop-gt-lt-expr-gt"><a href="#lt-expr-gt-lt-relop-gt-lt-expr-gt" class="headerlink" title="&lt;expr&gt; &lt;relop&gt; &lt;expr&gt;"></a><code>&lt;expr&gt; &lt;relop&gt; &lt;expr&gt;</code></h3><p>关系表达式为真是为true。<code>&lt;relop&gt;</code>是<code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>=</code>, <code>!=</code>中的一个。
+<code>&lt;expr&gt;</code>是一个算术表达式，由十进制常量组成(标准C语言语法)，普通的两目操作符
+<code>[+, -, *, /, &amp;, |, &lt;&lt;, &gt;&gt;]</code>，一个长度运算符，特殊的包访问器。所有的比较都是无符号的，
+例如0x80000000和0xffffffff都<code>&gt;</code>0。要访问包内的内容，使用以下的语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;proto&gt; [&lt;expr&gt; : &lt;size&gt;]</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;proto&gt;</code>是以下中的一个<code>ether</code>, <code>fddi</code>, <code>tr</code>, <code>wlan</code>, <code>ppp</code>, <code>slip</code>, <code>link</code>, <code>ip</code>, 
+<code>arp</code>, <code>rarp</code>, <code>tcp</code>, <code>udp</code>, <code>icmp</code>, <code>ip6</code>, <code>radio</code>和表示协议层的下标运算。
+(<code>ether</code>, <code>fddi</code>, <code>wlan</code>, <code>tr</code>, <code>ppp</code>, <code>slip</code>, <code>link</code>表明是链路层)。注意，<code>tcp</code>, <code>udp</code>
+和其他上层协议只对IPv4有效，IPv6无效。字节位移相对于表示的协议层，它通过<code>&lt;expr&gt;</code>指定。
+<code>&lt;size&gt;</code>是可选的表示需要的字节数。它可以是1, 2, 4或者默认的1。length关键字<code>len</code>给出包的长度。</p>
+<p>例如，<code>ether[0] &amp; 1 != 0</code>捕捉所有的广播包。<code>ip[0] &amp; 0xf != 5</code>捕捉所有包含IPv4选项的包。
+<code>ip[6:2] &amp; 0x1fff = 0</code>捕捉unfragmented IPv4数据报和frag zero of fragmented IPv4数据报。
+这个检查隐式作用于<code>tcp</code>和<code>udp</code>下标操作。例如<code>tcp[0]</code>永远意味着tcp包着的第一个字节。</p>
+<p>一些位移和域值可以使用名字替换数字。以下合法的的协议头域位移：<code>icmptype</code>(ICMP type field), 
+<code>icmpcode</code>(ICMP code field), <code>tcpflags</code> (TCP flags field)。</p>
+<p><code>icmptype</code>可用的值有：<code>icmp-echoreply</code>, <code>icmp-unreach</code>, <code>icmp-sourcequench</code>, 
+<code>icmp-redirect</code>, <code>icmp-echo</code>, <code>icmp-routeradvert</code>, <code>icmp-routersolicit</code>, <code>icmp-timxceed</code>, 
+<code>icmp-paramprob</code>, <code>icmp-tstamp</code>, <code>icmp-tstampreply</code>, <code>icmp-ireq</code>, <code>icmp-ireqreply</code>, 
+<code>icmp-maskreq</code>, <code>icmp-maskreply</code>。</p>
+<p><code>tcpflags</code>可用的值有：<code>tcp-fin</code>, <code>tcp-syn</code>, <code>tcp-rst</code>, <code>tcp-push</code>, <code>tcp-ack</code>, <code>tcp-urg</code>。</p>
+<p>原语可以结合使用:
+使用括号括起来一组原语和操作符，在shell上括号必转义。</p>
+<p>非(<code>!</code>或者<code>not</code>)。<br>与(<code>&amp;&amp;</code>或者<code>and</code>)。<br>或(<code>||</code>或者<code>or</code>)。  </p>
+<p>非具有最高优先级。与或具有相同的优先级，从左到右的结合方向。</p>
+<p>如果一个标识符没有指定关键字，则假设为最近的关键字。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">not host vs and ace</span><br></pre></td></tr></table></figure>
+
+<p>是以下的缩写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">not host vs and host ace</span><br></pre></td></tr></table></figure>
+
+<p>不要跟以下搞混</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">not (host vs or ace)</span><br></pre></td></tr></table></figure>
+
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>选择所有到达或者离开sundown主机的包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host sundown</span><br></pre></td></tr></table></figure>
+
+<p>选择主机helios与hot或者ace通信的包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host helios and \(hot or ade \)</span><br></pre></td></tr></table></figure>
+
+<p>选择所有在ace和非helios的ip包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip host ade and not helios</span><br></pre></td></tr></table></figure>
+
+<p>选择所有的本地主机和主机在Berkeley的通信包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net ucb-ether</span><br></pre></td></tr></table></figure>
+
+<p>选择所有经过网络snup的tcp通信包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gateway snup and (port ftp or ftp-data)</span><br></pre></td></tr></table></figure>
+
+<p>选择源或者目标不到本地主机的通信</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip and not net localnet</span><br></pre></td></tr></table></figure>
+
+<p>选择开始和结束包(SYN和FIN包)，不涉及本地主机的会话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp[tcpflags] &amp; (tcp-syn|tcp-fin) != 0 and not src and dst net localnet</span><br></pre></td></tr></table></figure>
+
+<p>选择所有80端口的HTTP IPv4包。也就是说只打印包含数据的包，不包含SYN，FIN，ACK-only的包。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp port 80 and (((ip[2:2] - ((ip[0]&amp;0xf)&lt;&lt;2)) - ((tcp[12]&amp;0xf0)&gt;&gt;2)) != 0)</span><br></pre></td></tr></table></figure>
+
+<p>选择所有发送经过snup大于576 bytes的包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gateway sunp and ip[2:2] &gt; 576</span><br></pre></td></tr></table></figure>
+
+<p>选择IP广播或者多播包，并且不经过Ethernet广播或者多播</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ether[0] &amp; 1 = 0 and ip[16] &gt;= 224</span><br></pre></td></tr></table></figure>
+
+<p>选择所有的非echo请求响应ICMP包，也就是说非ping包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">icmp[icmptype] != icmp-echo and icmp[icmptype] != icmp-echoreply</span><br></pre></td></tr></table></figure>
+
+<h1 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h1><ul>
+<li><a href="/2017/10/24/man-tcpdump/">tcpdump手册</a></li>
+</ul>
+</div><div class="copyright"><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>tenfy zhong</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://tenfy.cn/2017/10/25/man-pcap-filter/" title="pcap-filter手册">https://tenfy.cn/2017/10/25/man-pcap-filter/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a>许可协议。转载请注明出处！</li></ul></div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="https://tenfy.cn/2017/10/25/man-pcap-filter/" data-id="ckogaifnq000tztpyk8q1fgpz" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMklEQVR42u3ay26DQAwF0Pz/T1Opq0gp9NoDVTFnVhEBwmHhjB+vV7y27/X++f3I55l7336e83nm8bVLCwMD47aM7XAd33rvzL1rc2T+bBgYGM9hnBVkj19Efof82TAwMDByUnJ+su3DwMDAWA+4x49b3dLl20oMDAyM3sZu70g1vK6/DgwMjNmMXmPgbz5f3t/AwMD494ytuKqhNt8I5kH2h6swMDBGM44fqFoIy79NXkc1rcXAwJjNyMcpVtqQ1SJd70VjYGDMZiQjEdXy3EpRr9ASwMDAeAyj18jMwXnzoBqgMTAwZjN6N+rV5I/vXE16d6uGGBgY4xgrJf7k2l6i2/zfwMDAGMrIi/vVBLXX2qyGYwwMjOcwqiGyFxajal8rDcbAwJjNOHeoqxpG18c+MDAwnsDobfh6rcdqi7SQJGNgYIxm9MYg8qvygJ5sHH8JxxgYGEMZ1dS0957OHa1YCrUYGBi3ZVSLXPnP5yF4JZ3GwMCYzUhuXS7Nx3dLgnvzbwADA2MQIwmIZ23g8pJcPkyGgYHxHMZZA2HrR5rPhoGBMZrRSzjL5bBWGS4v7WFgYMxmbMW10pjM0+DyqBkGBsZoRjWNrP5YtYRXTY8xMDCew1gZubhiCCwP9KdNjmBgYNyEUW0M9BoJ1Xvmw2cYGBgYycBE7xGTAlyUuGJgYGC0GpC9FkKvUYqBgfEERh5A80Jbkqa+iiuaccPAwBjHqCaQefC9Ig1ewmBgYNyP8QWG7qh2h42s/gAAAABJRU5ErkJggg==" class="article-share-link">分享</a><div class="tags"><a href="/tags/pcap-filter/">pcap-filter</a><a href="/tags/tcpdump/">tcpdump</a></div><div class="post-nav"><a href="/2017/10/27/man-strace/" class="pre">strace手册</a><a href="/2017/10/24/man-tcpdump/" class="next">tcpdump手册</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+  clientID: '6b972eaf9e2408260435',
+  clientSecret: '4a1fc9cba603e6c23d8c22873c9eb0d1e82b8662',
+  repo: 'tenfyzhong.github.io',
+  owner: 'tenfyzhong',
+  admin: ['tenfyzhong'],
+  labels: ['comment'],
+  id: window.location.pathname,      
+  distractionFreeMode: false,
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div id="socials" class="widget"><span class="socials-span pure-u-1-2"><a href="https://github.com/tenfyzhong" target="_blank"><i class="socials-item fa fa-github"> Github</i></a></span><span class="socials-span pure-u-1-2"><a href="mailto:tenfy@tenfy.cn" target="_self"><i class="socials-item fa fa-envelope"> E-Mail</i></a></span></div><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/man/">man</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">misc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/后台/">后台</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程管理/">工程管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/操作系统/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/free/" style="font-size: 15px;">free</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/plugin/" style="font-size: 15px;">plugin</a> <a href="/tags/netfilter/" style="font-size: 15px;">netfilter</a> <a href="/tags/调优/" style="font-size: 15px;">调优</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/后台/" style="font-size: 15px;">后台</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/golang/" style="font-size: 15px;">golang</a> <a href="/tags/编程语言/" style="font-size: 15px;">编程语言</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/网络/" style="font-size: 15px;">网络</a> <a href="/tags/抓包/" style="font-size: 15px;">抓包</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/操作系统/" style="font-size: 15px;">操作系统</a> <a href="/tags/man/" style="font-size: 15px;">man</a> <a href="/tags/ip/" style="font-size: 15px;">ip</a> <a href="/tags/netcat/" style="font-size: 15px;">netcat</a> <a href="/tags/pcap-filter/" style="font-size: 15px;">pcap-filter</a> <a href="/tags/tcpdump/" style="font-size: 15px;">tcpdump</a> <a href="/tags/route/" style="font-size: 15px;">route</a> <a href="/tags/ss/" style="font-size: 15px;">ss</a> <a href="/tags/strace/" style="font-size: 15px;">strace</a> <a href="/tags/github-pages/" style="font-size: 15px;">github pages</a> <a href="/tags/mongo/" style="font-size: 15px;">mongo</a> <a href="/tags/linux-ntp/" style="font-size: 15px;">linux,ntp</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/prometheus/" style="font-size: 15px;">prometheus</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/负载均衡/" style="font-size: 15px;">负载均衡</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/linux-monitoring-iostat/">linux iostat查看磁盘io速率</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-df/">linux df查看磁盘空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-free/">linux free查看内存状态</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-uptime/">linux uptime查看负载</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/25/introduce-fdump/">fdump tcp抓包框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/redis-geo-bench/">redis geohash的性能测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/consistency/">一致性模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/ntp-client/">ntp客户端同步时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/server-timeout-queue-size/">服务器超时时间和请求队列大小设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/03/conntrack-tuning/">nf_conntrack调优</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://bigbuger.github.io" title="An's blog" target="_blank">An's blog</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a id="title" href="/." rel="nofollow">tenfy' blog</a><span class="hidden_mid_and_down">| </span><span id="total-count-title" class="hidden_mid_and_down">Site words total count</span><span id="total-count-value" class="hidden_mid_and_down">53.0k</span></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script>var _mtac = {};
+(function() {
+  var mta = document.createElement("script");
+    mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500516361");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script src="https://c.lcfile.com/static/js/av-core-mini-0.6.4.js"></script><script>AV.initialize('Glommc9CciMESa6zShJxuhKb-gzGzoHsz', 'prxRn0mO6lSIIz4PEL8yqjxX');</script><script type="text/javascript" src="/js/leancloud.js?=0.0.0"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><script type="text/javascript" src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script><script type="text/javascript" src="/js/rss.js?=0.0.0"></script></div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

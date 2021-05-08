@@ -1,0 +1,54 @@
+.socials-item:before {
+  padding-right: 0.3em;
+  margin-right: 0.1em;
+}
+
+#to_copy{
+  background-color: transparent;
+  border: 0;
+}
+.copy_ho {
+  position: relative;
+}
+.copy_ho::before {
+  content: '点击复制';
+  position: absolute;
+  top: 30px;
+  width: 48px;
+  padding: 0px 6px;
+  font-size: 12px;
+  color: #fff;
+  background: rgba(0, 0, 0, .5);
+  box-shadow: rgba(0, 0, 0, .4) 2px 2px 5px;
+}
+.copy_ho::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 30px;
+  border-top: 6px solid rgba(0, 0, 0, 0);
+  border-right: 6px solid rgba(0, 0, 0, 0);
+  border-bottom: 6px solid rgba(0, 0, 0, .5);
+  border-left: 6px solid rgba(0, 0, 0, 0);
+}
+.copy_ho.copied::before{
+  content: '复制成功';
+}
+
+.copy-tips{
+  position:fixed;
+  z-index:999;
+  bottom:50%;
+  left:50%;
+  margin:0 0 -20px -80px;
+  background-color:rgba(0, 0, 0, 0.2);
+  filter:progid:DXImageTransform.Microsoft.Gradient(startColorstr=#30000000, endColorstr=#30000000);
+  padding:6px;
+}
+.copy-tips-wrap{
+  padding:10px 20px;
+  text-align:center;
+  border:1px solid #F4D9A6;
+  background-color:#FFFDEE;
+  font-size:14px;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="给我阳光，我就灿烂"><title>linux iostat查看磁盘io速率 | tenfy' blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/css/socials.css?=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: "ca-pub-7494014438653422",
+  enable_page_level_ads: true
+});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">linux iostat查看磁盘io速率</h1><a id="logo" href="/.">tenfy' blog</a><p class="description">腾飞中的个人博客</p></div><div id="site-visitors-count"><span id="leancloud-visitors-eye"> </span><span id="tenfy.cn" data-flag-title="tenfy' blog" class="leancloud-visitors">您是第<span class="leancloud-visitors-count site-visitors-count">0</span>位访客</span></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/subjects/"><i class="fa fa-tasks"> 专题</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a id="to_copy" href="javascript:void(0)" data-clipboard-action="copy" data-clipboard-text="https://tenfy.cn/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">linux iostat查看磁盘io速率</h1><div class="post-meta">Jul 10, 2019<span> | </span><span class="category"><a href="/categories/linux/">linux</a></span><span id="2019/07/10/linux-monitoring-iostat/" data-flag-title="linux iostat查看磁盘io速率" class="leancloud-visitors"> | <span id="leancloud-visitors-eye"> </span><span class="leancloud-visitors-count">0</span><span> 阅读</span></span><span id="page-wordcount"> | <span id="page-wordcount-page-value">517 </span>字</span></div><div class="post-content"><p><code>iostat</code>是一个查看当前磁盘io速率的命令。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><a id="more"></a>
+<blockquote>
+<p>这是<a href="/subjects/linux-monitoring.html">《后台程序员应该懂的linux监控命令》</a>的内存篇关于free的使用指南。  </p>
+</blockquote>
+<p><code>iostat</code>使用上比较简单，输出也是比较简洁的。不加任何参数即可查看从机器启动到当前的平均io情况。
+iostat最后可以加两个可选的interval参数和count参数。指定interval参数则每interval秒去刷新反馈一次结果。
+指定count则总共反馈count次结果。</p>
+<p>默认情况下，<code>iostat</code>的第一个反馈结果是从系统启动到当前时间的平均速率。
+之后的每一个反馈结果是从上一次到当时间的io情况计算来的。如果加<code>-y</code>参数强制加interval参数，
+则会忽略从系统启动到当前时间的那次结果。</p>
+<p>下图为不加参数的结果<br><img src="https://tenfy.cn/picture/linux-iostat.png" alt="linux-iostat"></p>
+<p>下图为加参数<code>-y 1 2</code>的结果。可以看到第一个结果跟上面不太一样，上图每个值比较大，
+因为它包含了机器启动到当前时间的io情况。<br><img src="https://tenfy.cn/picture/linux-iostat-y-1-2.png" alt="linux-iostat-y-1-2"></p>
+<p>对于<code>iostat</code>的结果也是比较简单，包含了三块信息。第一块在第1行，显示了当前系统的信息，
+包含linux内核版本、时间、cpu架构、cpu个数。第二块信息是当前cpu的负载情况。
+第三块信息是磁盘信息。</p>
+<p>cpu信息字段解析：</p>
+<ul>
+<li>%user 用户态空间cpu使用率</li>
+<li>%nice nice优化级的用户态空间cpu使用率</li>
+<li>%system 内核态空间cpu使用率</li>
+<li>%iowait 等待io的cpu时间</li>
+<li>%steal 其他虚拟机的cpu使用率</li>
+<li>%idle 空余cpu</li>
+</ul>
+<p>磁盘信息字段解析：</p>
+<ul>
+<li>tps 磁盘io每秒次数</li>
+<li>kB_read/s 每秒读磁盘的速度</li>
+<li>kb_wrtn/s 每秒写磁盘的速度</li>
+<li>kb_read 读磁盘的数据量</li>
+<li>kb_wrtn 写磁盘的数据量</li>
+</ul>
+<p>对于io密集型的服务器，我们需要留意一下磁盘io的速率，因为磁盘io会产生中断来切换cpu，
+会降低业务的计算性能。</p>
+</div><div class="copyright"><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>tenfy zhong</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://tenfy.cn/2019/07/10/linux-monitoring-iostat/" title="linux iostat查看磁盘io速率">https://tenfy.cn/2019/07/10/linux-monitoring-iostat/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a>许可协议。转载请注明出处！</li></ul></div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="https://tenfy.cn/2019/07/10/linux-monitoring-iostat/" data-id="ckogaifnk000oztpy5r6ts51y" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3aS4rEMAxF0ex/0+lpQYFzn5RqsHw9aop04jMR+l0XPvfH+fyFPLl+5vvJ9f+2jgwZMrZl3MtDGGsS4ZHvrvEyZMg4gUEuQS7HQ236rYc7y5AhQ8YyCNao6XdlyJAhoxNw+SVIkidDhgwZnSKWPM/bcDyIv1yLy5AhY0MG77r//98/mW/IkCFjK8YdnlqamJas8a1kyJAxmsEDXC0tI0OC2vtlyJBxDoOXjrXcjAwGyMDg4RcZMmQcwKitTZA3pOljrT0nQ4aMExj8RZ32WTo8CMYMMmTIOIxBys7aaJOvlKWBWIYMGbMZtYY+afGneFLuPiSsMmTIGMrgCVxtnNlf80LjTxkyZBzA6KRonfCajjxREStDhoxxDJ5+pWGxNiToJKwyZMiYyuBJWyftSxPHOBDLkCHjYAZfzOoPMtPFjqAWlyFDxuYMnqKlsE6KeeEjQ4aMExhpg742yKwFWfJ+GTJknMAgQZaXtWR5oh+gyfqaDBky5jH6yxO1oWNxi41kuDJkyBjNqAVcEhzJOAFNXNfLFjJkyBjN6BSZ5MNp4piGbBkyZExl3OFJBwl8OayVhsqQIWM0Ix0W1j7GVy54UV2EyZAhY1tGrfWfBtNOyEYDThkyZBzASNca3m2lpaXsa9sZMmTIGM3orHOlYVeGDBkyUgYfLqbla60MliFDxjmMTpKXAtIRRXHZQoYMGYMYacKXNvfTZQtSMLfmGzJkyNiJ8QcVLNE/oYqgygAAAABJRU5ErkJggg==" class="article-share-link">分享</a><div class="tags"><a href="/tags/linux/">linux</a><a href="/tags/监控/">监控</a></div><div class="post-nav"><a href="/2019/07/05/linux-monitoring-df/" class="next">linux df查看磁盘空间</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+  clientID: '6b972eaf9e2408260435',
+  clientSecret: '4a1fc9cba603e6c23d8c22873c9eb0d1e82b8662',
+  repo: 'tenfyzhong.github.io',
+  owner: 'tenfyzhong',
+  admin: ['tenfyzhong'],
+  labels: ['comment'],
+  id: window.location.pathname,      
+  distractionFreeMode: false,
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div id="socials" class="widget"><span class="socials-span pure-u-1-2"><a href="https://github.com/tenfyzhong" target="_blank"><i class="socials-item fa fa-github"> Github</i></a></span><span class="socials-span pure-u-1-2"><a href="mailto:tenfy@tenfy.cn" target="_self"><i class="socials-item fa fa-envelope"> E-Mail</i></a></span></div><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/man/">man</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">misc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/后台/">后台</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程管理/">工程管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/操作系统/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/free/" style="font-size: 15px;">free</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/plugin/" style="font-size: 15px;">plugin</a> <a href="/tags/netfilter/" style="font-size: 15px;">netfilter</a> <a href="/tags/调优/" style="font-size: 15px;">调优</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/后台/" style="font-size: 15px;">后台</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/golang/" style="font-size: 15px;">golang</a> <a href="/tags/编程语言/" style="font-size: 15px;">编程语言</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/网络/" style="font-size: 15px;">网络</a> <a href="/tags/抓包/" style="font-size: 15px;">抓包</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/操作系统/" style="font-size: 15px;">操作系统</a> <a href="/tags/man/" style="font-size: 15px;">man</a> <a href="/tags/ip/" style="font-size: 15px;">ip</a> <a href="/tags/netcat/" style="font-size: 15px;">netcat</a> <a href="/tags/pcap-filter/" style="font-size: 15px;">pcap-filter</a> <a href="/tags/tcpdump/" style="font-size: 15px;">tcpdump</a> <a href="/tags/route/" style="font-size: 15px;">route</a> <a href="/tags/ss/" style="font-size: 15px;">ss</a> <a href="/tags/strace/" style="font-size: 15px;">strace</a> <a href="/tags/github-pages/" style="font-size: 15px;">github pages</a> <a href="/tags/mongo/" style="font-size: 15px;">mongo</a> <a href="/tags/linux-ntp/" style="font-size: 15px;">linux,ntp</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/prometheus/" style="font-size: 15px;">prometheus</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/负载均衡/" style="font-size: 15px;">负载均衡</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/linux-monitoring-iostat/">linux iostat查看磁盘io速率</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-df/">linux df查看磁盘空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-free/">linux free查看内存状态</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-uptime/">linux uptime查看负载</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/25/introduce-fdump/">fdump tcp抓包框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/redis-geo-bench/">redis geohash的性能测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/consistency/">一致性模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/ntp-client/">ntp客户端同步时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/server-timeout-queue-size/">服务器超时时间和请求队列大小设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/03/conntrack-tuning/">nf_conntrack调优</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://bigbuger.github.io" title="An's blog" target="_blank">An's blog</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a id="title" href="/." rel="nofollow">tenfy' blog</a><span class="hidden_mid_and_down">| </span><span id="total-count-title" class="hidden_mid_and_down">Site words total count</span><span id="total-count-value" class="hidden_mid_and_down">53.0k</span></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script>var _mtac = {};
+(function() {
+  var mta = document.createElement("script");
+    mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500516361");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script src="https://c.lcfile.com/static/js/av-core-mini-0.6.4.js"></script><script>AV.initialize('Glommc9CciMESa6zShJxuhKb-gzGzoHsz', 'prxRn0mO6lSIIz4PEL8yqjxX');</script><script type="text/javascript" src="/js/leancloud.js?=0.0.0"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><script type="text/javascript" src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script><script type="text/javascript" src="/js/rss.js?=0.0.0"></script></div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

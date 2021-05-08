@@ -1,0 +1,454 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="给我阳光，我就灿烂"><title>tcpdump手册 | tenfy' blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/css/socials.css?=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: "ca-pub-7494014438653422",
+  enable_page_level_ads: true
+});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">tcpdump手册</h1><a id="logo" href="/.">tenfy' blog</a><p class="description">腾飞中的个人博客</p></div><div id="site-visitors-count"><span id="leancloud-visitors-eye"> </span><span id="tenfy.cn" data-flag-title="tenfy' blog" class="leancloud-visitors">您是第<span class="leancloud-visitors-count site-visitors-count">0</span>位访客</span></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/subjects/"><i class="fa fa-tasks"> 专题</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a id="to_copy" href="javascript:void(0)" data-clipboard-action="copy" data-clipboard-text="https://tenfy.cn/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">tcpdump手册</h1><div class="post-meta">Oct 24, 2017<span> | </span><span class="category"><a href="/categories/man/">man</a></span><span id="2017/10/24/man-tcpdump/" data-flag-title="tcpdump手册" class="leancloud-visitors"> | <span id="leancloud-visitors-eye"> </span><span class="leancloud-visitors-count">0</span><span> 阅读</span></span><span id="page-wordcount"> | <span id="page-wordcount-page-value">7,163 </span>字</span></div><div class="clear"><div id="toc" class="toc-article"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概要"><span class="toc-number">1.</span> <span class="toc-text">概要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#描述"><span class="toc-number">2.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参数"><span class="toc-number">3.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#例子"><span class="toc-number">4.</span> <span class="toc-text">例子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输出格式"><span class="toc-number">5.</span> <span class="toc-text">输出格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Link-Level-Headers"><span class="toc-number">5.1.</span> <span class="toc-text">Link Level Headers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARP-RARP-Packets"><span class="toc-number">5.2.</span> <span class="toc-text">ARP/RARP Packets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-Packets"><span class="toc-number">5.3.</span> <span class="toc-text">TCP Packets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用特定的标识来捕捉tcp包"><span class="toc-number">5.4.</span> <span class="toc-text">使用特定的标识来捕捉tcp包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP包"><span class="toc-number">5.5.</span> <span class="toc-text">UDP包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP域名服务请求"><span class="toc-number">5.6.</span> <span class="toc-text">UDP域名服务请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UDP域名服务响应"><span class="toc-number">5.7.</span> <span class="toc-text">UDP域名服务响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SMB-CIFS-decoding"><span class="toc-number">5.8.</span> <span class="toc-text">SMB/CIFS decoding</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NFS请求和响应"><span class="toc-number">5.9.</span> <span class="toc-text">NFS请求和响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFS请求和响应"><span class="toc-number">5.10.</span> <span class="toc-text">AFS请求和响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KIP-AppleTalk-DDP-in-UDP"><span class="toc-number">5.11.</span> <span class="toc-text">KIP AppleTalk (DDP in UDP)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP片段"><span class="toc-number">5.12.</span> <span class="toc-text">IP片段</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#相关文章"><span class="toc-number">6.</span> <span class="toc-text">相关文章</span></a></li></ol></div></div><div class="post-content"><p><code>tcpdump</code>dump网络包。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><a id="more"></a>
+<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tcpdump [ -AbdDefhHIJKlLnNOpqRStuUvxX ] </span><br><span class="line">        [ -B buffer_size ] [ -c count ]</span><br><span class="line">        [ -C file_size ] [ -G rotate_seconds ] </span><br><span class="line">        [ -F file ] [ -i interface ] </span><br><span class="line">        [ -j tstamp_type ] [ -m module ] </span><br><span class="line">        [ -M secret ] [ -P <span class="keyword">in</span>|out|inout ]</span><br><span class="line">        [ -r file ] [ -V file ] [ -s snaplen ] </span><br><span class="line">        [ -T <span class="built_in">type</span> ] [ -w file ] [ -W filecount ]</span><br><span class="line">        [ -E spi@ipaddr algo:secret,...  ]</span><br><span class="line">        [ -y datalinktype ] [ -z postrotate-command ] </span><br><span class="line">        [ -Z user ]</span><br><span class="line">        [ expression ]</span><br></pre></td></tr></table></figure>
+
+<h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p><code>tcpdump</code>打印网络接口上匹配expression网络包的描述内容。另外它可以使用<code>-w</code>参数，
+将包数据保存到文件中，以便后期分析，后期可以使用<code>-r</code>参数读文件中取包数据。
+它还可以使用<code>-V</code>参数，让它从多个文件中读取。所有情况下，<code>tcpdump</code>只处理匹配expression的包。</p>
+<p>如果不使用<code>-c</code>参数，它会一直捕捉包，一直到收到<code>SIGINT</code>或者<code>SIGTERM</code>信号。
+如果使用<code>-c</code>参数，它会捕捉包到收到<code>SIGINT</code>或者<code>SIGTERM</code>信号，或者收到指定数量的包。</p>
+<p>当<code>tcpdump</code>完成捕捉包，它会报告以下的计数：
+<code>captured</code>包数(<code>tcpdump</code>收到和处理的包)。<br><code>received by filter</code>包数。<br><code>dropped by kernel</code>包数(丢弃的包，由于buffer空间不够引起)。  </p>
+<p>对于支持<code>SIGINFO</code>信号的平台，比如大多数的BSD(包括mac osx)和Digital/Tru64 UNIX，
+它收到<code>SIGINFO</code>信号时会报告这些计数，然后继续捕捉包。</p>
+<p>从网络设备上读取包需要root权限，从文件上读取不需要。</p>
+<h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><ul>
+<li><p><code>-A</code> 使用ASCII打印每一个包(不打印link level header)。方便捕捉web网页。</p>
+</li>
+<li><p><code>-b</code> 使用ASDOT符号打印BGP包的AS数字，而不使用ASPLAIN符号。</p>
+</li>
+<li><p><code>-B</code> 设置操作系统的捕捉buffer大小为buffer_size，KB单位。</p>
+</li>
+<li><p><code>-c</code> 收到count个包后退出。</p>
+</li>
+<li><p><code>-C</code> 写入一个raw包到文件之前，先检查当前文件大小是否已经超过file_size，如果已经超过，<br>则关闭当前的文件，打开一个新的。每个文件包后加一个数字以区分。file_size的单位是1000000bytes。</p>
+</li>
+<li><p><code>-d</code> 使用人类可读的方式打印compiled packet-matching code到标准输出，然后退出。</p>
+</li>
+<li><p><code>-dd</code> 使用c语言片段的方式打印packet-matching code。</p>
+</li>
+<li><p><code>-ddd</code> 使用十进制数字的方式打印packet-matching code。</p>
+</li>
+<li><p><code>-D</code> 打印可以用<code>tcpdump</code>捕捉的网络接口。对于每一个网络接口，包含一个数字和一个接口名字，
+还可能包括一个文件描述。捕捉的时候可以使用<code>-i</code>来指定特定的接口。<br>这对于那些没有命令来显示接口的操作非常有用(例如windows，缺少<code>ifconfig -a</code>的unix)。
+数字对于windows 2000及以后的系统非常有用，因为它的网络接口名字非常复杂。<br><code>-D</code>参数不支持<code>libpcap</code>缺少<code>pcap_findalldevs()</code>函数的系统。</p>
+</li>
+<li><p><code>-e</code> 每行打印link-level header。这个可以用来打印mac地址。</p>
+</li>
+<li><p><code>-E</code> 对于addr的地址包含spi的Security Parameter Index，使用<code>spi@ipaddr algo:secret</code>来解密Ipsec ESP包。<br>多个可以使用逗号或者换行分隔。<br>algo可以是:<code>des-cbc</code>, <code>3des-cbc</code>, <code>blowfish-cbc</code>, <code>cast128-cbc</code>, <code>none</code>。
+默认是<code>des-cbc</code>。解密包需要tcpdump的编译启动cryptography。<br>secret是ASCII形式的ESP密钥key。如果以<code>0x</code>开头，则使用十六进制。  </p>
+</li>
+<li><p><code>-f</code> 打印<code>foreign</code> IPv4地址，而不使用名字符号。  </p>
+</li>
+<li><p><code>-F</code> 从file中读取过滤表达式。命令行中的表达式会被忽略。</p>
+</li>
+<li><p><code>-G</code> 如果指定，每rotate_seconds秒就滚动<code>-w</code>指定的写入文件。每个<code>-w</code>指定的文件应该有<code>strftime</code>定义的时间格式，
+如果不指定，则新文件会覆盖掉旧文件。<br>如果结合<code>-c</code>参数使用，则会使用<code>file&lt;count&gt;</code>的格式。</p>
+</li>
+<li><p><code>-h</code> 输出帮助信息。</p>
+</li>
+<li><p><code>-H</code> 尝试检测802.11s网络头。</p>
+</li>
+<li><p><code>-i</code> 监听interface接口。如果没指定，<code>tcpdump</code>会搜索系统中编号最少的接口(不包括回环地址)。<br>对于linux 2.2及以后的系统，可以使用<code>any</code>来指定捕捉所有的接口。对于promiscuous模式不适用。<br>如果支持<code>-D</code>参数，可以使用接口数字来进行指定。</p>
+</li>
+<li><p><code>-I</code> 将接口放到monitor mode。这只有部分操作的wifi接口有效。<br>对于monitor mode，网络适配器可能会从网络中分离，所以不能使用这个适配器的无线网络。
+这可以防止网络服务器访问文件，或者解释主机名和地址，在monitor mode下捕捉，
+不会连接到另一个适配器的网络。<br>这个参数会影响<code>-L</code>参数的输出。如果<code>-I</code>参数没指定，只有链路层不在monitor mode的才会被显示。
+如果指定<code>-I</code>指定，只有链路层在monitor mode的才会被显示。</p>
+</li>
+<li><p><code>-j</code> 设置捕捉的时间戳类型为tstamp_type。支持的类型在<code>pcap-tstamp-type(7)</code>的手册里。
+并不是所有的类型对任意的接口都支持。</p>
+</li>
+<li><p><code>-J</code> 列出接口支持的时间戳类型。如果接口不支持设置时间戳类型，则不会显示。</p>
+</li>
+<li><p><code>-K</code> 不要尝试效验IP, TCP, UDP的效验和。这对于硬件上计算效验和非常有用。否则，
+所有的流出tcp效验和都会被标记成错误的。</p>
+</li>
+<li><p><code>-l</code> 使标准输出为行buffered。对于查看数据非常有用。比如：<code>tcpdump -l | tee dat</code>。  
+注意，在windows下，行buffered意味着没有buffer，所以WinDump会每个字符的打印，如果指定了<code>-l</code>。  
+<code>-U</code>的行为类似于<code>-l</code>，但是它是包buffered的。所以收完每个名后进行打印。</p>
+</li>
+<li><p><code>-L</code> 列出接口中知道的data link types，然后退出。data link types基于不同的模式，
+例如在一些平台下，wifi接口在非monitor mode下可能支持一组data link types，
+在monitor mode下支持另外一组data link types。</p>
+</li>
+<li><p><code>-m</code> 从module文件加加载SMI MIB模块的定义。这个参数可以多次使用来加载多个MIB模块。</p>
+</li>
+<li><p><code>-M</code> 使用secret做为一个共享的密钥来效验tcp段的数字。</p>
+</li>
+<li><p><code>-n</code> 不要转换地址到名字。</p>
+</li>
+<li><p><code>-N</code> 不要显示域名。例如显示<code>nic</code>，而不是<code>nic.ddn.mil</code>。</p>
+</li>
+<li><p><code>-O</code> 不要支持packet-matching code优化器。</p>
+</li>
+<li><p><code>-p</code> 不要把接口放到promiscuous mode。</p>
+</li>
+<li><p><code>-P</code> 指定发送/接收方向来捕捉包。支持的值为<code>in</code>, <code>out</code>, <code>inout</code>。不是所有的平台都支持。</p>
+</li>
+<li><p><code>-q</code> 安静模式输出，打印更少的协议信息。</p>
+</li>
+<li><p><code>-R</code> 假定ESP/AH包基本旧的规范(RFC1825到RFC1829)。如果指定这个参数，<code>tcpdump</code>不打印预防重播域。
+因为ESP/AH规范没有协议版本字段，<code>tcpdump</code>不能推导出ESP/AH的协议版本。</p>
+</li>
+<li><p><code>-r</code> 从file中读取包(使用<code>-w</code>参数创建的)。如果file是<code>-</code>，则从标准输入中读取。</p>
+</li>
+<li><p><code>-S</code> 使用绝对TCP sequence number替换相对TCP sequence number。</p>
+</li>
+<li><p><code>-s</code> 指定每个捕捉包的包长，默认值是65535bytes。snap为0设置为默认值65535，向后兼容老版本的<code>tcpdump</code>。</p>
+</li>
+<li><p><code>-T</code> 强制expression使用指定的type进行解释。当前支持的类型: <code>aodv</code> (Ad-hoc On-demand Distance Vector protocol),
+<code>cnfp</code> (Cisco NetFlow protocol), <code>lmp</code> (Link Management Protocol), <code>pgm</code>(Pragmatic General Multicast),
+<code>pgm_zmtp1</code> (ZMTP/1.0 inside PGM/EPGM), <code>radius</code> (RADIUS), <code>rpc</code> (Remote Procedure Call), 
+<code>rtp</code> (Real-Time Applications protocol), <code>rtcp</code> (Real-Time Applications control protocol), 
+<code>snmp</code> (Simple Network Management Protocol), <code>tftp</code> (Trivial File Transfer Protocol),
+<code>vat</code> (Visual Audio Tool), <code>wb</code> (distributed White Board), <code>zmtp1</code> (ZeroMQ Message Transport Protocol 1.0),
+<code>vxlan</code> (Virtual eXtensible Local Area NetworkA)。  </p>
+</li>
+<li><p><code>-t</code> 不要对每一行都打印时间戳。</p>
+</li>
+<li><p><code>-tt</code> 对每一行打印非格式化的时间戳。</p>
+</li>
+<li><p><code>-ttt</code> 打印当前行与上一行的时间差。</p>
+</li>
+<li><p><code>-tttt</code> 打印格式化的时间。</p>
+</li>
+<li><p><code>-ttttt</code> 打印当前行与第一行的时间差。</p>
+</li>
+<li><p><code>-u</code> 打印没解码的NFS处理。</p>
+</li>
+<li><p><code>-U</code> 如果没指定<code>-w</code>参数，使用包缓存。</p>
+</li>
+<li><p><code>-v</code> 解析和打印的时候，提供更多的信息。例如：连接时间，标识，总长度，IP参数等。</p>
+</li>
+<li><p><code>-vv</code> 输出更多信息。比如添加NFS回复包。</p>
+</li>
+<li><p><code>-vvv</code> 输出更多信息。</p>
+</li>
+<li><p><code>-V</code> 从file中读取一个文件名列表。如果file为<code>-</code>，则从标准输入中读取。</p>
+</li>
+<li><p><code>-w</code> 把raw信息写入到file文件，而不是进行输出。后续可以使用<code>-r</code>来读取。如果file为<code>-</code>，则写到标准输出。<br>输出会被缓存，所以从文件中读可能会读不到内容，使用<code>-U</code>参数来强制使用包缓存。<br>写到文件的MIME类型为<code>application/vnd.tcpdump.pcap</code>。建议使用<code>.pcap</code>做文件后缀。  </p>
+</li>
+<li><p><code>-W</code> 结合<code>-C</code>一起使用。这个参数限制文件个数。超过会rotating进行覆盖写。另外，
+它可以增加文件名增加足够的开头0。<br>结合<code>-G</code>一起使用，会限制文件的个数，当达到上限时会退出，退出码为0。</p>
+</li>
+<li><p><code>-x</code> 解析和打印的时候，额外打印每个包的头，以十六进制打印内存(不打印链路层的头)。
+最小的snaplen bytes会被打印。</p>
+</li>
+<li><p><code>-xx</code> 解析和打印的时候，以十六进制额外打印每个包的头和内容，包括链路层的头。</p>
+</li>
+<li><p><code>-X</code> 解析和打印的时候，以十六进制和ASCII打印每个包的头和内容，不打印链路层头。</p>
+</li>
+<li><p><code>-XX</code> 解析和打印的时候，以十六进制和ASCII打印每个包的头和内容，包括链路层头。</p>
+</li>
+<li><p><code>-y</code> 捕捉包时设置使用的数据链路类型。</p>
+</li>
+<li><p><code>-z</code> 结合<code>-C</code>和<code>-G</code>一起使用，它使<code>tcpdump</code>以<code>command file</code>的格式运行，file是保存
+rotation关闭后的文件。例如：使用<code>-z gzip</code>或者<code>-z bizp2</code>会使用gzip或者bzip2压缩
+每一个保存的文件。<br><code>tcpdump</code>会并行运行命令来捕捉，使用最低的优先级别以不打断捕捉包。  </p>
+</li>
+<li><p><code>-Z</code> 如果以root运行<code>tcpdump</code>，切换到指定的用户。</p>
+</li>
+<li><p><code>expression</code> 选择需要打印的包。如果没有expression，则所有的包都会被打印。否则，
+只有expression为true的包才会被打印。<br>对于expression的请求，查看<code>pcap-filter(7)</code>。  
+expression的参数可以是单个shell参数，也可以是多个shell参数。一般expression包括shell元字符，
+例如反斜杠来转换协议名，可以通过单引号包住以免shell进行转换。多个参数会以空格连接起来。</p>
+</li>
+</ul>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>打印所有到达或者离开sundown主机的包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump host sundown</span><br></pre></td></tr></table></figure>
+
+<p>打印holios与hot或者ace通信的包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump host helios and \( hot or ace \)</span><br></pre></td></tr></table></figure>
+
+<p>打印除了helios的所有与ace通信的ip包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump ip host ace and not helios</span><br></pre></td></tr></table></figure>
+
+<p>打印所有本与秘Berkeley主机的包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump net ucb-ether</span><br></pre></td></tr></table></figure>
+
+<p>打印所有经过snup的ftp通信包，使用单括号包住以免括号被shell解释：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump <span class="string">'gateway snup and (port ftp or ftp-data)'</span></span><br></pre></td></tr></table></figure>
+
+<p>打印所在不是本机发出，也不到达本机的包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump ip and not net localnet</span><br></pre></td></tr></table></figure>
+
+<p>打印非本机的开始和结束包(SYN和FIN包)：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump <span class="string">'tcp[tcpflags] &amp; (tcp-syn|tcp-fin) != 0 and not src and dst net localnet'</span></span><br></pre></td></tr></table></figure>
+
+<p>打印所有通过80端口的IPv4 HTTP包，也就是说只打印数据包，不打印SYN、FIN、ACK-only包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump <span class="string">'tcp port 80 and (((ip[2:2] - ((ip[0]&amp;0xf)&lt;&lt;2)) - ((tcp[12]&amp;0xf0)&gt;&gt;2)) != 0)'</span></span><br></pre></td></tr></table></figure>
+
+<p>打印所有发送经过snup大于576 bytes的包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump <span class="string">'gateway snup and ip[2:2] &gt; 576'</span></span><br></pre></td></tr></table></figure>
+
+<p>打印IP广播或者多播包，并且不经过Ethernet广播或者多播：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump <span class="string">'ether[0] &amp; 1 = 0 and ip[16] &gt;= 224'</span></span><br></pre></td></tr></table></figure>
+
+<p>打印所有的非echo请求响应ICMP包，也就是说非ping包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump <span class="string">'icmp[icmptype] != icmp-echo and icmp[icmptype] != icmp-echoreply'</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h1><p>tcpdump的输出是基于协议的。以下给出了大多数的格式描述和例子。</p>
+<h2 id="Link-Level-Headers"><a href="#Link-Level-Headers" class="headerlink" title="Link Level Headers"></a>Link Level Headers</h2><p>如果指定<code>-e</code>参数，链路层的头会被打印。在以太网上，源和目标的地址、协议、包长度会被打印。</p>
+<p>在FDDI网络上，<code>-e</code>参数会导致<code>tcpdump</code>打印<code>frame control</code>域，源和目标的地址和包长度。
+<code>frame control</code>域管理后续包的解释。正常的包(例如包括IP数据报)是<code>async</code>包，优先级别在0到7之间，
+例如<code>async4</code>。这些包假设包括802.2 Logical Link control(LLC)包，LLC头会被打印，如果它不是一个ISO包或者SNAP包。</p>
+<p>在令牌环形网络上，<code>-e</code>参数打印<code>access contrl</code>和<code>frame control</code>域，源和目标的地址和包长度。
+就像在FDDI网络，包假设包含LLC包。基于<code>-e</code>参数是否指定，源路由信息会打印在源路由包上。</p>
+<p>在802.11网络上，<code>-e</code>选项打印<code>frame control</code>域。所有在802.11头上的地址，包长。
+就像FDDI网络，包假设包含LLC包。</p>
+<p>在SLIP链路上，方向标识(<code>I</code>表示入包，<code>O</code>表示出包)，包类型，压缩信息会被打印。
+包类型会优先打印，类型括号<code>ip</code>, <code>utcp</code>和<code>ctcp</code>。没有进一步的连接信息能被打印了。
+对于TCP包，连接标识符会接着类型打印。如果包是压缩的，它的编码头会被打印。
+一个特殊的案例打印成<code>*S+n</code>和<code>*SA+n</code>，n是sequence num变化的量(或者sequence num和ack)。
+如果不是特殊的案例，0或者更多的变化会被打印。一个变化由U(urgent pointer), 
+W(window), A(ack), S(secuence num), I(packet ID)标识，接着一个差值(+n或者-n)，
+或者一个新值(=n)。最后，所有的数据和压缩包头长度会被打印。</p>
+<p>例如，下面一行出包压缩的TCP包，包含一个隐藏的标识符，ack的变化为6，sequence number是49，
+packet ID为6，包括3字节的内容和6字节的压缩头。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 ctcp * A+6 S+49 I+6 3 (6)</span><br></pre></td></tr></table></figure>
+
+<h2 id="ARP-RARP-Packets"><a href="#ARP-RARP-Packets" class="headerlink" title="ARP/RARP Packets"></a>ARP/RARP Packets</h2><p>Arp/rarp输出请求类型和它的参数。这里有一个在rtsg上使用<code>rlogin</code>请求到csam的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arp who-has csam tell rtsg</span><br><span class="line">arp reply csam is-at CSAM</span><br></pre></td></tr></table></figure>
+
+<p>第一行是rtsg发送arp包到互联网地址上询问谁有csam的址。csam回复了它的互联网地址。</p>
+<p>下面是使用<code>-n</code>打印ip的过程，<code>tcpdump -n</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arp who-has 128.3.254.6 tell 128.3.254.68</span><br><span class="line">arp reply 128.3.254.6 is-at 02:07:01:00:01:c4</span><br></pre></td></tr></table></figure>
+
+<p>如果使用<code>-e</code>参数，<code>tcpdump -e</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RTSG Boardcast 0806 64: arp who-has csam tell rtsg</span><br><span class="line">CSAM RTSG 0806 64: arp reply csam is-at CSAM</span><br></pre></td></tr></table></figure>
+
+<h2 id="TCP-Packets"><a href="#TCP-Packets" class="headerlink" title="TCP Packets"></a>TCP Packets</h2><p>tcp协议行的基本格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src &gt; dst: flags data-seqno ack window urgent options</span><br></pre></td></tr></table></figure>
+
+<p>src和dst是源和目标的ip地址和端口。flags是以下的组合<code>S</code>(SYN), <code>F</code>(FIN), <code>P</code>(PUSH), 
+<code>R</code>(RST), <code>U</code>(URG), <code>W</code>(ECN CWR), <code>E</code>(ECHO-Echo), <code>.</code>(ACK)，或者空表示没有flags。
+data-seqno描述了这个包中包含数据哪部分数据。ack是另一个方向的下一个期望数据的seqno。
+window是窗口大小，表示另一方的接收buffer空间大小。urg指示这个包的数据是urgent的。
+options是tcp参数(例如：<code>&lt;mss 1024&gt;</code>)。</p>
+<p>src, dst, flags会一直出现。其他的域基于包中的tcp协议头适当出现。</p>
+<p>以下是一个从rtsg rlogin到csam的一部分数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rtsg.1023 &gt; csam.login: S 768512:768512(0) win 4096 &lt;mss 1024&gt;</span><br><span class="line">csam.login &gt; rtsg.1023: S 947648:947648(0) ack 768513 win 4096 &lt;mss 1024&gt;</span><br><span class="line">rtsg.1023 &gt; csam.login: . ack 1 win 4096</span><br><span class="line">rtsg.1023 &gt; csam.login: P 1:2(1) ack 1 win 4096</span><br><span class="line">csam.login &gt; rtsg.1023: . ack 2 win 4096</span><br><span class="line">rtsg.1023 &gt; csam.login: P 2:21(19) ack 1 win 4096</span><br><span class="line">csam.login &gt; rtsg.1023: P 1:2(1) ack 21 win 4077</span><br><span class="line">csam.login &gt; rtsg.1023: P 2:3(1) ack 21 win 4077 urg 1</span><br><span class="line">csam.login &gt; rtsg.1023: P 3:4(1) ack 21 win 4077 urg 1</span><br></pre></td></tr></table></figure>
+
+<p>第一行表示rtsg的1023端口发送一个包到csam和login端口。<code>S</code>表示设置了SYN。这个包的seqno是768512，
+不包含数据(<code>first:last(nbytes)</code>符号表示seqno从first到last，不包含last，包含nbytes的数据)。
+不包含ack标识，窗口大小为4096字节，max-segment-size参数为1024字节。</p>
+<p>casm回复了一个类似的包给rtsg，同时包含了ack标识。然后rtsg ack了csam的syn包，
+<code>.</code>表示设置了ack，这个包不包含数据，所以没有seqno。注意，这里的seqno是一个小数(1)。
+第一次会话的时候，它会打印seqno，然后在以后的会话中，则使用与第一次会话的相对seqno。
+<code>-S</code>可以指定为强制所有的会话都使用原始的seqno。</p>
+<p>在第6行，rtsg发送了19字节的数据(第2字节到第20字节)。这个包设置了PUSH标识。
+在第7行，csam回复表示已经收到rtsg到21字节(不包含)的数据。csam同时发送了1字节的数据到rtsg。
+在第8、9行，csam发送了2字节的urgent数据到rtsg。</p>
+<p>如果快照足够小的，那么<code>tcpdump</code>不能捕捉一个完整的tcp包头，它尽可能多的解释头，
+然后报告一个<code>[|tcp]</code>来指示剩下的数据不能够被解释。如果头中包含一个伪参数(有一个长度要么太小，要么超出了头的末端)，
+<code>tcpdump</code>会报告<code>[bad opt]</code>，然后不再解释接正愁的参数，因为它不知道从哪里开始了。
+如果指定了头的长度，但是IP数据报的长度不够，<code>tcpdump</code>会报告<code>[bad hdr length]</code>。</p>
+<h2 id="使用特定的标识来捕捉tcp包"><a href="#使用特定的标识来捕捉tcp包" class="headerlink" title="使用特定的标识来捕捉tcp包"></a>使用特定的标识来捕捉tcp包</h2><p>tcp头中包含8位的控制位。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CWR|ECE|URG|ACK|PSH|RST|SYN|FIN</span><br></pre></td></tr></table></figure>
+
+<p>假设我们需要观察TCP的连接建议过程。回忆一下tcp的3次握手过程，连接过程中包含的标识如下：</p>
+<ol>
+<li>客户端发送SYN</li>
+<li>服务器响应SYN和ACK</li>
+<li>客户端响应ACK</li>
+</ol>
+<p>现在我们只想捕捉只设置了SYN的包(第1步)。我们需要一个正确的expression。</p>
+<p>回忆一下不包含参数的tcp包头：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> 0                            15                              31</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">|          source port          |       destination port        |</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">|                        sequence number                        |</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">|                     acknowledgment number                     |</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">|  HL   | rsvd  |C|E|U|A|P|R|S|F|        window size            |</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">|         TCP checksum          |       urgent pointer          |</span><br><span class="line">-----------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<p>tcp头一般包含20字节的数据，除非包含了tcp参数。图中的第一包包含了0<del>3字节，第二行包含了4</del>7字节。</p>
+<p>TCP控制位在第13字节：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> 0             7|             15|             23|             31</span><br><span class="line">----------------|---------------|---------------|----------------</span><br><span class="line">|  HL   | rsvd  |C|E|U|A|P|R|S|F|        window size            |</span><br><span class="line">----------------|---------------|---------------|----------------</span><br><span class="line">|               |  13th octet   |               |               |</span><br></pre></td></tr></table></figure>
+
+<p>我们直接看第13字节：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">|               |</span><br><span class="line">|---------------|</span><br><span class="line">|C|E|U|A|P|R|S|F|</span><br><span class="line">|---------------|</span><br><span class="line">|7   5   3     0|</span><br></pre></td></tr></table></figure>
+
+<p>从右到左标上位置0到7。</p>
+<p>回忆一下我们需要只设SYN位的包。tcp头的第13字节如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">|C|E|U|A|P|R|S|F|</span><br><span class="line">|---------------|</span><br><span class="line">|0 0 0 0 0 0 1 0|</span><br><span class="line">|---------------|</span><br><span class="line">|7 6 5 4 3 2 1 0|</span><br></pre></td></tr></table></figure>
+
+<p>我们需要SYN位设为1。</p>
+<p>第13字节的位在网络序中的二进制数为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00000010</span><br></pre></td></tr></table></figure>
+
+<p>它对应的十进制值为2。</p>
+<p>因为我们只要SYN设置了的包，在tcp头中的第13字节的值在网络序中为2。可以写成以下的表达式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp[13] == 2</span><br></pre></td></tr></table></figure>
+
+<p>我们把这个表达式添加到<code>tcpdump</code>的过滤条件中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i xl0 tcp[13] == 2</span><br></pre></td></tr></table></figure>
+
+<p>假设我们需要捕捉SYN包，但是不关心是否有ACK或者其他位被置上。我们先看一下同时有SYN-ACK位的第13字节：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">|C|E|U|A|P|R|S|F|</span><br><span class="line">|---------------|</span><br><span class="line">|0 0 0 1 0 0 1 0|</span><br><span class="line">|---------------|</span><br><span class="line">|7 6 5 4 3 2 1 0|</span><br></pre></td></tr></table></figure>
+
+<p>第1跟第4位被置上，其二进制的值为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00010010</span><br></pre></td></tr></table></figure>
+
+<p>对应的十进制为18。</p>
+<p>我们不能简单的使用<code>tcp[13] == 18</code>来进行过滤。因为我们要的不是只匹配SYN-ACK包，
+而是设了SYN的包，而不关心其他位。</p>
+<p>我们需要使用位与操作，来保留出SYN位是否为1，我们把需要的位与第13字节与，再判断是否存在SYN位：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">     00010010 SYN-ACK              00000010 SYN</span><br><span class="line">AND  00000010 (we want SYN)   AND  00000010 (we want SYN)</span><br><span class="line">     --------                      --------</span><br><span class="line">=    00000010                 =    00000010</span><br></pre></td></tr></table></figure>
+
+<p>因此对应的表达式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcp[13] &amp; 2 == 2</span><br></pre></td></tr></table></figure>
+
+<p>对应的<code>tcpdump</code>命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i xl0 <span class="string">'tcp[13] &amp; 2 == 2'</span></span><br></pre></td></tr></table></figure>
+
+<p>一些位移和域可以使用名字替换数字位，例如<code>tcp[13]</code>可以使用<code>tcp[tcpflags]</code>替换。
+以下的tcp域值可以使用： <code>tcp-fin</code>, <code>tcp-syn</code>, <code>tcp-rst</code>, <code>tcp-push</code>, <code>tcp-act</code>, <code>tcp-urg</code>。</p>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i xl0 <span class="string">'tcp[tcpflags] &amp; tcp-push != 0'</span></span><br></pre></td></tr></table></figure>
+
+<p>注意要使用单引号防止<code>&amp;</code>被shell解释。</p>
+<h2 id="UDP包"><a href="#UDP包" class="headerlink" title="UDP包"></a>UDP包</h2><p>udp包格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">actinide.who &gt; broadcast.who: udp 84</span><br></pre></td></tr></table></figure>
+
+<p>主机actinide的who端口给广播的who端口发送84字节的用户数据。</p>
+<p>一些UDP服务名可以被识别而打印更高级别的协议信息。</p>
+<h2 id="UDP域名服务请求"><a href="#UDP域名服务请求" class="headerlink" title="UDP域名服务请求"></a>UDP域名服务请求</h2><p>域名服务器请求格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">src &gt; dst: id op? flag qtype qclass name (len)</span><br><span class="line">h2opolo.1538 &gt; helios.domain: 3+ A? ucbvax.berkeley.edu. (37)</span><br></pre></td></tr></table></figure>
+
+<p>主机h2opolo请求helios的domain服务，要求返回一个(qtype=A)的ucbvax.berkeley.edu的地址。
+查询id是3，<code>+</code>表示递归查询。请求长度为37，不包括UDP包头和IP包头。查询操作是标准的<code>Query</code>，
+所以op域被忽略了。否则会在3和<code>+</code>之前插入op。类似的qclass也是标准的的<code>C_IN</code>，所以被忽略了，
+其他的会打印在A之后。</p>
+<p>一些小异常是结果存在额外的域附加在中括号里：如果一个查询包含一个答案，鉴权记录或者附加章节，
+ancount, nscount, arcount会打印成<code>[na]</code>, <code>[nn]</code>, <code>[nau]</code>，n是个数。如果一些响应位被置上
+(AA, RA, rcode)或者其他必需是0的位被置上，会打印<code>[b2&amp;3=x]</code>，<code>x</code>是一个16进制数。</p>
+<h2 id="UDP域名服务响应"><a href="#UDP域名服务响应" class="headerlink" title="UDP域名服务响应"></a>UDP域名服务响应</h2><p>域名服务器响应格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">src &gt;dst: id op rcode flags a/n/au type class data (len)</span><br><span class="line">helios.domain &gt; h2opolo.1538: 3 3/3/7 A 128.32.137.3 (273)</span><br><span class="line">helios.domain &gt; h2opolo.1537: 2 NXDomain* 0/1/0 (97)</span><br></pre></td></tr></table></figure>
+
+<p>在第一个例子中，helios响应h2opolo查询id为3的请求，包含3个答案记录，3个域名服务记录，
+7个附加记录。第一个答案记录是A类型地址，它的值为128.32.137.3。整个响应包的大小为273字节，
+不包括UDP包头和IP包头。op(Query)和响应码(NoError)被忽略了。</p>
+<p>在第二个例子中，helios响应h2opolo查询 id为2的请求，返回一个non-existent domain(NXDomain)的响应码，
+而没有答案，一个域名服务，没有授权记录。<code>*</code>表示授权答案被置上。</p>
+<p>另外可能出现的字符有<code>-</code>(recursion avaliable，RA, not set), <code>|</code>(truncated message, TC, set)。
+如果问题节不包含一个，则<code>[nq]</code>会被打印。</p>
+<h2 id="SMB-CIFS-decoding"><a href="#SMB-CIFS-decoding" class="headerlink" title="SMB/CIFS decoding"></a>SMB/CIFS decoding</h2><p><code>tcpdump</code>当前包含SMB/CIFS/NBT解码在UDP/137, UDP/138, TCP/139。一些原始的IPX和NetBEUI SMB数据解码也支持。</p>
+<p>默认使用一个最小的解码，可以<code>-v</code>可以得到更多详细的解码信息。注意，<code>-v</code>会使一个单个的SMB包显示一页或者更多，
+所以确保在需要更多信息的时候才使用<code>-v</code>。</p>
+<p>可以SMB包的格式和种个域的意思可以查看<a href="http://www.cifs.org。" target="_blank" rel="noopener">www.cifs.org。</a></p>
+<h2 id="NFS请求和响应"><a href="#NFS请求和响应" class="headerlink" title="NFS请求和响应"></a>NFS请求和响应</h2><p>Sun NFS(Network File System)请求响应打印如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">src.xid &gt; dst.nfs: len op args</span><br><span class="line">src.nfs &gt; dst.xid: reply stat len op results</span><br><span class="line">sushi.6709 &gt; wrl.nfs: 112 readlink fh 21,24/10.73165</span><br><span class="line">wrl.nfs &gt; sushi.6709: reply ok 40 readlink &quot;../var&quot;</span><br><span class="line">sushi.201b &gt; wrl.nfs:</span><br><span class="line">   144 lookup fh 9,74/4096.6878 &quot;xcolors&quot;</span><br><span class="line">wrl.nfs &gt; sushi.201b:</span><br><span class="line">   reply ok 128 lookup fh 9,74/4134.3150</span><br></pre></td></tr></table></figure>
+
+<p>在第一行，主机sushi发送一个id为6709的事务到主机wrl(源主机后面的数字是事务id而不是端口)。
+请求包大小为112 bytes，不包括udp头和ip头。这个操作是执行<code>readlink</code>操作，操作文件操作符(fh) <code>21,24/10.73165119</code>
+(如果够幸运，就像这个例子，文件操作符可以解释成一个最大，最小设备数字对，跟着一个inode数字和生成数字)。
+wrl回复了ok，内容为链接。</p>
+<p>在第三行，sushi咨询<code>lookup</code>文件<code>9,74/4096.6878</code>的<code>xcolors</code>。打印内容是基于操作类型的。
+输出格式会意图自我说明的，如果结合NFS协议规范使用。</p>
+<p>如果指定<code>-v</code>参数，额外的信息会被打印，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sushi.1372a &gt; wrl.nfs:</span><br><span class="line">   148 read fh 21,11/12.195 8192 bytes @ 24576</span><br><span class="line">wrl.nfs &gt; sushi.1372a:</span><br><span class="line">   reply ok 1472 read REG 100664 ids 417/0 sz 29388</span><br></pre></td></tr></table></figure>
+
+<p>(<code>-v</code>同时也会打印IP头的TTL, ID, length, fragmentation fields，这个例子中忽略了)。
+在第一行，sushi请求wrl读取文件<code>21,11/12.195</code>24576位置的8192字节数据。wrl回复ok，
+第二行显示的包是第一个包的回复，因此长度是1472字节(另外的字节会接着后续的包片段，
+但是这些片段不包含NFS和UDP头，所以可能不会被打印，基于过滤规则)。因为指定了<code>-v</code>，
+一些文件属性会被打印：文件类型(<code>REG</code>，常规文件)，文件权限位(8进制)，uid, gid, 文件大小。</p>
+<p>如果<code>-v</code>参数多次指定，更多的信息会被打印。</p>
+<p>NFS回复包不会显式的识别RPC操作。tcpdump保持跟踪<code>recent</code>操作和通过事件id匹配它们的回复。
+如果一个回复不匹配紧跟着的请求，它可以不会被解释。</p>
+<h2 id="AFS请求和响应"><a href="#AFS请求和响应" class="headerlink" title="AFS请求和响应"></a>AFS请求和响应</h2><p>AFS(Andrew File System)请求响应打印如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">src.sport &gt; dst.dport: rx packet-type</span><br><span class="line">src.sport &gt; dst.dport: rx packet-type service call call-name args</span><br><span class="line">src.sport &gt; dst.dport: rx packet-type service reply call-name args</span><br><span class="line">elvis.7001 &gt; pike.afsfs:</span><br><span class="line">   rx data fs call rename old fid 536876964/1/1 &quot;.newsrc.new&quot;</span><br><span class="line">   new fid 536876964/1/1 &quot;.newsrc&quot;</span><br><span class="line">pike.afsfs &gt; elvis.7001: rx data fs reply rename</span><br></pre></td></tr></table></figure>
+
+<p>在第一行，主机elvis发送一个RX包给pike。这是一个RX数据包，发送到fs(fileserver)服务，
+它开始于一个RPC调用。RPC的名字为rename，包含一个旧的目录文件id<code>536876964/1/1</code>和一个旧文件名<code>.newsrc.new</code>，
+新目录文件id<code>536876964/1/1</code>和新文件名为<code>.newsrc</code>。主机pike响应一个rename请求的RPC回复。</p>
+<p>在一般情况下，所有的AFS RPC都会被解包成RPC调用名字。大多的AFS RPC参数会被解释。</p>
+<p>格式是自我描述的。</p>
+<p>如果<code>-v</code>给定两次，确认包和头文件会被打印，例如RX调用ID，调用号码，sequence number，
+serial number，RX包的flag。</p>
+<p>如果<code>-v</code>给定两次，额外的信息会被打印，例如RX调用ID，serial number，RX包的flag。
+RX的ack包同时打印MTU信息。</p>
+<p>如果<code>-v</code>给定三次，安全索引和服务器id会被打印。</p>
+<p>abort包会打印错误代码。</p>
+<p>AFS回复包不会显式的识别RPC操作。tcpdump保持跟踪<code>recent</code>操作和通过事件id匹配它们的回复。
+如果一个回复不匹配紧跟着的请求，它可以不会被解释。</p>
+<h2 id="KIP-AppleTalk-DDP-in-UDP"><a href="#KIP-AppleTalk-DDP-in-UDP" class="headerlink" title="KIP AppleTalk (DDP in UDP)"></a>KIP AppleTalk (DDP in UDP)</h2><p>封装成UDP的AppleTalk DDP包会解释成DDP包来打印(也就是说所有的UDP包头信息都会被丢弃)。
+文件<code>/etc/atalk.names</code>会翻译AppleTalk网络和节点编号。文件格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">number    name</span><br><span class="line"></span><br><span class="line">1.254          ether</span><br><span class="line">16.1      icsd-net</span><br><span class="line">1.254.110 ace</span><br></pre></td></tr></table></figure>
+
+<p>头两个给了AppleTalk网络的名字。第三行给了一个特定主机的名字(主机与网络的区分通过第三个8进制数，
+一个网络必须包含两个8进制数，一个主机必须包含三个8进制数)。数字和名字必须以空格隔开。
+<code>/etc/atalk.names</code>可以包含空行和注释(以<code>#</code>开头的行)。</p>
+<p>AppleTalk地址打印如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">net.host.port</span><br><span class="line"></span><br><span class="line">144.1.209.2 &gt; icsd-net.112.220</span><br><span class="line">office.2 &gt; icsd-net.112.220</span><br><span class="line">jssmag.149.235 &gt; icsd-net.2</span><br></pre></td></tr></table></figure>
+
+<p>(如果不存在<code>/etc/atalk.names</code>文件，或者不包含AppleTalk主机/网络的数字，地址会打印成数字格式)。
+在第一个例子中，NBP(DDP port 2)在网络144.1，节点209上发送到任意监听220端口的icsd网络112节点。
+第二行是一样的，除了源结点的名字被识别为office。第三行jssmag结点149节点的235端口发送一个广播到icsd-net NBP端口。</p>
+<p>NBP(name binding protocol)和ATP(AppleTalk transaction protocol)包有它们的内容解释器。
+其他协议只是打印协议名(或者数字，如果没有注册到协议名)和包大小。</p>
+<p>NBP包打印格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">icsd-net.112.220 &gt; jssmag.2: nbp-lkup 190: &quot;=:LaserWriter@*&quot;</span><br><span class="line">jssmag.209.2 &gt; icsd-net.112.220: nbp-reply 190: &quot;RM1140:LaserWriter@*&quot; 250</span><br><span class="line">techpit.2 &gt; icsd-net.112.220: nbp-reply 190: &quot;techpit:LaserWriter@*&quot; 186</span><br></pre></td></tr></table></figure>
+
+<h2 id="IP片段"><a href="#IP片段" class="headerlink" title="IP片段"></a>IP片段</h2><p>IP片段打印如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(frag id:size@offset+)</span><br><span class="line">(frag id:size@offset)</span><br></pre></td></tr></table></figure>
+
+<p>第一种格式说明有更多的的数据片段。第二种说明是最后一个数据片段。</p>
+<p><code>id</code>是片段id。<code>size</code>是片段(字节单位)，不包含IP着。<code>offset</code>是片段在原始数据报的位移。</p>
+<p>每个片段都会打印片段信息。第一个片段包含高层协议头和frag信息，在协议信息之后。
+第一个片段之后不再包含高层协议头，frag信息打印在源和目标地址之后。例如，
+这里是从arizona.edu到lbl-rtsg.arpa的ftp包片段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arizona.ftp-data &gt; rtsg.1170: . 1024:1332(308) ack 1 win 4096 (frag 595a:328@0+)</span><br><span class="line">arizona &gt; rtsg: (frag 595a:204@328)</span><br><span class="line">rtsg.1170 &gt; arizona.ftp-data: . ack 1536 win 2560</span><br></pre></td></tr></table></figure>
+
+<p>这里有以下的信息需要注意：第一，第二行的地址不包含端口号。因为tcp协议信息都在第一个片段。
+第二，第一行的tcd sequence信息打印了308字节的用户数据，实际上是512字节(第一个片段包含308字节，
+第二个片段包含204字节)。</p>
+<h1 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h1><ul>
+<li><a href="/2017/10/25/man-pcap-filter/">pcap-filter手册</a></li>
+</ul>
+</div><div class="copyright"><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>tenfy zhong</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://tenfy.cn/2017/10/24/man-tcpdump/" title="tcpdump手册">https://tenfy.cn/2017/10/24/man-tcpdump/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a>许可协议。转载请注明出处！</li></ul></div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="https://tenfy.cn/2017/10/24/man-tcpdump/" data-id="ckogaifnu000xztpyy1g9zpu1" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAByElEQVR42u3aQW6DQAwF0Nz/0lTqqhXK5HsMLqrerKKEjB8srLHN6xWv43u9+/7nr+crj9Na73nBwsXFbXOP5VqHPAde77O+yeS/uLi4k9x18koCr28j2T9KoLi4uA/j5mHytIWLi/s/uHsh19fj4uI+k5sUP3mae0SthouL2+BWG6Z3fL6xv4uLi1vkHsXVCZ+0VD5Ex8XFHeF2hqCFAPHIdn0MwsXFneHm6emqlypapzBcXNxx7l7y6o9MCoNbXFzcQe76UJKHz3fbHLvi4uIOcvM6qXNjew2RXzvj4uKOcPdGrdWyZ69Mao1VcHFx29xqyGsfRLmNgouLOz7FqL6AVf1vXvZEjwYXF/c2bifFJIVQXiZFhyFcXNwR7h2F0Og4FhcX91Jugui0MPKWaznj4uLijnD3ipNk7Fo91rxNi7i4uCPc6swi2eKq2U4ZjYuLexH3KK71cWSv/VrYHxcXd4TbPz8kR5P8Ra5WLwcXF/dSbqc9mpdMnbErLi7uX3GriaaahqoZ9EMvBxcX9zHcapM0QWx2eXFxcR/JzUen1Vc9ypNbXFzc27h7xUynhbqZEHFxcUe41YZp9ciSlE/Jnri4uCPcLwQZw0KhPnG4AAAAAElFTkSuQmCC" class="article-share-link">分享</a><div class="tags"><a href="/tags/tcpdump/">tcpdump</a></div><div class="post-nav"><a href="/2017/10/25/man-pcap-filter/" class="pre">pcap-filter手册</a><a href="/2017/10/17/man-ip/" class="next">ip手册</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+  clientID: '6b972eaf9e2408260435',
+  clientSecret: '4a1fc9cba603e6c23d8c22873c9eb0d1e82b8662',
+  repo: 'tenfyzhong.github.io',
+  owner: 'tenfyzhong',
+  admin: ['tenfyzhong'],
+  labels: ['comment'],
+  id: window.location.pathname,      
+  distractionFreeMode: false,
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div id="socials" class="widget"><span class="socials-span pure-u-1-2"><a href="https://github.com/tenfyzhong" target="_blank"><i class="socials-item fa fa-github"> Github</i></a></span><span class="socials-span pure-u-1-2"><a href="mailto:tenfy@tenfy.cn" target="_self"><i class="socials-item fa fa-envelope"> E-Mail</i></a></span></div><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/man/">man</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">misc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/后台/">后台</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程管理/">工程管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/操作系统/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/free/" style="font-size: 15px;">free</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/plugin/" style="font-size: 15px;">plugin</a> <a href="/tags/netfilter/" style="font-size: 15px;">netfilter</a> <a href="/tags/调优/" style="font-size: 15px;">调优</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/后台/" style="font-size: 15px;">后台</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/golang/" style="font-size: 15px;">golang</a> <a href="/tags/编程语言/" style="font-size: 15px;">编程语言</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/网络/" style="font-size: 15px;">网络</a> <a href="/tags/抓包/" style="font-size: 15px;">抓包</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/操作系统/" style="font-size: 15px;">操作系统</a> <a href="/tags/man/" style="font-size: 15px;">man</a> <a href="/tags/ip/" style="font-size: 15px;">ip</a> <a href="/tags/netcat/" style="font-size: 15px;">netcat</a> <a href="/tags/pcap-filter/" style="font-size: 15px;">pcap-filter</a> <a href="/tags/tcpdump/" style="font-size: 15px;">tcpdump</a> <a href="/tags/route/" style="font-size: 15px;">route</a> <a href="/tags/ss/" style="font-size: 15px;">ss</a> <a href="/tags/strace/" style="font-size: 15px;">strace</a> <a href="/tags/github-pages/" style="font-size: 15px;">github pages</a> <a href="/tags/mongo/" style="font-size: 15px;">mongo</a> <a href="/tags/linux-ntp/" style="font-size: 15px;">linux,ntp</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/prometheus/" style="font-size: 15px;">prometheus</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/负载均衡/" style="font-size: 15px;">负载均衡</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/linux-monitoring-iostat/">linux iostat查看磁盘io速率</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-df/">linux df查看磁盘空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-free/">linux free查看内存状态</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-uptime/">linux uptime查看负载</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/25/introduce-fdump/">fdump tcp抓包框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/redis-geo-bench/">redis geohash的性能测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/consistency/">一致性模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/ntp-client/">ntp客户端同步时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/server-timeout-queue-size/">服务器超时时间和请求队列大小设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/03/conntrack-tuning/">nf_conntrack调优</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://bigbuger.github.io" title="An's blog" target="_blank">An's blog</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a id="title" href="/." rel="nofollow">tenfy' blog</a><span class="hidden_mid_and_down">| </span><span id="total-count-title" class="hidden_mid_and_down">Site words total count</span><span id="total-count-value" class="hidden_mid_and_down">53.0k</span></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script>var _mtac = {};
+(function() {
+  var mta = document.createElement("script");
+    mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500516361");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script src="https://c.lcfile.com/static/js/av-core-mini-0.6.4.js"></script><script>AV.initialize('Glommc9CciMESa6zShJxuhKb-gzGzoHsz', 'prxRn0mO6lSIIz4PEL8yqjxX');</script><script type="text/javascript" src="/js/leancloud.js?=0.0.0"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><script type="text/javascript" src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script><script type="text/javascript" src="/js/rss.js?=0.0.0"></script></div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

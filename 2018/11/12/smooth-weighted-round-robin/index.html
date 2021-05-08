@@ -1,0 +1,159 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="给我阳光，我就灿烂"><title>nginx平滑的基于权重轮询算法分析 | tenfy' blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/css/socials.css?=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: "ca-pub-7494014438653422",
+  enable_page_level_ads: true
+});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">nginx平滑的基于权重轮询算法分析</h1><a id="logo" href="/.">tenfy' blog</a><p class="description">腾飞中的个人博客</p></div><div id="site-visitors-count"><span id="leancloud-visitors-eye"> </span><span id="tenfy.cn" data-flag-title="tenfy' blog" class="leancloud-visitors">您是第<span class="leancloud-visitors-count site-visitors-count">0</span>位访客</span></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/subjects/"><i class="fa fa-tasks"> 专题</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a id="to_copy" href="javascript:void(0)" data-clipboard-action="copy" data-clipboard-text="https://tenfy.cn/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">nginx平滑的基于权重轮询算法分析</h1><div class="post-meta">Nov 12, 2018<span> | </span><span class="category"><a href="/categories/后台/">后台</a></span><span id="2018/11/12/smooth-weighted-round-robin/" data-flag-title="nginx平滑的基于权重轮询算法分析" class="leancloud-visitors"> | <span id="leancloud-visitors-eye"> </span><span class="leancloud-visitors-count">0</span><span> 阅读</span></span><span id="page-wordcount"> | <span id="page-wordcount-page-value">1,581 </span>字</span></div><div class="clear"><div id="toc" class="toc-article"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#轮询调度"><span class="toc-number">1.</span> <span class="toc-text">轮询调度</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx平滑的基于权重轮询算法"><span class="toc-number">2.</span> <span class="toc-text">nginx平滑的基于权重轮询算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一个go版本实现"><span class="toc-number">3.</span> <span class="toc-text">一个go版本实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#证明权重合理性"><span class="toc-number">4.</span> <span class="toc-text">证明权重合理性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#证明平滑性"><span class="toc-number">5.</span> <span class="toc-text">证明平滑性</span></a></li></ol></div></div><div class="post-content"><p>nginx使用的平滑权重轮询算法介绍以及原理分析。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><a id="more"></a>
+<h1 id="轮询调度"><a href="#轮询调度" class="headerlink" title="轮询调度"></a>轮询调度</h1><p>轮询调度非常简单，就是每次选择下一个节点进行调度。比如<code>{a, b, c}</code>三个节点，第一次选择a，
+第二次选择b，第三次选择c，接下来又从头开始。</p>
+<p>这样的算法有一个问题，在负载均衡中，每台机器的性能是不一样的，对于16核的机器跟4核的机器，
+使用一样的调度次数，这样对于16核的机器的负载就会很低。这时，就引出了基于权重的轮询算法。</p>
+<p>基于权重的轮询调度是在基本的轮询调度上，给每个节点加上权重，这样对于权重大的节点，
+其被调度的次数会更多。比如a, b, c三台机器的负载能力分别是4:2:1，则可以给它们分配的权限为4, 2, 1。
+这样轮询完一次后，a被调用4次，b被调用2次，c被调用1次。</p>
+<p>对于普通的基于权重的轮询算法，可能会产生以下的调度顺序<code>{a, a, a, a, b, b, c}</code>。  </p>
+<p>这样的调度顺序其实并不友好，它会一下子把大压力压到同一台机器上，这样会产生一个机器一下子很忙的情况。
+于是乎，就有了平滑的基于权重的轮询算法。</p>
+<p>所谓平滑就是调度不会集中压在同一台权重比较高的机器上。这样对所有机器都更加公平。
+比如，对于<code>{a:5, b:1, c:1}</code>，产生<code>{a, a, b, a, c, a, a}</code>的调度序列就比<code>{c, b, a, a, a, a, a}</code>
+更加平滑。</p>
+<h1 id="nginx平滑的基于权重轮询算法"><a href="#nginx平滑的基于权重轮询算法" class="headerlink" title="nginx平滑的基于权重轮询算法"></a>nginx平滑的基于权重轮询算法</h1><p>nginx平滑的基于权重轮询算法其实很简单。<a href="https://github.com/phusion/nginx/commit/27e94984486058d73157038f7950a0a36ecc6e35" target="_blank" rel="noopener">算法原文</a>
+描述为：</p>
+<blockquote>
+<p>Algorithm is as follows: on each peer selection we increase current_weight
+of each eligible peer by its weight, select peer with greatest current_weight
+and reduce its current_weight by total number of weight points distributed
+among peers.</p>
+</blockquote>
+<p>算法执行2步，选择出1个当前节点。  </p>
+<ol>
+<li>每个节点，用它们的当前值加上它们自己的权重。</li>
+<li>选择当前值最大的节点为选中节点，并把它的当前值减去所有节点的权重总和。</li>
+</ol>
+<p>例如<code>{a:5, b:1, c:1}</code>三个节点。一开始我们初始化三个节点的当前值为<code>{0, 0, 0}</code>。
+选择过程如下表：  </p>
+<table>
+<thead>
+<tr>
+<th>轮数</th>
+<th>选择前的当前权重</th>
+<th>选择节点</th>
+<th>选择后的当前权重</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>{5, 1, 1}</td>
+<td>a</td>
+<td>{-2, 1, 1}</td>
+</tr>
+<tr>
+<td>2</td>
+<td>{3, 2, 2}</td>
+<td>a</td>
+<td>{-4, 2, 2}</td>
+</tr>
+<tr>
+<td>3</td>
+<td>{1, 3, 3}</td>
+<td>b</td>
+<td>{1, -4, 3}</td>
+</tr>
+<tr>
+<td>4</td>
+<td>{6, -3, 4}</td>
+<td>a</td>
+<td>{-1, -3, 4}</td>
+</tr>
+<tr>
+<td>5</td>
+<td>{4, -2, 5}</td>
+<td>c</td>
+<td>{4, -2, -2}</td>
+</tr>
+<tr>
+<td>6</td>
+<td>{9, -1, -1}</td>
+<td>a</td>
+<td>{2, -1, -1}</td>
+</tr>
+<tr>
+<td>7</td>
+<td>{7, 0, 0}</td>
+<td>a</td>
+<td>{0, 0, 0}</td>
+</tr>
+</tbody></table>
+<p>我们可以发现，a, b, c选择的次数符合5:1:1，而且权重大的不会被连接选择。7轮选择后，
+当前值又回到{0, 0, 0}，以上操作可以一直循环，一样符合平滑和基于权重。</p>
+<h1 id="一个go版本实现"><a href="#一个go版本实现" class="headerlink" title="一个go版本实现"></a>一个go版本实现</h1><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Node <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name    <span class="keyword">string</span></span><br><span class="line">    Current <span class="keyword">int</span></span><br><span class="line">    Weight  <span class="keyword">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SmoothWrr</span><span class="params">(nodes []*Node)</span> <span class="params">(best *Node)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(nodes) == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    total := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, node := <span class="keyword">range</span> nodes &#123;</span><br><span class="line">        <span class="keyword">if</span> node == <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        &#125;</span><br><span class="line">        total += node.Weight</span><br><span class="line">        node.Current += node.Weight</span><br><span class="line">        <span class="keyword">if</span> best == <span class="literal">nil</span> || node.Current &gt; best.Current &#123;</span><br><span class="line">            best = node</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> best == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    best.Current -= total</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">example</span><span class="params">()</span></span> &#123;</span><br><span class="line">    nodes := []*Node&#123;</span><br><span class="line">        &amp;Node&#123;<span class="string">"a"</span>, <span class="number">0</span>, <span class="number">5</span>&#125;,</span><br><span class="line">        &amp;Node&#123;<span class="string">"b"</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</span><br><span class="line">        &amp;Node&#123;<span class="string">"c"</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">7</span>; i++ &#123;</span><br><span class="line">        best := SmoothWrr(nodes)</span><br><span class="line">        <span class="keyword">if</span> best != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Println(best.Name)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="证明权重合理性"><a href="#证明权重合理性" class="headerlink" title="证明权重合理性"></a>证明权重合理性</h1><p><strong>以下证明主要由<a href="https://github.com/bigbuger" target="_blank" rel="noopener">安大神</a>证明得出</strong><br>假如有n个结点，记第i个结点的权重是x<sub>i</sub>。  
+设总权重为S=x<sub>1</sub> + x<sub>2</sub> + … + x<sub>n</sub><br>选择分两步</p>
+<ol>
+<li>为每个节点加上它的权重值  </li>
+<li>选择最大的节点减去总的权重值  </li>
+</ol>
+<p>n个节点的初始化值为[0, 0, …, 0]，数组长度为n，值都为0。<br>第一轮选择的第1步执行后，数组的值为[x<sub>1</sub>, x<sub>2</sub>, …, x<sub>n</sub>]。<br>假设第1步后，最大的节点为j，则第j个节点减去S。<br>所以第2步的数组为[x<sub>1</sub>, x<sub>2</sub>, …, x<sub>j</sub>-S, …, x<sub>n</sub>]。
+执行完第2步后，数组的和为<br>x<sub>1</sub> + x<sub>2</sub> + … + x<sub>j</sub>-S + … + x<sub>n</sub> =&gt;<br>x<sub>1</sub> + x<sub>2</sub> + … + x<sub>n</sub> - S = S - S = 0。</p>
+<p>由此可见，每轮选择，第1步操作都是数组的总和加上S，第2步总和再减去S，所以每轮选择完后的数组总和都为0.</p>
+<p>假设总共执行S轮选择，记第i个结点选择m<sub>i</sub>次。第i个结点的当前权重为w<sub>i</sub>。
+假设节点j在第t轮(t &lt; S)之前，已经被选择了x<sub>j</sub>次，记此时第j个结点的当前权重为w<sub>j</sub>=t*x<sub>j</sub>-x<sub>j</sub>*S=(t-S)*x<sub>j</sub>&lt;0，
+因为t恒小于S，所以w<sub>j</sub>&lt;0。  </p>
+<p>前面假设总共执行S轮选择，则剩下S-t轮，上面的公式w<sub>j</sub>=(t-S)*x<sub>j</sub>+(S-t)*x<sub>j</sub>=0。
+所以在剩下的选择中，w<sub>j</sub>永远小于等于0，由于上面已经证明任何一轮选择后，
+数组总和都为0，则必定存在一个节点k使得w<sub>k</sub>&gt;0，永远不会再选中x<sub>j</sub>。</p>
+<p>由此可以得出，第i个结点最多被选中x<sub>i</sub>次，即m<sub>i</sub>&lt;=x<sub>i</sub>。  
+因为S=m<sub>1</sub>+m<sub>2</sub>+…+m<sub>n</sub>且S=x<sub>1</sub> + x<sub>2</sub> + … + x<sub>n</sub>。
+所以，可以得出m<sub>i</sub>==x<sub>i</sub>。</p>
+<h1 id="证明平滑性"><a href="#证明平滑性" class="headerlink" title="证明平滑性"></a>证明平滑性</h1><p>证明平滑性，只要证明不要一直都是连续选择那一个节点即可。</p>
+<p>跟上面一样，假设总权重为S，假如某个节点x<sub>i</sub>连续选择了t(t&lt;x<sub>i</sub>)次，只要存在下一次选择的不是x<sub>i</sub>，即可证明是平滑的。  </p>
+<p>假设t=x<sub>i</sub>-1，此是第i个结点的当前权重为w<sub>i</sub>=t*x<sub>i</sub>-t*S=(x<sub>i</sub>-1)*x<sub>i</sub>-(x<sub>i</sub>-1)*S。<br>证明下一轮的第1步执行完的值w<sub>i</sub>+x<sub>i</sub>不是最大的即可。<br>w<sub>i</sub>+x<sub>i</sub>=&gt;<br>(x<sub>i</sub>-1)*x<sub>i</sub>-(x<sub>i</sub>-1)*S+x<sub>i</sub>=&gt;<br>x<sub>i</sub><sup>2</sup>-x<sub>i</sub>*S+S=&gt;<br>(x<sub>i</sub>-1)*(x<sub>i</sub>-S)+x<sub>i</sub>  </p>
+<p>因为x<sub>i</sub>恒小于S，所以x<sub>i</sub>-S&lt;=-1。
+所以上面：<br>(x<sub>i</sub>-1)*(x<sub>i</sub>-S)+x<sub>i</sub> &lt;= (x<sub>i</sub>-1)*-1+x<sub>i</sub> = -x<sub>i</sub>+1+x<sub>i</sub>=1。<br>所以，第t轮后，再执行完第1步的值w<sub>i</sub>+x<sub>i</sub>&lt;=1。<br>如果这t轮刚好是最开始的t轮，则必定存在另一个结点j的值为x<sub>j</sub>*t，所以有w<sub>i</sub>+x<sub>i</sub>&lt;=1&lt;1*t&lt;x<sub>j</sub>*t。<br>所以下一轮肯定不会选中x。  </p>
+</div><div class="copyright"><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>tenfy zhong</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://tenfy.cn/2018/11/12/smooth-weighted-round-robin/" title="nginx平滑的基于权重轮询算法分析">https://tenfy.cn/2018/11/12/smooth-weighted-round-robin/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a>许可协议。转载请注明出处！</li></ul></div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="https://tenfy.cn/2018/11/12/smooth-weighted-round-robin/" data-id="ckogaifo10019ztpy6sx3b5tw" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACM0lEQVR42u3aS27DMAxF0ex/0+40QGP7PtIJIOpqVDSuo9MBwd/rhc/xds4+PXvy/1/xTx8+MmTIWJZxXJ6zZ2pfeeDD7yZDhox9GCSMdi56HY7PvovcTYYMGTJ4MndNvb46TytlyJAhgzMIksDSAliGDBk7M0hKlwZQHkx/WovLkCFjQQYvTX//81fmGzJkyFiKcYSHp3TXYbRzhw/vlCFDxmgGD3D86rUgnr5ThgwZ+zBq4ZWUoOnz/Ls+/EaGDBmjGemjcbrWKFzTlp8MGTL2YfDWfHpFXtDy8aoMGTJ2YHQaZ+kznRHpTfiWIUPGaEa6SFFbekhbcrVgLUOGjB0Y/fFA2ryrDThR71CGDBmDGNfJGQ/Habu/Nrw8facMGTJGM/jyFm/Z94cEfCwRxGYZMmQsy+gnc6T11hlkojJYhgwZoxn9w0eStUBcXA6TIUPGIEZtVYKUlLyg7SSprzSWy5AhY1nGs0232j+Op4M3VbgMGTLGMXhjiy9kpIljOjC46RrKkCFjA0YnQayNPNPk8mZnRIYMGaMZaQlaa7Hx4J4OHmTIkLEDI60K0zL4qeZakOHKkCFjBOMITz9QkkDMRxEyZMjYgVFbqiCXSK+eFr1FjAwZMpZlpJcjo4JO6Hxg5UKGDBlDGZ3FiLTE7Ze+MmTIkJGOG9OsMy10vxJwZciQsQGDjy07RSx/vwwZMnZg8GZ9Z8zJw2scjmXIkDGaUcu7+sGUr3z1S18ZMmQsy/gDDIGJh4kJ/KMAAAAASUVORK5CYII=" class="article-share-link">分享</a><div class="tags"><a href="/tags/负载均衡/">负载均衡</a></div><div class="post-nav"><a href="/2018/11/15/auto-init-comment/" class="pre">自动初始化gitalk/gitment评论</a><a href="/2018/11/06/branch-prediction-penalty/" class="next">分支预测错误处罚</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+  clientID: '6b972eaf9e2408260435',
+  clientSecret: '4a1fc9cba603e6c23d8c22873c9eb0d1e82b8662',
+  repo: 'tenfyzhong.github.io',
+  owner: 'tenfyzhong',
+  admin: ['tenfyzhong'],
+  labels: ['comment'],
+  id: window.location.pathname,      
+  distractionFreeMode: false,
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div id="socials" class="widget"><span class="socials-span pure-u-1-2"><a href="https://github.com/tenfyzhong" target="_blank"><i class="socials-item fa fa-github"> Github</i></a></span><span class="socials-span pure-u-1-2"><a href="mailto:tenfy@tenfy.cn" target="_self"><i class="socials-item fa fa-envelope"> E-Mail</i></a></span></div><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/man/">man</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">misc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/后台/">后台</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程管理/">工程管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/操作系统/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/free/" style="font-size: 15px;">free</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/plugin/" style="font-size: 15px;">plugin</a> <a href="/tags/netfilter/" style="font-size: 15px;">netfilter</a> <a href="/tags/调优/" style="font-size: 15px;">调优</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/后台/" style="font-size: 15px;">后台</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/golang/" style="font-size: 15px;">golang</a> <a href="/tags/编程语言/" style="font-size: 15px;">编程语言</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/网络/" style="font-size: 15px;">网络</a> <a href="/tags/抓包/" style="font-size: 15px;">抓包</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/操作系统/" style="font-size: 15px;">操作系统</a> <a href="/tags/man/" style="font-size: 15px;">man</a> <a href="/tags/ip/" style="font-size: 15px;">ip</a> <a href="/tags/netcat/" style="font-size: 15px;">netcat</a> <a href="/tags/pcap-filter/" style="font-size: 15px;">pcap-filter</a> <a href="/tags/tcpdump/" style="font-size: 15px;">tcpdump</a> <a href="/tags/route/" style="font-size: 15px;">route</a> <a href="/tags/ss/" style="font-size: 15px;">ss</a> <a href="/tags/strace/" style="font-size: 15px;">strace</a> <a href="/tags/github-pages/" style="font-size: 15px;">github pages</a> <a href="/tags/mongo/" style="font-size: 15px;">mongo</a> <a href="/tags/linux-ntp/" style="font-size: 15px;">linux,ntp</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/prometheus/" style="font-size: 15px;">prometheus</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/负载均衡/" style="font-size: 15px;">负载均衡</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/linux-monitoring-iostat/">linux iostat查看磁盘io速率</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-df/">linux df查看磁盘空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-free/">linux free查看内存状态</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-uptime/">linux uptime查看负载</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/25/introduce-fdump/">fdump tcp抓包框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/redis-geo-bench/">redis geohash的性能测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/consistency/">一致性模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/ntp-client/">ntp客户端同步时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/server-timeout-queue-size/">服务器超时时间和请求队列大小设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/03/conntrack-tuning/">nf_conntrack调优</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://bigbuger.github.io" title="An's blog" target="_blank">An's blog</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a id="title" href="/." rel="nofollow">tenfy' blog</a><span class="hidden_mid_and_down">| </span><span id="total-count-title" class="hidden_mid_and_down">Site words total count</span><span id="total-count-value" class="hidden_mid_and_down">53.0k</span></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script>var _mtac = {};
+(function() {
+  var mta = document.createElement("script");
+    mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500516361");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script src="https://c.lcfile.com/static/js/av-core-mini-0.6.4.js"></script><script>AV.initialize('Glommc9CciMESa6zShJxuhKb-gzGzoHsz', 'prxRn0mO6lSIIz4PEL8yqjxX');</script><script type="text/javascript" src="/js/leancloud.js?=0.0.0"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><script type="text/javascript" src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script><script type="text/javascript" src="/js/rss.js?=0.0.0"></script></div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

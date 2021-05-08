@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="给我阳光，我就灿烂"><title>ss手册 | tenfy' blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/css/socials.css?=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: "ca-pub-7494014438653422",
+  enable_page_level_ads: true
+});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">ss手册</h1><a id="logo" href="/.">tenfy' blog</a><p class="description">腾飞中的个人博客</p></div><div id="site-visitors-count"><span id="leancloud-visitors-eye"> </span><span id="tenfy.cn" data-flag-title="tenfy' blog" class="leancloud-visitors">您是第<span class="leancloud-visitors-count site-visitors-count">0</span>位访客</span></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/subjects/"><i class="fa fa-tasks"> 专题</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a id="to_copy" href="javascript:void(0)" data-clipboard-action="copy" data-clipboard-text="https://tenfy.cn/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">ss手册</h1><div class="post-meta">Oct 16, 2017<span> | </span><span class="category"><a href="/categories/man/">man</a></span><span id="2017/10/16/man-ss/" data-flag-title="ss手册" class="leancloud-visitors"> | <span id="leancloud-visitors-eye"> </span><span class="leancloud-visitors-count">0</span><span> 阅读</span></span><span id="page-wordcount"> | <span id="page-wordcount-page-value">959 </span>字</span></div><div class="clear"><div id="toc" class="toc-article"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概要"><span class="toc-number">1.</span> <span class="toc-text">概要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参数"><span class="toc-number">2.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#状态过滤器"><span class="toc-number">3.</span> <span class="toc-text">状态过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用例子"><span class="toc-number">4.</span> <span class="toc-text">使用例子</span></a></li></ol></div></div><div class="post-content"><p><code>ss</code>另一个研究socket的工具。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p><code>ss</code>可以用来dump socket的统计数据。它可以像netstat一样进行展示信息。但是它可以比
+其他工具展示更多的TCP和状态信息。</p>
+<a id="more"></a>
+
+<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ss [options] [ FILTER ]</span><br></pre></td></tr></table></figure>
+
+<h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><p>当不传参数给<code>ss</code>的时候，它显示打开的非监听且已经established连接的socket(例如TCP/UDP/UNIX)。</p>
+<ul>
+<li><code>-h,--help</code> 显示帮助信息。</li>
+<li><code>-V,--version</code> 显示版本信息。</li>
+<li><code>-n,--numeric</code> 不要解释服务名。</li>
+<li><code>-r,--resolve</code> 尝试解析数字的地址和端口。</li>
+<li><code>-a,--all</code> 显示所有的监听和非监听(对于TCP意味着established连接)的socket。</li>
+<li><code>-l,--listening</code> 只显示监听的socket(默认是忽略的)。</li>
+<li><code>-o,--options</code> 显示timer信息。</li>
+<li><code>-e,--extended</code> 显示socket的详细信息。</li>
+<li><code>-m,--memory</code> 显示socket的内存使用。</li>
+<li><code>-p,--processes</code> 显示使用socket的进程。</li>
+<li><code>-i,--info</code> 显示TCP的内部信息。</li>
+<li><code>-s,--summary</code> 显示总结统计信息。</li>
+<li><code>-Z,--context</code> 类似于<code>-p</code>参数，但是同时显示进程的安全上下文。
+  对于<code>netlink(7)</code> socket，启动进程上下文显示如下：<ol>
+<li>如果pid是有效的，则显示进程上下文。</li>
+<li>如果目标是内核(pid=0)，则显示内存最初的上下文。</li>
+<li>如果一个唯一的标识符已经被内核或者<code>netlink</code>用户申请，则显示”unavailable”。
+这基本表明一个进程拥有不只一个的活跃的<code>netlink</code> socket。</li>
+</ol>
+</li>
+<li><code>-z,--contexts</code> 类似于<code>-Z</code>参数，但是同时显示socket上下文。socket上下文从相关的inode提取，
+内时它也不是内存拥有的实际socket。默认的，socket会被创建进程的上下文打上标签，
+然而显示的上下文会反射出任意的安全角色、类型和规则，所以它很有参考价格。</li>
+<li><code>-N NSNAME,--net=NSNAME</code> 切换到特定的网络名字空间。</li>
+<li><code>-b,--bpf</code> 显示socket BPF过滤器(只有管理员才能获得这些信息)。</li>
+<li><code>-4,--ipv4</code> 只显示IPv4的socket(类似于<code>-f inet</code>)。</li>
+<li><code>-6,--ipv6</code> 只显示IPv6的socket(类似于<code>-f inet6</code>)。</li>
+<li><code>-0,--packet</code> 显示packet的socket(类似于<code>-f link</code>)。</li>
+<li><code>-t,--tcp</code> 显示TCP socket。</li>
+<li><code>-u,--udp</code> 显示UDP socket。</li>
+<li><code>-d,--dccp</code> 显示DCCP socket。</li>
+<li><code>-w,--raw</code> 显示RAW socket。</li>
+<li><code>-x,--unix</code> 显示Unix domain socket(类似于<code>-f unix</code>)。</li>
+<li><code>-f FAMILY,--family=FAMILY</code> 显示FAMILY的socket。目前family支持以下的值:<code>unix</code>,<code>inet</code>,<code>inet6</code>,<code>link</code>,<code>netlink</code>。</li>
+<li><code>-A QUERY,--query=QUERY,--socket=QUERY</code> 显示特定规则的socket表，以逗号分隔。
+支持以下的标志符：<code>all</code>, <code>inet</code>, <code>tcp</code>, <code>udp</code>, <code>raw</code>, <code>unix</code>, <code>packet</code>, 
+<code>netlink</code>, <code>unix_dgram</code>, <code>unix_stream</code>, <code>unix_seqpacket</code>, <code>packet_raw</code>, <code>packet_dgram</code>。</li>
+<li><code>-D FILE,--diag=FILE</code> 不显示任何信息，只是把socket的raw信息dump到文件。如果FILE的值是<code>-</code>，则使用标准输出。</li>
+<li><code>-F FILE,--fileter=FILE</code> 从FILE中读取过滤器信息。文件中的每一行是类似于逗号分隔的规则。
+如果FILE的值是<code>-</code>，则使用标准输入。</li>
+<li><code>FILTER := [ state STATE-FILETER ] [ EXPRESSION ]</code> 请阅读官方文档(Debian package iproute-doc)了解详情的过滤器信息。</li>
+</ul>
+<h1 id="状态过滤器"><a href="#状态过滤器" class="headerlink" title="状态过滤器"></a>状态过滤器</h1><p>状态过滤器允许构造任意的匹配状态。它的语法是一系列的状态关键字。</p>
+<p>可用的标志符有：
+所有的TCP 标准状态: <code>established</code>, <code>syn-sent</code>, <code>syn-recv</code>, <code>fin-wait-1</code>, <code>fin-wait-2</code>,
+<code>time-wait</code>, <code>closed</code>, <code>closed-wait</code>, <code>last-ack</code>, <code>listen</code>, <code>closing</code>。  
+<code>all</code> - 所有的状态。<br><code>connected</code> - 除了<code>listen</code>和<code>closed</code>的所有状态。<br><code>synchronized</code> - 除了<code>syn-send</code>的所有<code>connected</code>状态。<br><code>bucket</code> - minisockets的状态，也就是说<code>time-wait</code>和<code>syn-recv</code>。  
+<code>big</code> - 与<code>bucket</code>相反的状态。  </p>
+<h1 id="使用例子"><a href="#使用例子" class="headerlink" title="使用例子"></a>使用例子</h1><p><code>ss -t -a</code> 显示所有的TCP socket。</p>
+<p><code>ss -t -a -Z</code> 显示所有的tcp socket和selinux安全上下文。</p>
+<p><code>ss -u -a</code> 显示所有的UDP socket。</p>
+<p><code>ss -o state established &#39;( dport = :ssh or sport = :ssh )&#39;</code> 显示所有ssh established的连接。</p>
+<p><code>ss -x src /tmp.X11-unix/*</code> 找出所有连接到X服务器的本地进程。</p>
+<p><code>ss -o state fin-wait-1 &#39;( sport = :http or sport = :https )&#39; dst 193.233.7/24</code> 
+列出所有连接到193.233.7/24网络且状态为<code>FIN-WAIT-1</code>的tcp socket和它们的timer。</p>
+</div><div class="copyright"><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>tenfy zhong</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://tenfy.cn/2017/10/16/man-ss/" title="ss手册">https://tenfy.cn/2017/10/16/man-ss/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a>许可协议。转载请注明出处！</li></ul></div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="https://tenfy.cn/2017/10/16/man-ss/" data-id="ckogaifns000vztpyct4psqrk" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwElEQVR42u3aS27DMAwFwNz/0um2QFL5UZRkoxitglixx1kQ4uf1itf71xpf/dzz+f34bgsWLi5um/serjFovCfZn/8WFxf3PPeviDG+9Y79FzZcXNzHc5OVHJhwcXH/Bze/Q5L84OLiPpNbTVryosZtuRouLm6Du/aRc5+31HdxcXGnuHNpTH61egC6eDouLu4Rbh5QVrVRq4EMFxf3Lm5yoBkT+wXT/K/BxcU9yU3KoNXhjA6xPISBi4u7lDs3jJUcX/rB7ssfh4uLu5lbLW30Wyx5cPxyT1xc3CPctUWQPH1KXqmcq+Hi4i7iVo8vSTjLiyzV5+Li4t7L7QxLrSqkXiQ/uLi4t3KrrLkmzbJAhouL2+YWgkhxJKuf/FzsxMXF3cxNAlnysNbxJR/+wMXFPcitDltUoXMvdtETxsXFPcjN055qAaWaIL3Kb4OLi9vlvotrQTljbe8XFxd3Azdfc03WapJTTahwcXH3cfPgNZfYdAqsURMFFxd3G3cuDCVNl2oEvUiZcHFxH8ktNz+WDnDg4uI+k9thdaocuLi457l5kbRTEu0ER1xc3JPcaiiZG9SYa5y06ru4uLgz3B84k9hX5DiUfAAAAABJRU5ErkJggg==" class="article-share-link">分享</a><div class="tags"><a href="/tags/man/">man</a><a href="/tags/ss/">ss</a></div><div class="post-nav"><a href="/2017/10/17/golang-cross-compile/" class="pre">golang交叉编译</a><a href="/2017/10/14/man-netcat/" class="next">nc手册</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+  clientID: '6b972eaf9e2408260435',
+  clientSecret: '4a1fc9cba603e6c23d8c22873c9eb0d1e82b8662',
+  repo: 'tenfyzhong.github.io',
+  owner: 'tenfyzhong',
+  admin: ['tenfyzhong'],
+  labels: ['comment'],
+  id: window.location.pathname,      
+  distractionFreeMode: false,
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div id="socials" class="widget"><span class="socials-span pure-u-1-2"><a href="https://github.com/tenfyzhong" target="_blank"><i class="socials-item fa fa-github"> Github</i></a></span><span class="socials-span pure-u-1-2"><a href="mailto:tenfy@tenfy.cn" target="_self"><i class="socials-item fa fa-envelope"> E-Mail</i></a></span></div><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/man/">man</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">misc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/后台/">后台</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程管理/">工程管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/操作系统/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/free/" style="font-size: 15px;">free</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/plugin/" style="font-size: 15px;">plugin</a> <a href="/tags/netfilter/" style="font-size: 15px;">netfilter</a> <a href="/tags/调优/" style="font-size: 15px;">调优</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/后台/" style="font-size: 15px;">后台</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/golang/" style="font-size: 15px;">golang</a> <a href="/tags/编程语言/" style="font-size: 15px;">编程语言</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/网络/" style="font-size: 15px;">网络</a> <a href="/tags/抓包/" style="font-size: 15px;">抓包</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/操作系统/" style="font-size: 15px;">操作系统</a> <a href="/tags/man/" style="font-size: 15px;">man</a> <a href="/tags/ip/" style="font-size: 15px;">ip</a> <a href="/tags/netcat/" style="font-size: 15px;">netcat</a> <a href="/tags/pcap-filter/" style="font-size: 15px;">pcap-filter</a> <a href="/tags/tcpdump/" style="font-size: 15px;">tcpdump</a> <a href="/tags/route/" style="font-size: 15px;">route</a> <a href="/tags/ss/" style="font-size: 15px;">ss</a> <a href="/tags/strace/" style="font-size: 15px;">strace</a> <a href="/tags/github-pages/" style="font-size: 15px;">github pages</a> <a href="/tags/mongo/" style="font-size: 15px;">mongo</a> <a href="/tags/linux-ntp/" style="font-size: 15px;">linux,ntp</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/prometheus/" style="font-size: 15px;">prometheus</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/负载均衡/" style="font-size: 15px;">负载均衡</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/linux-monitoring-iostat/">linux iostat查看磁盘io速率</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-df/">linux df查看磁盘空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-free/">linux free查看内存状态</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-uptime/">linux uptime查看负载</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/25/introduce-fdump/">fdump tcp抓包框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/redis-geo-bench/">redis geohash的性能测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/consistency/">一致性模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/ntp-client/">ntp客户端同步时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/server-timeout-queue-size/">服务器超时时间和请求队列大小设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/03/conntrack-tuning/">nf_conntrack调优</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://bigbuger.github.io" title="An's blog" target="_blank">An's blog</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a id="title" href="/." rel="nofollow">tenfy' blog</a><span class="hidden_mid_and_down">| </span><span id="total-count-title" class="hidden_mid_and_down">Site words total count</span><span id="total-count-value" class="hidden_mid_and_down">53.0k</span></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script>var _mtac = {};
+(function() {
+  var mta = document.createElement("script");
+    mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500516361");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script src="https://c.lcfile.com/static/js/av-core-mini-0.6.4.js"></script><script>AV.initialize('Glommc9CciMESa6zShJxuhKb-gzGzoHsz', 'prxRn0mO6lSIIz4PEL8yqjxX');</script><script type="text/javascript" src="/js/leancloud.js?=0.0.0"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><script type="text/javascript" src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script><script type="text/javascript" src="/js/rss.js?=0.0.0"></script></div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

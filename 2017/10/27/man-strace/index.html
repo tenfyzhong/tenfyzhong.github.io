@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="给我阳光，我就灿烂"><title>strace手册 | tenfy' blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/css/socials.css?=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: "ca-pub-7494014438653422",
+  enable_page_level_ads: true
+});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">strace手册</h1><a id="logo" href="/.">tenfy' blog</a><p class="description">腾飞中的个人博客</p></div><div id="site-visitors-count"><span id="leancloud-visitors-eye"> </span><span id="tenfy.cn" data-flag-title="tenfy' blog" class="leancloud-visitors">您是第<span class="leancloud-visitors-count site-visitors-count">0</span>位访客</span></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/subjects/"><i class="fa fa-tasks"> 专题</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a id="to_copy" href="javascript:void(0)" data-clipboard-action="copy" data-clipboard-text="https://tenfy.cn/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">strace手册</h1><div class="post-meta">Oct 27, 2017<span> | </span><span class="category"><a href="/categories/man/">man</a></span><span id="2017/10/27/man-strace/" data-flag-title="strace手册" class="leancloud-visitors"> | <span id="leancloud-visitors-eye"> </span><span class="leancloud-visitors-count">0</span><span> 阅读</span></span><span id="page-wordcount"> | <span id="page-wordcount-page-value">2,530 </span>字</span></div><div class="clear"><div id="toc" class="toc-article"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概要"><span class="toc-number">1.</span> <span class="toc-text">概要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#描述"><span class="toc-number">2.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参数"><span class="toc-number">3.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#诊断"><span class="toc-number">4.</span> <span class="toc-text">诊断</span></a></li></ol></div></div><div class="post-content"><p><code>strace</code>跟踪系统调用和信号。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><a id="more"></a>
+<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">strace [-CdffhiqrtttTvVxxy] [-In] [-bexecve] [-eexpr]...  </span><br><span class="line">       [-acolumn] [-ofile] [-sstrsize] [-Ppath]... </span><br><span class="line">       -ppid... / [-D] [-Evar[=val]]... [-uusername] </span><br><span class="line">       <span class="built_in">command</span> [args]</span><br><span class="line"></span><br><span class="line">strace -c[df] [-In] [-bexecve] [-eexpr]...  [-Ooverhead] </span><br><span class="line">       [-Ssortby] -ppid... / [-D] [-Evar[=val]]... </span><br><span class="line">       [-uusername] <span class="built_in">command</span> [args]</span><br></pre></td></tr></table></figure>
+
+<h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>最简单的使用方法是<code>strace</code>运行指定的命令一直到它退出。它捕捉和记录进程调用的系统调用和被进程接收的信号。
+每个系统调用的名字，它的参数和返回值会被打印到标准错误，如果指定<code>-o</code>参数则输出到指定的文件。</p>
+<p><code>strace</code>不用重新编译就可以重复跟踪。</p>
+<p>跟踪信息的每一行包含系统调用名，跟着是它的参数和返回值。一个跟踪<code>cat /dev/null</code>的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(&quot;/dev/null&quot;, O_RDONLY) = 3</span><br></pre></td></tr></table></figure>
+
+<p>错误(通常返回值为-1)还有错误名和错误信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(&quot;/foo/bar&quot;, O_RDONLY) = -1 ENOENT (No such file or directory)</span><br></pre></td></tr></table></figure>
+
+<p>信号会打印信号名和信息信息。一个捕捉跟踪<code>sleep 666</code>的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sigsuspend([] &lt;unfinished ...&gt;</span><br><span class="line">--- SIGINT (Interrupt) ---</span><br><span class="line">+++ killed by SIGINT +++</span><br></pre></td></tr></table></figure>
+
+<p>如果一个系统调用在执行过程中被另一个线程/进程的系统调用打断，<code>strace</code>会尝试保存事件的顺序，
+把正在进程中的调用标记为<code>unfinished</code>。当调用被恢复执行，则标记为<code>resumed</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[pid 28772] select(4, [3], NULL, NULL, NULL &lt;unfinished ...&gt;</span><br><span class="line">[pid 28779] clock_gettime(CLOCK_REALTIME, &#123;1130322148, 939977000&#125;) = 0</span><br><span class="line">[pid 28772] &lt;... select resumed&gt; )      = 1 (in [3])</span><br></pre></td></tr></table></figure>
+
+<p>信号处理中断一个可以重新启动的系统调用与内核终止一个系统调用不同，它会安排信号处理完后立即重新运行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">read(0, 0x7ffff72cf5cf, 1)              = ? ERESTARTSYS (To be restarted)</span><br><span class="line">--- SIGALRM (Alarm clock) @ 0 (0) ---</span><br><span class="line">rt_sigreturn(0xe)                       = 0</span><br><span class="line">read(0, &quot;&quot;..., 1)                       = 0</span><br></pre></td></tr></table></figure>
+
+<p>参数会以符号的方式打印出来。下面是一个shell定向<code>&gt;&gt;xyzzy</code>的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(&quot;xyzzy&quot;, O_WRONLY|O_APPEND|O_CREAT, 0666) = 3</span><br></pre></td></tr></table></figure>
+
+<p>结构体指针会解引用和打印成员。所有的参数如果可以都会打印成C语言的格式。例如，
+<code>ls -l /dev/null</code>命令会捕捉到这样的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lstat(&quot;/dev/null&quot;, &#123;st_mode=S_IFCHR|0666, st_rdev=makedev(1, 3), ...&#125;) = 0</span><br></pre></td></tr></table></figure>
+
+<p>注意<code>struct stat</code>参数是怎么解引用和怎么展示成员的。特别地，观察<code>st_mode</code>成员会解码成符号和数字的位或。
+这个例子中的第一个参数是传入给系统调用的，第二个参数是转出的。因为系统调用失败，
+输出参数会被修改，参数有可能不会一直被解引用。例如使用<code>ls -l</code>打开一个不存在的文件会产生以下的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lstat(&quot;/foo/bar&quot;, 0xb004) = -1 ENOENT (No such file or directory)</span><br></pre></td></tr></table></figure>
+
+<p>字符指针会被打印成C字符串。不可见字符会打印成普通的C语言转义代码。只有字符串的前
+<code>strsize</code>个字符会被打印(默认是32)，更长的字符串在双引号之后会有一个省略号。
+这里有一个<code>ls -l</code>的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">read(3, &quot;root::0:0:System Administrator:/&quot;..., 1024) = 422</span><br></pre></td></tr></table></figure>
+
+<p>简单的指针和数组会使用中括号打印，每个成员以逗号分隔。以下是一个<code>id</code>命令的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getgroups(32, [100, 0]) = 2</span><br></pre></td></tr></table></figure>
+
+<p>另外，位集也使用中括号打印，但是成员之间使用空格分隔，而不是逗号。下面是shell准备执行一个外部命令的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sigprocmask(SIG_BLOCK, [CHLD TTOU], []) = 0</span><br></pre></td></tr></table></figure>
+
+<p>这里的第二个参数是一个位集，包含两个信号<code>SIGCHLD</code>和<code>SIGTTOU</code>。另一些案例中，
+位集是比较满的，会打印没设置的成员，它会以一个<code>~</code>开头。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sigprocmask(SIG_UNBLOCK, ~[], NULL) = 0</span><br></pre></td></tr></table></figure>
+
+<p>这里的第二个参数打印了信号的全集。</p>
+<h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><ul>
+<li><code>-c</code> 计算时间、系统调用、错误的次数和程序退出时打印总结信息。在linux上，
+这会试图打倒系统时间(CPU运行时间)，而不是实际的时间。如果<code>-c</code>结合<code>-f</code>或者<code>-F</code>使用，
+会聚合所有的跟踪进程。</li>
+<li><code>-C</code> 像<code>-c</code>一样，但是当进程还在执行时也会打印标准输出。</li>
+<li><code>-D</code> 以分离孙子进程运行跟踪程序。</li>
+<li><code>-d</code> 显示<code>strace</code>的调试信息到标准错误。</li>
+<li><code>-f</code> 跟踪当前跟踪进程fork, vfork, clone出来的子进程。注意，<code>-p PID -f</code>会附加到当前进程的所有线程。</li>
+<li><code>-ff</code> 如果<code>-o filename</code>有作用的，则每个跟进进程都会写到<code>filename.pid</code>文件去，pid是进程号。
+这个参数与<code>-c</code>不兼容，它不会去记录每个进程的计数。</li>
+<li><code>-F</code> 已被<code>-f</code>替换。</li>
+<li><code>-h</code> 打印帮助信息。</li>
+<li><code>-i</code> 打印系统调用的指令指针。 </li>
+<li><code>-q</code> 抑制附加、分离等信息。重定向到文件会自动产生这个效果。</li>
+<li><code>-qq</code> 如果指定两个<code>q</code>，会抑制进程的退出状态。</li>
+<li><code>-r</code> 打印与上一条系统调用的相对时间。 </li>
+<li><code>-t</code> 每行打印当天的时间。</li>
+<li><code>-tt</code> 指定两个<code>t</code>，会打印到微秒。</li>
+<li><code>-ttt</code> 指定三个<code>t</code>，打印时间戳，并且打印到毫秒精度。</li>
+<li><code>-T</code> 打印每个系统调用的耗时。</li>
+<li><code>-v</code> 打印未缩写版本的环境变量、统计、终端接口等调用。这些结构在调用中是非常公用的，
+所以默认的行为只打印结构合理的子集。</li>
+<li><code>-V</code> 打印<code>strace</code>的版本号。</li>
+<li><code>-x</code> 把非ASCII字符串打印成十六进制的格式。</li>
+<li><code>-xx</code> 把所有的字符串打印成十六进制的格式。</li>
+<li><code>-y</code> 打印文件描述符相关的路径。</li>
+<li><code>-a column</code> 把返回在指定的列对齐，默认是40。</li>
+<li><code>-b syscall</code> 如果到达了指定的syscall，则从当前跟踪的进程分离。目前只支持<code>execve</code>系统调用。
+这对于需要跟踪多线程进程是非常有用的，需要指定<code>-f</code>，但是又不想跟进它的子进程。</li>
+<li><code>-e expr</code> 指定跟踪事件和怎么跟踪它们的修饰符表达式。表达式格式如下：<br><code>[qualifier=][!]value1[,value2]...</code><br>qualifier是以下的一个值：<code>trace</code>, <code>abbrev</code>, <code>verbose</code>, <code>raw</code>, <code>signal</code>, <code>read</code>, <code>write</code>。
+<code>value</code>是qualifier相关的一个符号或者数字。默认的qualifier是trace。使用感叹号对值的集合取反。
+例如，<code>-e open</code>意味着<code>-e trace=open</code>，捕捉所有的open系统调用。相反的，<code>-e trace=!open</code>
+意味着除了open外的所有系统调用。另外还有all和none表示所有和空。<br>注意，在一些shell上，感叹号会展开成历史表达式，即使在括号里面。这种情况下需要使用反斜杠转义。</li>
+<li><code>-e trace=set</code> 跟踪指定集合的系统调用。结合<code>-c</code>可以查看指定系统调用的时间和次数。
+例如，<code>trace=open,close,read,write</code>意味着只跟踪这四个信号。默认值是<code>trace=all</code>。</li>
+<li><code>-e trace=process</code> 跟踪所有涉及进程管理的系统调用。方便于观察fork, wait, exec的过程。</li>
+<li><code>-e trace=network</code> 跟踪所有网络相关的系统调用。</li>
+<li><code>-e trace=signal</code> 跟踪所有信号相关的系统调用。</li>
+<li><code>-e trace=ipc</code> 跟踪所有IPC相关的系统调用。</li>
+<li><code>-e trace=desc</code> 跟踪所有文件描述符相关的系统调用。</li>
+<li><code>-e trace=memory</code> 跟踪所有内存映射相关的系统调用。</li>
+<li><code>-e abbrev=set</code> 缩写每个打印成员的大结构体。默认是<code>abbrev=all</code>，<code>-v</code>参数相当于<code>abbrev=none</code>。</li>
+<li><code>-e verbose=set</code> 解引用指定集合系统调用的结构体。默认是<code>verbose=all</code>。</li>
+<li><code>-e raw=set</code> 输出指定调用集体的原始信息，不解码参数。这个参数会使所有的参数都以十六进制进行打印。
+这对于不相信解码器或者想看参数实际的数字值非常有用。</li>
+<li><code>-e signal=set</code> 跟踪指定的信号集。默认是<code>signal=all</code>。例如，<code>signal=!SIGIO</code>(或者<code>signal=!io</code>)
+指定不跟踪SIGIO信号。</li>
+<li><code>read=set</code> 以十六进制和ASCII打印所有从set指定的文件描述符读到的数据。例如，
+查看从文件描述符3和5中输入的数据使用<code>-e read=3,5</code>。</li>
+<li><code>-e write=set</code> 以十六进制和ASCII打印所有从set指定的文件描述符写的数据。例如，
+查看写入到文件描述符3和5的数据使用<code>-e write=3,5</code>。</li>
+<li><code>-I interruptible</code> <code>strace</code>的时候可以被信号中断(例如按<code>^C</code>)。1: 没有信号被阻塞。
+2: 解码系统调用的时候，致命的信号被阻塞(默认)。3: 致命信号一直被阻塞(<code>-o FILE PROG</code>的时候默认)。
+4: 致命信号和SIGTSTP(<code>^Z</code>)都一直阻塞(对于输出到文件而禁止<code>^Z</code>终止进程时有用)。</li>
+<li><code>-o filename</code> 输出到文件filename，而不是标准错误。如果指定<code>-ff</code>则输出到filename.pid。
+如果参数以<code>|</code>或者<code>!</code>开头，剩下的参数当成一个命令对待，所有的输出都通过管道传给它。
+这对于把调试输出管道传输到一个程序而不影响程序的重定义是非常方便的。</li>
+<li><code>-O overhead</code> 设置跟踪系统调用的开销超时。</li>
+<li><code>-p pid</code> 附加到指定的进程然后开始跟踪。任意时刻都可以使用<code>^c</code>来终止跟踪。<code>strace</code>
+从跟踪的进程中分离，让它们可以继续执行。多个<code>-p</code>可以指定跟踪多个进程。</li>
+<li><code>-P path</code> 只跟踪访问path的系统调用。多个<code>-P</code>可以指定多个path。</li>
+<li><code>-s strsize</code> 指定字符串最大的打印字符数，默认是32。文件名都会全部打印。</li>
+<li><code>-S sortby</code> 指定<code>-c</code>统计的排序规则，支持的值有：<code>time</code>, <code>calls</code>, <code>name</code>, <code>notion</code>(默认是<code>time</code>)。</li>
+<li><code>-u username</code> 指定的用户运行命令。这只对于root用户并且有正确的setuid或者setgit的程序有效。</li>
+<li><code>-E var=val</code> 指定环境变量运行。</li>
+<li><code>-E var</code> 从继承的环境变量是删除后再运行。</li>
+</ul>
+<h1 id="诊断"><a href="#诊断" class="headerlink" title="诊断"></a>诊断</h1><p>当command退出时，<code>strace</code>也以同样的状态退出。如果command被一个信号中断，<code>strace</code>
+会以同这的信号中断自己。所以<code>strace</code>可以当成一个透明的适配器。</p>
+<p>当使用<code>-p</code>，<code>strace</code>的退出状态是0，除非在跟踪的时候有一个非预期的错误产生。</p>
+</div><div class="copyright"><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>tenfy zhong</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://tenfy.cn/2017/10/27/man-strace/" title="strace手册">https://tenfy.cn/2017/10/27/man-strace/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a>许可协议。转载请注明出处！</li></ul></div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="https://tenfy.cn/2017/10/27/man-strace/" data-id="ckogaifnt000wztpys3rhh3eq" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAByUlEQVR42u3aQW7DMAwEwPz/0+m1QBp3l6oUFxidgsQ2xzkQIqnHI17Pb+v1m3crufexY+Hi4i5z25DXYV5/fX3Ou8/XBlxc3PPc68Cza64Dt8/HxcW9P3eW1K43Pbi4uP+X226D8m9wcXHvxk2Kn7ZQSZ6zsVbDxcVd4OZdyn2ft/R3cXFxR9xnudot0XUyqqPj4uIe4eYJpS112oSYx8XFxf0Ud5hiykZqnuCiKS4uLu427spYJd/0zLY7uLi4Z7h5y7IdjQz/ues/CBcX9zbcvKSZHcgoNky4uLgHuXkaasO3hy1+eQFcXNwj3PzSPzgSUR7eiposuLi4G7jJRW3rsy2c8pfBxcX9FDffyqwMTZMXixIZLi7uBm47Us1Drhc/b6/ExcU9yF1plLR35SPbaCaMi4u7mZvcMBuXzkqgH4S4uLjHuW0pMitm8gKprp9wcXGXuc9yJYkvmtjMxjO4uLhHuOvD0bY92jZbhy+Di4u7zJ01SVfGrktHPXBxcQ9yZ2koKYTaDFo3THFxcW/DnTVPk3uLfRMuLu5tuG2Y9cbHUiLDxcVd4OaHq9pG6qyg+mXIiouLu5lbp5LRSHWl5YqLi3uQ+wVWjEjnf93vpwAAAABJRU5ErkJggg==" class="article-share-link">分享</a><div class="tags"><a href="/tags/strace/">strace</a></div><div class="post-nav"><a href="/2017/11/06/man-free/" class="pre">free手册</a><a href="/2017/10/25/man-pcap-filter/" class="next">pcap-filter手册</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+  clientID: '6b972eaf9e2408260435',
+  clientSecret: '4a1fc9cba603e6c23d8c22873c9eb0d1e82b8662',
+  repo: 'tenfyzhong.github.io',
+  owner: 'tenfyzhong',
+  admin: ['tenfyzhong'],
+  labels: ['comment'],
+  id: window.location.pathname,      
+  distractionFreeMode: false,
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div id="socials" class="widget"><span class="socials-span pure-u-1-2"><a href="https://github.com/tenfyzhong" target="_blank"><i class="socials-item fa fa-github"> Github</i></a></span><span class="socials-span pure-u-1-2"><a href="mailto:tenfy@tenfy.cn" target="_self"><i class="socials-item fa fa-envelope"> E-Mail</i></a></span></div><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/man/">man</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">misc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/后台/">后台</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程管理/">工程管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/操作系统/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/free/" style="font-size: 15px;">free</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/plugin/" style="font-size: 15px;">plugin</a> <a href="/tags/netfilter/" style="font-size: 15px;">netfilter</a> <a href="/tags/调优/" style="font-size: 15px;">调优</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/后台/" style="font-size: 15px;">后台</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/golang/" style="font-size: 15px;">golang</a> <a href="/tags/编程语言/" style="font-size: 15px;">编程语言</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/网络/" style="font-size: 15px;">网络</a> <a href="/tags/抓包/" style="font-size: 15px;">抓包</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/操作系统/" style="font-size: 15px;">操作系统</a> <a href="/tags/man/" style="font-size: 15px;">man</a> <a href="/tags/ip/" style="font-size: 15px;">ip</a> <a href="/tags/netcat/" style="font-size: 15px;">netcat</a> <a href="/tags/pcap-filter/" style="font-size: 15px;">pcap-filter</a> <a href="/tags/tcpdump/" style="font-size: 15px;">tcpdump</a> <a href="/tags/route/" style="font-size: 15px;">route</a> <a href="/tags/ss/" style="font-size: 15px;">ss</a> <a href="/tags/strace/" style="font-size: 15px;">strace</a> <a href="/tags/github-pages/" style="font-size: 15px;">github pages</a> <a href="/tags/mongo/" style="font-size: 15px;">mongo</a> <a href="/tags/linux-ntp/" style="font-size: 15px;">linux,ntp</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/prometheus/" style="font-size: 15px;">prometheus</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/负载均衡/" style="font-size: 15px;">负载均衡</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/linux-monitoring-iostat/">linux iostat查看磁盘io速率</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-df/">linux df查看磁盘空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-free/">linux free查看内存状态</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-uptime/">linux uptime查看负载</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/25/introduce-fdump/">fdump tcp抓包框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/redis-geo-bench/">redis geohash的性能测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/consistency/">一致性模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/ntp-client/">ntp客户端同步时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/server-timeout-queue-size/">服务器超时时间和请求队列大小设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/03/conntrack-tuning/">nf_conntrack调优</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://bigbuger.github.io" title="An's blog" target="_blank">An's blog</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a id="title" href="/." rel="nofollow">tenfy' blog</a><span class="hidden_mid_and_down">| </span><span id="total-count-title" class="hidden_mid_and_down">Site words total count</span><span id="total-count-value" class="hidden_mid_and_down">53.0k</span></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script>var _mtac = {};
+(function() {
+  var mta = document.createElement("script");
+    mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500516361");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script src="https://c.lcfile.com/static/js/av-core-mini-0.6.4.js"></script><script>AV.initialize('Glommc9CciMESa6zShJxuhKb-gzGzoHsz', 'prxRn0mO6lSIIz4PEL8yqjxX');</script><script type="text/javascript" src="/js/leancloud.js?=0.0.0"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><script type="text/javascript" src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script><script type="text/javascript" src="/js/rss.js?=0.0.0"></script></div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

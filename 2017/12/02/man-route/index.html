@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="给我阳光，我就灿烂"><title>route手册 | tenfy' blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/css/socials.css?=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: "ca-pub-7494014438653422",
+  enable_page_level_ads: true
+});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">route手册</h1><a id="logo" href="/.">tenfy' blog</a><p class="description">腾飞中的个人博客</p></div><div id="site-visitors-count"><span id="leancloud-visitors-eye"> </span><span id="tenfy.cn" data-flag-title="tenfy' blog" class="leancloud-visitors">您是第<span class="leancloud-visitors-count site-visitors-count">0</span>位访客</span></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/subjects/"><i class="fa fa-tasks"> 专题</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a id="to_copy" href="javascript:void(0)" data-clipboard-action="copy" data-clipboard-text="https://tenfy.cn/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">route手册</h1><div class="post-meta">Dec 2, 2017<span> | </span><span class="category"><a href="/categories/man/">man</a></span><span id="2017/12/02/man-route/" data-flag-title="route手册" class="leancloud-visitors"> | <span id="leancloud-visitors-eye"> </span><span class="leancloud-visitors-count">0</span><span> 阅读</span></span><span id="page-wordcount"> | <span id="page-wordcount-page-value">1,219 </span>字</span></div><div class="clear"><div id="toc" class="toc-article"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概要"><span class="toc-number">1.</span> <span class="toc-text">概要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#描述"><span class="toc-number">2.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参数"><span class="toc-number">3.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#例子"><span class="toc-number">4.</span> <span class="toc-text">例子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输出"><span class="toc-number">5.</span> <span class="toc-text">输出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Destination"><span class="toc-number">5.1.</span> <span class="toc-text">Destination</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gateway"><span class="toc-number">5.2.</span> <span class="toc-text">Gateway</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Genmask"><span class="toc-number">5.3.</span> <span class="toc-text">Genmask</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flags"><span class="toc-number">5.4.</span> <span class="toc-text">Flags</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Metric"><span class="toc-number">5.5.</span> <span class="toc-text">Metric</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ref"><span class="toc-number">5.6.</span> <span class="toc-text">Ref</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Use"><span class="toc-number">5.7.</span> <span class="toc-text">Use</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Iface"><span class="toc-number">5.8.</span> <span class="toc-text">Iface</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS"><span class="toc-number">5.9.</span> <span class="toc-text">MSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Window"><span class="toc-number">5.10.</span> <span class="toc-text">Window</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#irtt"><span class="toc-number">5.11.</span> <span class="toc-text">irtt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HH-cached-only"><span class="toc-number">5.12.</span> <span class="toc-text">HH (cached only)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Arp-cached-only"><span class="toc-number">5.13.</span> <span class="toc-text">Arp (cached only)</span></a></li></ol></li></ol></div></div><div class="post-content"><p><code>route</code>显示和操作IP路由表。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><a id="more"></a>
+<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">route [-CFvnee]</span><br><span class="line"></span><br><span class="line">route [-v]  [-A  family] add [-net|-host] target [netmask Nm] [gw Gw] [metric N] </span><br><span class="line">      [mss M] [window W] [irtt I] [reject] [mod] [dyn] [reinstate]  [[dev] If]</span><br><span class="line"></span><br><span class="line">route [-v]  [-A  family] del [-net|-host] target [gw Gw] [netmask Nm] [metric N] [[dev] If]</span><br><span class="line"></span><br><span class="line">route [-V] [--version] [-h] [--help]</span><br></pre></td></tr></table></figure>
+
+<h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p><code>route</code>操作内核的IP路由表。它主要用于在设置网卡到特定主机或者网络的表态路由表。</p>
+<p>当使用<code>add</code>或者<code>del</code>选项，<code>route</code>会修改路由表。其他选项，<code>route</code>会打印当前路由表的内容。</p>
+<h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><ul>
+<li><code>-A family</code> 使用指定的地址族(例如<code>inet</code>，使用<code>route --help</code>查看完整列表)。</li>
+<li><code>-F</code> 操作内存的FIB(Forwarding Information Base)路由表，这是默认选项。</li>
+<li><code>-C</code> 操作内存路由表缓存。</li>
+<li><code>-v</code> 选择berbose操作。</li>
+<li><code>-n</code> 显示数字地址，而不要尝试解释符号主机名。这对于检查为什么路由到名字空间不生效非常有用。</li>
+<li><code>-e</code> 使用netstat的格式显示路由表。<code>-ee</code>会产生一个非常长行，显示路由表的所有参数。</li>
+<li><code>del</code> 删除一条路由。</li>
+<li><code>add</code> 增加一条新路由。</li>
+<li><code>target</code> 目标网络或者主机，你可以提供一个点分式的IP地址或者主机/网络名。</li>
+<li><code>-net</code> 目标是一个网络。</li>
+<li><code>-hone</code> 目标是一个主机。</li>
+<li><code>netmask NM</code> 增加网络路由，使用指定的掩码。</li>
+<li><code>gw GW</code> 通过网关进行路由。注意，特定的网关必须可达的。这意味着，你必须提前设置一条静态路由到这个网关。<pre><code>如果指定的地址是你的本地接口，它会决定哪些包会被路由到这个接口。</code></pre></li>
+<li><code>metric M</code> 设置路由表中的metric域为M。</li>
+<li><code>mss M</code> 设置通过这个路由的连接mss(TCP Maximum Segment Size)的值为M字节。它的默认值是设置的MTU减去包头，<pre><code>或者mtu发现机制生效的话，则为最小的MTU。这个在另一端不支持mtu发现的网络上设置强制使用更小的TCP包。</code></pre></li>
+<li><code>window W</code> 设置通过这个路由的TCP窗口值为W字节。</li>
+<li><code>irtt I</code> 设置通过这个路由的TCP连接的irtt(initial round time)为I毫秒(1-12000)。</li>
+<li><code>reject</code> 安装一条屏蔽路由，它强制一个路由查找失败。</li>
+<li><code>mod,dyn,reinstate</code> 安装一个动态或者可以修改的路由。这些标识是为了用来诊断和默认的被路由守护程序设置。</li>
+<li><code>dev If</code> 强制路由关联指定的设备。如果不使用，则由内核去决定使用哪个设备。大部分情况下都不需要指定。<pre><code>如果`dev If`是命令行中的最后一个参数，那么它可以会被忽略掉。</code></pre></li>
+</ul>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add -net 127.0.0.0 netmask 255.0.0.0 dev lo</span><br></pre></td></tr></table></figure>
+
+<p>增加环回条目，使用掩码<code>255.0.0.0</code>和关联到lo的设备上。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add -net 192.56.76.0 netmask 255.255.255.0 dev eth0</span><br></pre></td></tr></table></figure>
+
+<p>增加一条路由到本地网络<code>192.56.76.x</code>通过eth0。这里的dev可以忽略。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route del default</span><br></pre></td></tr></table></figure>
+
+<p>删除当前的默认路由。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add default gw mongo-gw</span><br></pre></td></tr></table></figure>
+
+<p>增加一个默认路由。所有的使用这个路由的包都会发到mongo-gw的网关上。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add ipx4 s10</span><br></pre></td></tr></table></figure>
+
+<p>增加路由到ipx4主机，通过SLIP接口。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add -net 192.57.66.0 netmask 255.255.255.0 gw ipx4</span><br></pre></td></tr></table></figure>
+
+<p>添加网络<code>192.57.66.x</code>到网络前置路由到SLIP接口。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0</span><br></pre></td></tr></table></figure>
+
+<p>设置所有的D类网络路由通过eth0。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route add -net 10.0.0.0 netmask 255.0.0.0 reject</span><br></pre></td></tr></table></figure>
+
+<p>这个安装一个屏蔽<code>10.x.x.x</code>的路由。</p>
+<h1 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h1><p>内核路由表以以下的列组织显示。</p>
+<h2 id="Destination"><a href="#Destination" class="headerlink" title="Destination"></a>Destination</h2><p>目标网络或者目标主机。</p>
+<h2 id="Gateway"><a href="#Gateway" class="headerlink" title="Gateway"></a>Gateway</h2><p>网关地址，或者<code>*</code>如果没设的话。</p>
+<h2 id="Genmask"><a href="#Genmask" class="headerlink" title="Genmask"></a>Genmask</h2><p>目标网络的网关。<code>255.255.255.255</code>是目标主机，<code>0.0.0.0</code>是默认路由。</p>
+<h2 id="Flags"><a href="#Flags" class="headerlink" title="Flags"></a>Flags</h2><p>支持的flags如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">flag</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">U</td>
+<td>路由生效</td>
+</tr>
+<tr>
+<td align="center">H</td>
+<td>目标是一个主机</td>
+</tr>
+<tr>
+<td align="center">G</td>
+<td>使用网关</td>
+</tr>
+<tr>
+<td align="center">R</td>
+<td>恢复路由为动态路由</td>
+</tr>
+<tr>
+<td align="center">D</td>
+<td>守护进程安装由或者重新调配</td>
+</tr>
+<tr>
+<td align="center">M</td>
+<td>守护进程修改或者重新调配</td>
+</tr>
+<tr>
+<td align="center">A</td>
+<td>由addrconf安装</td>
+</tr>
+<tr>
+<td align="center">C</td>
+<td>缓存条目</td>
+</tr>
+<tr>
+<td align="center">!</td>
+<td>屏蔽路由</td>
+</tr>
+</tbody></table>
+<h2 id="Metric"><a href="#Metric" class="headerlink" title="Metric"></a>Metric</h2><p>目标的距离。最近的内核已经不使用，但是路由守护进程需要用到。</p>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p>这个路由的引用数。linux内核不使用。</p>
+<h2 id="Use"><a href="#Use" class="headerlink" title="Use"></a>Use</h2><p>查表数。通过<code>-F</code>或者<code>-C</code>可以指定不命中或者命中的值。</p>
+<h2 id="Iface"><a href="#Iface" class="headerlink" title="Iface"></a>Iface</h2><p>这个路由中会发送到的接口。</p>
+<h2 id="MSS"><a href="#MSS" class="headerlink" title="MSS"></a>MSS</h2><p>这个路由表的默认mss。</p>
+<h2 id="Window"><a href="#Window" class="headerlink" title="Window"></a>Window</h2><p>这个路由表的默认窗口大小。</p>
+<h2 id="irtt"><a href="#irtt" class="headerlink" title="irtt"></a>irtt</h2><p>内核使用这个来猜最好的TCP协议参数，而不用等待答案。</p>
+<h2 id="HH-cached-only"><a href="#HH-cached-only" class="headerlink" title="HH (cached only)"></a>HH (cached only)</h2><p>ARP条目的数据和缓存路由到指向硬件头缓存。</p>
+<h2 id="Arp-cached-only"><a href="#Arp-cached-only" class="headerlink" title="Arp (cached only)"></a>Arp (cached only)</h2><p>当前缓存硬件地址是否到期。</p>
+</div><div class="copyright"><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>tenfy zhong</li><li class="post-copyright-link"><strong>本文链接：</strong><a href="https://tenfy.cn/2017/12/02/man-route/" title="route手册">https://tenfy.cn/2017/12/02/man-route/</a></li><li class="post-copyright-license"><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a>许可协议。转载请注明出处！</li></ul></div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="https://tenfy.cn/2017/12/02/man-route/" data-id="ckogaifnr000uztpyqioqikhr" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABxUlEQVR42u3aQW7DMAwEQP//0+4LrC5JSzWK0SlI0njUAyEudV3xuh9W9dOnd15euLi4Y+69XD3QGvr0ev0UXFzc89ynirH+Tv47T5vJDbi4uF/mrg8o+cZwcXH/HzdvbPJ3cHFxv8ZN2pt5qHG0V8PFxR1w54+Zv96S7+Li4ra4d3Hlw5VqXBI9HRcX9wi3F2RUByrzEBYXF/ckt/qAfHSa/GZe4K7e/wMXF7fFnQxCqhFJlRihcXFxN3DXVyKSDVQHJ72WCRcX9yS3V3SSjSWXsZIDTeGgg4uL+yp3cpmyF5fkxTG6LYKLi7uBmx9c3oLmYWuz7uLi4g64vdFIFZrHKL9cC8PFxT3CzY8U66I2GbI2mx9cXNzN3MlxJIk/es3PL9/ExcXdzM1jiMJ4o9VWRcURFxf3T7m9QlYdn5S3hIuLe5CbBxN5g1S9zFG4bIGLi7uNexdX72+3DFNxcXG3cSdNSzX+mF/ywMXFPcnNh6a9Y9C7g1hcXNyT3OpgNQlKqiPYQmCKi4v7MW61qlRbryvfDS4u7me4vesUk+BjS93FxcUNuL0DShJ89MYzhZkwLi7uBm65lLwajvSCWlxc3G3cHziTmnkfpSGBAAAAAElFTkSuQmCC" class="article-share-link">分享</a><div class="tags"><a href="/tags/route/">route</a></div><div class="post-nav"><a href="/2018/02/06/mongo-connector/" class="pre">mongo跨集群复制集同步</a><a href="/2017/11/13/migrate-to-verycloud/" class="next">github pages从cloudflare迁移到verycloud</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+  clientID: '6b972eaf9e2408260435',
+  clientSecret: '4a1fc9cba603e6c23d8c22873c9eb0d1e82b8662',
+  repo: 'tenfyzhong.github.io',
+  owner: 'tenfyzhong',
+  admin: ['tenfyzhong'],
+  labels: ['comment'],
+  id: window.location.pathname,      
+  distractionFreeMode: false,
+})
+gitalk.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div id="socials" class="widget"><span class="socials-span pure-u-1-2"><a href="https://github.com/tenfyzhong" target="_blank"><i class="socials-item fa fa-github"> Github</i></a></span><span class="socials-span pure-u-1-2"><a href="mailto:tenfy@tenfy.cn" target="_self"><i class="socials-item fa fa-envelope"> E-Mail</i></a></span></div><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/man/">man</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/misc/">misc</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/vim/">vim</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/后台/">后台</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工程管理/">工程管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/操作系统/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/free/" style="font-size: 15px;">free</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/vim/" style="font-size: 15px;">vim</a> <a href="/tags/plugin/" style="font-size: 15px;">plugin</a> <a href="/tags/netfilter/" style="font-size: 15px;">netfilter</a> <a href="/tags/调优/" style="font-size: 15px;">调优</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/后台/" style="font-size: 15px;">后台</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/golang/" style="font-size: 15px;">golang</a> <a href="/tags/编程语言/" style="font-size: 15px;">编程语言</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/网络/" style="font-size: 15px;">网络</a> <a href="/tags/抓包/" style="font-size: 15px;">抓包</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/监控/" style="font-size: 15px;">监控</a> <a href="/tags/操作系统/" style="font-size: 15px;">操作系统</a> <a href="/tags/man/" style="font-size: 15px;">man</a> <a href="/tags/ip/" style="font-size: 15px;">ip</a> <a href="/tags/netcat/" style="font-size: 15px;">netcat</a> <a href="/tags/pcap-filter/" style="font-size: 15px;">pcap-filter</a> <a href="/tags/tcpdump/" style="font-size: 15px;">tcpdump</a> <a href="/tags/route/" style="font-size: 15px;">route</a> <a href="/tags/ss/" style="font-size: 15px;">ss</a> <a href="/tags/strace/" style="font-size: 15px;">strace</a> <a href="/tags/github-pages/" style="font-size: 15px;">github pages</a> <a href="/tags/mongo/" style="font-size: 15px;">mongo</a> <a href="/tags/linux-ntp/" style="font-size: 15px;">linux,ntp</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/prometheus/" style="font-size: 15px;">prometheus</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/负载均衡/" style="font-size: 15px;">负载均衡</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/07/10/linux-monitoring-iostat/">linux iostat查看磁盘io速率</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-df/">linux df查看磁盘空间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-free/">linux free查看内存状态</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/07/05/linux-monitoring-uptime/">linux uptime查看负载</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/25/introduce-fdump/">fdump tcp抓包框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/24/redis-geo-bench/">redis geohash的性能测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/consistency/">一致性模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/ntp-client/">ntp客户端同步时间</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/server-timeout-queue-size/">服务器超时时间和请求队列大小设置</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/03/conntrack-tuning/">nf_conntrack调优</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://bigbuger.github.io" title="An's blog" target="_blank">An's blog</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a id="title" href="/." rel="nofollow">tenfy' blog</a><span class="hidden_mid_and_down">| </span><span id="total-count-title" class="hidden_mid_and_down">Site words total count</span><span id="total-count-value" class="hidden_mid_and_down">53.0k</span></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script>var _mtac = {};
+(function() {
+  var mta = document.createElement("script");
+    mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+    mta.setAttribute("name", "MTAH5");
+    mta.setAttribute("sid", "500516361");
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(mta, s);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script src="https://c.lcfile.com/static/js/av-core-mini-0.6.4.js"></script><script>AV.initialize('Glommc9CciMESa6zShJxuhKb-gzGzoHsz', 'prxRn0mO6lSIIz4PEL8yqjxX');</script><script type="text/javascript" src="/js/leancloud.js?=0.0.0"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><script type="text/javascript" src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script><script type="text/javascript" src="/js/rss.js?=0.0.0"></script></div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>
