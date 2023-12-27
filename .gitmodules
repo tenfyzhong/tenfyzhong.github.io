@@ -1,0 +1,3 @@
+[submodule "themes/maupassant-hugo"]
+	path = themes/maupassant-hugo
+	url = git@github.com:tenfyzhong/maupassant-hugo.git

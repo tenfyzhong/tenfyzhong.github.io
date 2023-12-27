@@ -1,0 +1,19 @@
+baseURL: 'https://tenfy.cn/'
+languageCode: zh-CN
+title: "tenfy's blog"
+theme: 'maupassant-hugo'
+enableRobotsTXT: true
+hasCJKLanguage: true
+PaginatePath: "page"
+  
+author:
+  name: tenfyzhong
+  homepage: 'https://tenfy.cn'
+
+params:
+  subtitle: 腾飞中的个人博客
+  description: 给我阳光，我就灿烂
+  keywords: "后端,golang,网络"
+  customCSS:
+    - style.extra.css
+    - app.extra.js
