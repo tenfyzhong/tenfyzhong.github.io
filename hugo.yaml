@@ -15,7 +15,6 @@ params:
   subtitle: 腾飞中的个人博客
   description: 给我阳光，我就灿烂
   keywords: "后端,golang,网络"
-  localSearch: true
   customCSS:
     - style.extra.css
     - app.extra.js
