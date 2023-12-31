@@ -7,13 +7,24 @@ hasCJKLanguage: true
 PaginatePath: "page"
   
 author:
-  name: tenfyzhong
   homepage: 'https://tenfy.cn'
 
 params:
+  author:
+    name: tenfyzhong
   subtitle: 腾飞中的个人博客
   description: 给我阳光，我就灿烂
   keywords: "后端,golang,网络"
+  localSearch: true
   customCSS:
     - style.extra.css
     - app.extra.js
+
+markdown:
+  highlight:
+    lineNos: true
+    style: github
+
+# 自定义菜单
+# menu:
+
