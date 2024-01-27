@@ -71,7 +71,18 @@ direnv使用的是bash的方案配置环境变量，所以在fish这种非标准
 
 它直接基于官方的解决方案做了包装，把安装的两步合成了一个步，打印环境变量配置。
 
-目前`gg`只支持fish shell
+## 安装`gg`
+对于fish shell用户，可以用插件管理安装，如`fisher`
+```bash
+fisher install tenfyzhong/gg
+```
+
+对于bash和zsh用户，可以手动下载到`$PATH`上，详情见[gg](https://github.com/tenfyzhong/gg?tab=readme-ov-file#manually)
+
+对于使用homebrew的用户，可以使用homebrew
+```bash
+brew install tenfyzhong/tap/gg
+```
 
 ## `gg ls` 查看本地版本
 `golang.org/dl`的安装，会把go的数据下载到`~/sdk`目录下。`gg ls`命令会去查看这个目录存在哪些版本，进行打印。
