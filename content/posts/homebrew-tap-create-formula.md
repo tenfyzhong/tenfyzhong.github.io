@@ -20,8 +20,8 @@ keywords: 工具,homebrew
 brew tap username/tap
 ```
 
-# 创建软件版本
-由于homebrew需要使用指定版本来创建仓库。对于我们的软件需要建立一个tag，推到Github上。之后，我们可以基于该tag，来创建homebrew的formula。以[dashdog](https://github.com/tenfyzhong/dashdog)，创建好0.1.0版本后，在Github上复制tag的链接。执行以下命令创建一个formula
+# 创建程序版本
+由于homebrew需要使用指定版本来创建仓库。对于我们的程序需要建立一个tag，推到Github上。之后，我们可以基于该tag，来创建homebrew的formula。以[dashdog](https://github.com/tenfyzhong/dashdog)，创建好0.1.0版本后，在Github上复制tag的链接。执行以下命令创建一个formula
 ```bash
 brew create https://github.com/tenfyzhong/dashdog/archive/refs/tags/0.1.0.tar.gz --tap tenfyzhong/homebrew-tap
 ```
@@ -92,7 +92,7 @@ COPYRIGHT:
 end
 ```
 
-我们主要修改install部分和test部分，install部分指导brew怎么安装软件。test是安装后的测试，可忽略。
+我们主要修改install部分和test部分，install部分指导brew怎么安装程序。test是安装后的测试，可忽略。
 instal部分里的的安装对象可以参照[Formula-Cookbook#variable-for-directory-locations](https://docs.brew.sh/Formula-Cookbook#variables-for-directory-locations)
 
 修改完后，我们推上Github，就完成配置了。
@@ -104,15 +104,15 @@ brew install tenfyzhong/tap/dashdog
 进行安装
 
 
-# 软件自动更新
-经过以上配置好homebrew formula之后，当我们的软件版本更新的时候，我们需要更新homebrew的规则，可以使用以下命令
+# 程序自动更新
+经过以上配置好homebrew formula之后，当我们的程序版本更新的时候，我们需要更新homebrew的规则，可以使用以下命令
 ```bash
 brew bump-formula-pr
 ```
 
 但是每次都需要自动去执行，还挺麻烦的。我们可以配置github action，在tag推到Github的时候，自动创建pr进行更新。
 
-在我们的软件工程上，创建以下文件`.github/workflows/homebrew.yml`，文件名可以随便改。
+在我们的程序工程上，创建以下文件`.github/workflows/homebrew.yml`，文件名可以随便改。
 ```yaml
 name: Bump Homebrew formula
 
