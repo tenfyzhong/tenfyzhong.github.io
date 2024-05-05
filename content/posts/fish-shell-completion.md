@@ -50,7 +50,7 @@ complete -c dashdog -s v -l version -d 'print the version'
 # 例子gg说明
 上面的例子的实例都是选项。再用[gg](https://github.com/tenfyzhong/gg/blob/main/completions/gg.fish)来说明一下，这个例子说明了有子命令的情况。
 
-```
+```fish
 complete -c gg -f
 complete -c gg -f -n '! __fish_seen_subcommand_from ls ls-remote install remove use -h --help' -a 'ls' -d 'list local version'
 complete -c gg -f -n '! __fish_seen_subcommand_from ls ls-remote install remove use -h --help' -a 'ls-remote' -d 'list remote version'
