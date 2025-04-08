@@ -206,8 +206,11 @@ model = model_id
 
 ## raycast
 raycast 安装插件: Deepseek Quick Actions
+
 Custom API Endpoint: https://ark.cn-beijing.volces.com/api/v3
+
 Custom Model Name 使用火山的模型 id
+
 LLM Model 使用 deepseek-chat
 
 raycast 我也使用了 v3 模型，会比较快一些
