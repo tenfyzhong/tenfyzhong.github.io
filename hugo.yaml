@@ -5,7 +5,7 @@ theme: 'maupassant-hugo'
 enableRobotsTXT: true
 hasCJKLanguage: true
 PaginatePath: "page"
-  
+
 author:
   homepage: 'https://tenfy.cn'
 
@@ -24,6 +24,9 @@ markdown:
     lineNos: true
     style: github
 
+caches:
+  images:
+    dir: :cacheDir/images
+
 # 自定义菜单
 # menu:
-
