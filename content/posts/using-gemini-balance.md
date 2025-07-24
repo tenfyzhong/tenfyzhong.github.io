@@ -1,7 +1,6 @@
 ---
 title: 把免费的gemini用到极致
 date: 2025-07-24T20:09:24+08:00
-draft: true
 categories:
   - ai
 tags:
