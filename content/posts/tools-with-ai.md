@@ -1,5 +1,5 @@
 ---
-title: 生产工具接入ai
+title: "AI 赋能生产力：DeepSeek 与常用工具链整合实战"
 date: 2025-04-08T20:59:00+08:00
 categories:
   - ai
@@ -7,57 +7,71 @@ tags:
   - ai
 ---
 
-# 概要
-首先先介绍一下我的工作流：
-1. 使用笔记软件 obsidian 记录工作事项、知识库
-2. 开发使用 nvim
-3. 在终端上工作，主要用 fishshell
-4. 启动工具使用 raycast
+# 引言
 
-想要在工作中用到的工具都接入 ai。
-1. obsidian 上使用，可以用来对笔记进行总结、誊写
-2. nvim 上使用 ai，可以直接进行自然语言式开发
-3. fishshell 上使用 ai，对于复杂的指令，可以直接使用自然语言进行描述，让 ai 来生成命令
-4. raycast 上使用，有问题可以直接问，而不用打开浏览器，再打开聊天页面
+在现代化的工作流中，效率是关键。通过将人工智能（AI）无缝集成到我们日常使用的生产力工具中，可以极大地提升工作效率。本文将介绍如何将 AI 功能，特别是性价比极高的 DeepSeek 模型，整合到以下四个核心工具中：
 
-现在国内有很多模型可以用，而最火的就数 deepseek 了。而且 deepseek 的 api 价格也会比较低。所以以上都使用 deepseek 的模型。
+1. **Obsidian**: 用于知识管理和笔记撰写，AI 可以辅助进行内容总结、润色和续写。
+2. **Neovim (nvim)**: 作为主力代码编辑器，AI 能够实现自然语言驱动的编程。
+3. **Fish Shell**: 在终端环境中，AI 可以将复杂的自然语言描述直接转换为可执行的命令。
+4. **Raycast**: 作为启动器和快捷工具，AI 能让你无需离开当前上下文，即可快速获得问题的答案。
 
-# 配置 deepseek api
-我使用了火山方舟上的 deepseek，它相比官方的 deepseek 会更稳定一些，而且更便宜一些。新注册送 50 万 token。现在协作奖励计划，到 2025 年 5 月 31 日，每天都有 50 万的免费 token。
+考虑到成本和稳定性，我们选择通过火山方舟（Volcano Engine）来调用 DeepSeek 模型 API。其不仅价格低廉，新用户还能享受丰厚的免费额度。
 
-火山方舟官方：[火山引擎-云上增长新动力](https://www.volcengine.com/)
+# 一、配置 DeepSeek API
 
-## 创建 API Key
-在火山方向的 API Key 管理上创建自己的 API Key
+火山方舟提供了比官方渠道更稳定且经济的 DeepSeek 模型 API 服务。新用户注册即可获得 50 万 token 的免费额度，并且在特定活动期间（如截至 2025 年 5 月 31 日的协作奖励计划），每日都可获得 50 万的免费 token。
+
+**官方网站**: [火山引擎-云上增长新动力](https://www.volcengine.com/)
+
+## 步骤 1: 创建 API 密钥
+
+登录火山方舟后，在“API Key 管理”页面创建一个新的密钥，并妥善保管。
+
 ![创建API Key](https://tenfy.cn/picture/20250408202956.png)
 
-## 创建 deepseek 接入
-在在线推理菜单里，创建模型接入点
+## 步骤 2: 创建模型推理接入点
+
+在“模型广场”的“在线推理”菜单中，创建-个模型推理接入点。
+
 ![创建推理接入点](https://tenfy.cn/picture/20250408203403.png)
 
-填好名字
-![创建推理接入点](https://tenfy.cn/picture/20250408203535.png)
+为你的接入点命名，例如 `deepseek-service`。
 
-选择模型，分别创建出 R1 和 V3 的模型
+![填写接入点名称](https://tenfy.cn/picture/20250408203535.png)
+
+## 步骤 3: 选择并部署模型
+
+在模型列表中选择 DeepSeek，建议分别创建 `deepseek-coder-v2-lite` (代号 R1) 和 `deepseek-pro-chat` (代号 V3) 两个模型的接入点，以满足不同场景的需求。
+
 ![选择模型](https://tenfy.cn/picture/202504082036834.png)
 
-创建好之后，点击模型的名字，就可以查看模型，复制好 API Key
-![查看模型](https://tenfy.cn/picture/20250408204100.png)
+## 步骤 4: 获取接入点信息
 
-创建好 deepseek 的 api key 之后，就可以为不同的工具配置使用了
+创建成功后，点击模型名称进入详情页，复制并保存好**模型 ID (Model ID)** 和**接入点地址 (Endpoint)**，后续配置会用到。
 
-# 配置工具
-## Obsidian
-首先先安装好 Copilot 的插件
-![新加模型](https://tenfy.cn/picture/20250408204551.png)
+![查看模型信息](https://tenfy.cn/picture/20250408204100.png)
 
-Base URL 填 `https://ark.cn-beijing.volces.com/api/v3`
+完成以上步骤后，我们就可以开始为各个工具配置 AI 功能了。
 
-新加好之后，就可以在 `Default Chat Model` 里选择新加的模型了。可以把 r1 和 v3 都配置上，按需要使用。配置好后，就可以使用打开 Copilot 进行聊天了。
+# 二、工具集成配置
 
-## nvim
-nvim 使用插件 `olimorris/codecompanion.nvim`
-配置如下：
+## 1. Obsidian
+
+首先，在 Obsidian 的社区插件市场中安装 **Copilot** 插件。
+
+![安装 Copilot 插件](https://tenfy.cn/picture/20250408204551.png)
+
+进入插件设置，新增一个模型配置，并将 **Base URL** 设置为你的火山方舟接入点地址：
+
+- **Base URL**: `https://ark.cn-beijing.volces.com/api/v3`
+
+添加后，在 `Default Chat Model` 中选择你刚刚配置的模型。建议将 R1 和 V3 都配置上，按需切换。现在，你可以通过 Copilot 面板与 AI 进行交互了。
+
+## 2. Neovim (nvim)
+
+对于 Neovim，我们使用 `olimorris/codecompanion.nvim` 插件。以下是推荐的 Lua 配置：
+
 ```lua
 local function clean_streamed_data(data)
     if type(data) == "table" then
@@ -124,8 +138,12 @@ local function deepseek_adapter_r1()
     return deepseek_adapter("deepseek_r1", "Deepseek-R1", os.getenv("DEEPSEEK_MODEL_R1_ID"))
 end
 
-local codecompanion = {
+return {
     "olimorris/codecompanion.nvim",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+    },
     config = function()
         require('codecompanion').setup({
             display = {
@@ -159,31 +177,26 @@ local codecompanion = {
             },
         })
     end,
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-treesitter/nvim-treesitter",
-    },
 }
-
-return { codecompanion }
 ```
 
-里面配置了几个环境变量：
+此配置依赖以下环境变量：
 
-| 环境变量                 | 值                                          |
-| -------------------- | ------------------------------------------ |
-| DEEPSEEK_API_URL     | `https://ark.cn-beijing.volces.com/api/v3` |
-| DEEPSEEK_API_KEY     | 火山上的 API Key                               |
-| DEEPSEEK_CHAT_URL    | `/chat/completions`                        |
-| DEEPSEEK_MODEL_R1_ID | 火山的 R1 模型的 id                              |
-| DEEPSEEK_MODEL_V3_ID | 火山的 R3 模型的 id                              |
+| 环境变量 | 值 |
+| :--- | :--- |
+| `DEEPSEEK_API_URL` | `https://ark.cn-beijing.volces.com/api/v3` |
+| `DEEPSEEK_API_KEY` | 你在火山方舟创建的 API Key |
+| `DEEPSEEK_CHAT_URL` | `/chat/completions` |
+| `DEEPSEEK_MODEL_R1_ID` | 你在火山方舟创建的 R1 模型 ID |
+| `DEEPSEEK_MODEL_V3_ID` | 你在火山方舟创建的 V3 模型 ID |
 
-## fish shell
-fish shell 使用插件 `realiserad/fish-ai`。
+## 3. Fish Shell
 
-fish shell 建议使用 v3 模型，r1模型非常慢，然后看不到推理输出
+对于 Fish Shell，我们使用 `realiserad/fish-ai` 插件。
 
-配置文件：~/.config/fish-ai.ini
+**注意**: 建议使用 V3 模型，因为 R1 模型在此插件下响应较慢，且无法实时看到流式输出。
+
+创建并编辑配置文件 `~/.config/fish/fish-ai.ini`：
 
 ```ini
 [fish-ai]
@@ -193,24 +206,31 @@ configuration = deepseek-v3
 
 [deepseek-v3]
 provider = self-hosted
-api_key = xxxx
+api_key = YOUR_DEEPSEEK_API_KEY
 server = https://ark.cn-beijing.volces.com/api/v3
-model = model_id
+model = YOUR_DEEPSEEK_V3_MODEL_ID
 
 [deepseek-r1]
 provider = self-hosted
-api_key = xxxx
+api_key = YOUR_DEEPSEEK_API_KEY
 server = https://ark.cn-beijing.volces.com/api/v3
-model = model_id
+model = YOUR_DEEPSEEK_R1_MODEL_ID
 ```
 
-## raycast
-raycast 安装插件: Deepseek Quick Actions
+请将 `YOUR_DEEPSEEK_API_KEY`、`YOUR_DEEPSEEK_V3_MODEL_ID` 和 `YOUR_DEEPSEEK_R1_MODEL_ID` 替换为你的实际信息。
 
-Custom API Endpoint: https://ark.cn-beijing.volces.com/api/v3
+## 4. Raycast
 
-Custom Model Name 使用火山的模型 id
+在 Raycast 商店中安装 **Deepseek Quick Actions** 插件。
 
-LLM Model 使用 deepseek-chat
+进入插件设置，填写以下信息：
 
-raycast 我也使用了 v3 模型，会比较快一些
+- **Custom API Endpoint**: `https://ark.cn-beijing.volces.com/api/v3`
+- **Custom Model Name**: 填入你在火山方舟创建的模型 ID（推荐使用 V3 模型以获得更快的响应速度）。
+- **LLM Model**: 选择 `deepseek-chat`。
+
+配置完成后，你就可以通过 Raycast 快速调用 DeepSeek 了。
+
+# 总结
+
+通过以上配置，我们成功地将强大的 AI 能力集成到了日常的开发和笔记工具中，形成了一套高效、连贯的工作流。希望这篇指南能帮助你轻松地为自己的生产力工具插上 AI 的翅膀。
