@@ -100,7 +100,7 @@ brew install tenfyzhong/tap/gitai
 3. 将 `ai-commit-msg` 链接到 `hooks` 目录：
 
     ```bash
-    ln -s "$(which llm-commit-msg)" ~/.git-hooks/prepare-commit-msg
+    ln -s "$(which ai-commit-msg)" ~/.git-hooks/prepare-commit-msg
     ```
 
 配置完成后，你就可以像往常一样使用 `git commit`，`gitai` 会在后台默默为你准备好 `commit` 信息，你只需要检查并保存即可。
@@ -141,7 +141,7 @@ aitag [OPTIONS] TAG_NAME [COMMIT]
 比如，要创建一个名为 `v1.0.0` 的 annotated tag：
 
 ```bash
-aitag -a v1.0.0
+aitag v1.0.0
 ```
 
 `aitag` 会为你生成 `tag` 的说明，让你的版本发布更加专业。
