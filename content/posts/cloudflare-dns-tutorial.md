@@ -43,7 +43,7 @@ keywords: "Cloudflare, DNS, 域名解析, 教程"
 
 这是最关键的一步！Cloudflare 会给你提供两个新的域名服务器（Nameservers）地址。你需要登录到你购买域名的平台（比如 GoDaddy, Namecheap, 阿里云等），找到 DNS 管理或域名服务器设置，将原来的 NS 地址替换成 Cloudflare 提供给你的这两个。
 
-![复制NS记录](https://tenfy.cn/picture/cloudflare-ns.png)
+![复制NS记录](https://tenfy.cn/picture/cloudflare-ns.jpg)
 
 **请注意：** 这一步是在你的**域名注册商**那里操作，而不是在 Cloudflare！
 
