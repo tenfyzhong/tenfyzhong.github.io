@@ -1,9 +1,10 @@
 ---
 title: golang交叉编译
 categories:
-  - 后台
+  - "编程语言"
 tags:
-  - golang
+  - "golang"
+  - "cross-compile"
 date: 2017-10-17 09:00:35
 keywords: golang,cross,compile
 ---
@@ -16,14 +17,14 @@ golang的交叉编译非常简单，只要配好对应的环境变量后再`go b
 需要配置以下的环境变量。
 
 # `CGO_ENABLED`
-默认情况下这个变量为1。  
-交叉编译不支持cgo，所以需要关闭cgo。  
-linux/unix下为`CGO_ENABLED=0`。  
-windows下为`set CGO_ENABLED=0`。  
+默认情况下这个变量为1。
+交叉编译不支持cgo，所以需要关闭cgo。
+linux/unix下为`CGO_ENABLED=0`。
+windows下为`set CGO_ENABLED=0`。
 
 # `GOOS`
 需要编译的目标运行系统。默认情况下，这个变量设置对应的操作系统。mac为`darwin`，
-linux为`linux`，windows为`windows`。  
+linux为`linux`，windows为`windows`。
 
 所有的值如下：
 ```go
@@ -31,7 +32,7 @@ const goosList = "android darwin dragonfly freebsd linux nacl netbsd openbsd pla
 ```
 定义在https://github.com/golang/go/blob/master/src/go/build/syslist.go#L7
 
-我们只要把这个变量设置到对应的操作系统即可。  
+我们只要把这个变量设置到对应的操作系统即可。
 linux/unix下为
 ```bash
 GOOS=darwin
@@ -46,7 +47,7 @@ set GOOS=linux
 ```
 
 # `GOARCH`
-需要编译的目标cpu架构。支持amd64和386等。  
+需要编译的目标cpu架构。支持amd64和386等。
 
 所有的值如下：
 ```go
@@ -97,4 +98,3 @@ SET GOOS=darwin
 SET GOARCH=amd64
 go build
 ```
-

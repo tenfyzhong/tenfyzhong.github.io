@@ -1,9 +1,10 @@
 ---
 title: tcpdump手册
 categories:
-  - man
+  - "网络技术"
 tags:
-  - tcpdump
+  - "tcpdump"
+  - "network"
 date: 2017-10-24 18:48:09
 keywords: man,tcpdump
 ---
@@ -13,16 +14,16 @@ keywords: man,tcpdump
 <!-- more -->
 # 概要
 ```bash
-tcpdump [ -AbdDefhHIJKlLnNOpqRStuUvxX ] 
+tcpdump [ -AbdDefhHIJKlLnNOpqRStuUvxX ]
         [ -B buffer_size ] [ -c count ]
-        [ -C file_size ] [ -G rotate_seconds ] 
-        [ -F file ] [ -i interface ] 
-        [ -j tstamp_type ] [ -m module ] 
+        [ -C file_size ] [ -G rotate_seconds ]
+        [ -F file ] [ -i interface ]
+        [ -j tstamp_type ] [ -m module ]
         [ -M secret ] [ -P in|out|inout ]
-        [ -r file ] [ -V file ] [ -s snaplen ] 
+        [ -r file ] [ -V file ] [ -s snaplen ]
         [ -T type ] [ -w file ] [ -W filecount ]
         [ -E spi@ipaddr algo:secret,...  ]
-        [ -y datalinktype ] [ -z postrotate-command ] 
+        [ -y datalinktype ] [ -z postrotate-command ]
         [ -Z user ]
         [ expression ]
 ```
@@ -37,9 +38,9 @@ tcpdump [ -AbdDefhHIJKlLnNOpqRStuUvxX ]
 如果使用`-c`参数，它会捕捉包到收到`SIGINT`或者`SIGTERM`信号，或者收到指定数量的包。
 
 当`tcpdump`完成捕捉包，它会报告以下的计数：
-`captured`包数(`tcpdump`收到和处理的包)。  
-`received by filter`包数。  
-`dropped by kernel`包数(丢弃的包，由于buffer空间不够引起)。  
+`captured`包数(`tcpdump`收到和处理的包)。
+`received by filter`包数。
+`dropped by kernel`包数(丢弃的包，由于buffer空间不够引起)。
 
 对于支持`SIGINFO`信号的平台，比如大多数的BSD(包括mac osx)和Digital/Tru64 UNIX，
 它收到`SIGINFO`信号时会报告这些计数，然后继续捕捉包。
@@ -52,36 +53,36 @@ tcpdump [ -AbdDefhHIJKlLnNOpqRStuUvxX ]
 - `-b` 使用ASDOT符号打印BGP包的AS数字，而不使用ASPLAIN符号。
 - `-B` 设置操作系统的捕捉buffer大小为buffer_size，KB单位。
 - `-c` 收到count个包后退出。
-- `-C` 写入一个raw包到文件之前，先检查当前文件大小是否已经超过file_size，如果已经超过，  
+- `-C` 写入一个raw包到文件之前，先检查当前文件大小是否已经超过file_size，如果已经超过，
   则关闭当前的文件，打开一个新的。每个文件包后加一个数字以区分。file_size的单位是1000000bytes。
 - `-d` 使用人类可读的方式打印compiled packet-matching code到标准输出，然后退出。
 - `-dd` 使用c语言片段的方式打印packet-matching code。
 - `-ddd` 使用十进制数字的方式打印packet-matching code。
 - `-D` 打印可以用`tcpdump`捕捉的网络接口。对于每一个网络接口，包含一个数字和一个接口名字，
-  还可能包括一个文件描述。捕捉的时候可以使用`-i`来指定特定的接口。  
+  还可能包括一个文件描述。捕捉的时候可以使用`-i`来指定特定的接口。
   这对于那些没有命令来显示接口的操作非常有用(例如windows，缺少`ifconfig -a`的unix)。
-  数字对于windows 2000及以后的系统非常有用，因为它的网络接口名字非常复杂。  
+  数字对于windows 2000及以后的系统非常有用，因为它的网络接口名字非常复杂。
   `-D`参数不支持`libpcap`缺少`pcap_findalldevs()`函数的系统。
 - `-e` 每行打印link-level header。这个可以用来打印mac地址。
-- `-E` 对于addr的地址包含spi的Security Parameter Index，使用`spi@ipaddr algo:secret`来解密Ipsec ESP包。  
-  多个可以使用逗号或者换行分隔。  
+- `-E` 对于addr的地址包含spi的Security Parameter Index，使用`spi@ipaddr algo:secret`来解密Ipsec ESP包。
+  多个可以使用逗号或者换行分隔。
   algo可以是:`des-cbc`, `3des-cbc`, `blowfish-cbc`, `cast128-cbc`, `none`。
-  默认是`des-cbc`。解密包需要tcpdump的编译启动cryptography。  
-  secret是ASCII形式的ESP密钥key。如果以`0x`开头，则使用十六进制。  
-- `-f` 打印`foreign` IPv4地址，而不使用名字符号。  
+  默认是`des-cbc`。解密包需要tcpdump的编译启动cryptography。
+  secret是ASCII形式的ESP密钥key。如果以`0x`开头，则使用十六进制。
+- `-f` 打印`foreign` IPv4地址，而不使用名字符号。
 - `-F` 从file中读取过滤表达式。命令行中的表达式会被忽略。
 - `-G` 如果指定，每rotate_seconds秒就滚动`-w`指定的写入文件。每个`-w`指定的文件应该有`strftime`定义的时间格式，
-  如果不指定，则新文件会覆盖掉旧文件。  
+  如果不指定，则新文件会覆盖掉旧文件。
   如果结合`-c`参数使用，则会使用`file<count>`的格式。
 - `-h` 输出帮助信息。
 - `-H` 尝试检测802.11s网络头。
-- `-i` 监听interface接口。如果没指定，`tcpdump`会搜索系统中编号最少的接口(不包括回环地址)。  
-  对于linux 2.2及以后的系统，可以使用`any`来指定捕捉所有的接口。对于promiscuous模式不适用。  
+- `-i` 监听interface接口。如果没指定，`tcpdump`会搜索系统中编号最少的接口(不包括回环地址)。
+  对于linux 2.2及以后的系统，可以使用`any`来指定捕捉所有的接口。对于promiscuous模式不适用。
   如果支持`-D`参数，可以使用接口数字来进行指定。
-- `-I` 将接口放到monitor mode。这只有部分操作的wifi接口有效。  
+- `-I` 将接口放到monitor mode。这只有部分操作的wifi接口有效。
   对于monitor mode，网络适配器可能会从网络中分离，所以不能使用这个适配器的无线网络。
   这可以防止网络服务器访问文件，或者解释主机名和地址，在monitor mode下捕捉，
-  不会连接到另一个适配器的网络。  
+  不会连接到另一个适配器的网络。
   这个参数会影响`-L`参数的输出。如果`-I`参数没指定，只有链路层不在monitor mode的才会被显示。
   如果指定`-I`指定，只有链路层在monitor mode的才会被显示。
 - `-j` 设置捕捉的时间戳类型为tstamp_type。支持的类型在`pcap-tstamp-type(7)`的手册里。
@@ -89,8 +90,8 @@ tcpdump [ -AbdDefhHIJKlLnNOpqRStuUvxX ]
 - `-J` 列出接口支持的时间戳类型。如果接口不支持设置时间戳类型，则不会显示。
 - `-K` 不要尝试效验IP, TCP, UDP的效验和。这对于硬件上计算效验和非常有用。否则，
   所有的流出tcp效验和都会被标记成错误的。
-- `-l` 使标准输出为行buffered。对于查看数据非常有用。比如：`tcpdump -l | tee dat`。  
-  注意，在windows下，行buffered意味着没有buffer，所以WinDump会每个字符的打印，如果指定了`-l`。  
+- `-l` 使标准输出为行buffered。对于查看数据非常有用。比如：`tcpdump -l | tee dat`。
+  注意，在windows下，行buffered意味着没有buffer，所以WinDump会每个字符的打印，如果指定了`-l`。
   `-U`的行为类似于`-l`，但是它是包buffered的。所以收完每个名后进行打印。
 - `-L` 列出接口中知道的data link types，然后退出。data link types基于不同的模式，
   例如在一些平台下，wifi接口在非monitor mode下可能支持一组data link types，
@@ -110,11 +111,11 @@ tcpdump [ -AbdDefhHIJKlLnNOpqRStuUvxX ]
 - `-s` 指定每个捕捉包的包长，默认值是65535bytes。snap为0设置为默认值65535，向后兼容老版本的`tcpdump`。
 - `-T` 强制expression使用指定的type进行解释。当前支持的类型: `aodv` (Ad-hoc On-demand Distance Vector protocol),
   `cnfp` (Cisco NetFlow protocol), `lmp` (Link Management Protocol), `pgm`(Pragmatic General Multicast),
-  `pgm_zmtp1` (ZMTP/1.0 inside PGM/EPGM), `radius` (RADIUS), `rpc` (Remote Procedure Call), 
-  `rtp` (Real-Time Applications protocol), `rtcp` (Real-Time Applications control protocol), 
+  `pgm_zmtp1` (ZMTP/1.0 inside PGM/EPGM), `radius` (RADIUS), `rpc` (Remote Procedure Call),
+  `rtp` (Real-Time Applications protocol), `rtcp` (Real-Time Applications control protocol),
   `snmp` (Simple Network Management Protocol), `tftp` (Trivial File Transfer Protocol),
   `vat` (Visual Audio Tool), `wb` (distributed White Board), `zmtp1` (ZeroMQ Message Transport Protocol 1.0),
-  `vxlan` (Virtual eXtensible Local Area NetworkA)。  
+  `vxlan` (Virtual eXtensible Local Area NetworkA)。
 - `-t` 不要对每一行都打印时间戳。
 - `-tt` 对每一行打印非格式化的时间戳。
 - `-ttt` 打印当前行与上一行的时间差。
@@ -126,11 +127,11 @@ tcpdump [ -AbdDefhHIJKlLnNOpqRStuUvxX ]
 - `-vv` 输出更多信息。比如添加NFS回复包。
 - `-vvv` 输出更多信息。
 - `-V` 从file中读取一个文件名列表。如果file为`-`，则从标准输入中读取。
-- `-w` 把raw信息写入到file文件，而不是进行输出。后续可以使用`-r`来读取。如果file为`-`，则写到标准输出。  
-  输出会被缓存，所以从文件中读可能会读不到内容，使用`-U`参数来强制使用包缓存。  
-  写到文件的MIME类型为`application/vnd.tcpdump.pcap`。建议使用`.pcap`做文件后缀。  
+- `-w` 把raw信息写入到file文件，而不是进行输出。后续可以使用`-r`来读取。如果file为`-`，则写到标准输出。
+  输出会被缓存，所以从文件中读可能会读不到内容，使用`-U`参数来强制使用包缓存。
+  写到文件的MIME类型为`application/vnd.tcpdump.pcap`。建议使用`.pcap`做文件后缀。
 - `-W` 结合`-C`一起使用。这个参数限制文件个数。超过会rotating进行覆盖写。另外，
-  它可以增加文件名增加足够的开头0。  
+  它可以增加文件名增加足够的开头0。
   结合`-G`一起使用，会限制文件的个数，当达到上限时会退出，退出码为0。
 - `-x` 解析和打印的时候，额外打印每个包的头，以十六进制打印内存(不打印链路层的头)。
   最小的snaplen bytes会被打印。
@@ -140,13 +141,13 @@ tcpdump [ -AbdDefhHIJKlLnNOpqRStuUvxX ]
 - `-y` 捕捉包时设置使用的数据链路类型。
 - `-z` 结合`-C`和`-G`一起使用，它使`tcpdump`以`command file`的格式运行，file是保存
   rotation关闭后的文件。例如：使用`-z gzip`或者`-z bizp2`会使用gzip或者bzip2压缩
-  每一个保存的文件。  
-  `tcpdump`会并行运行命令来捕捉，使用最低的优先级别以不打断捕捉包。  
+  每一个保存的文件。
+  `tcpdump`会并行运行命令来捕捉，使用最低的优先级别以不打断捕捉包。
 - `-Z` 如果以root运行`tcpdump`，切换到指定的用户。
 
 - `expression` 选择需要打印的包。如果没有expression，则所有的包都会被打印。否则，
-  只有expression为true的包才会被打印。  
-  对于expression的请求，查看`pcap-filter(7)`。  
+  只有expression为true的包才会被打印。
+  对于expression的请求，查看`pcap-filter(7)`。
   expression的参数可以是单个shell参数，也可以是多个shell参数。一般expression包括shell元字符，
   例如反斜杠来转换协议名，可以通过单引号包住以免shell进行转换。多个参数会以空格连接起来。
 
@@ -228,7 +229,7 @@ tcpdump的输出是基于协议的。以下给出了大多数的格式描述和�
 包类型会优先打印，类型括号`ip`, `utcp`和`ctcp`。没有进一步的连接信息能被打印了。
 对于TCP包，连接标识符会接着类型打印。如果包是压缩的，它的编码头会被打印。
 一个特殊的案例打印成`*S+n`和`*SA+n`，n是sequence num变化的量(或者sequence num和ack)。
-如果不是特殊的案例，0或者更多的变化会被打印。一个变化由U(urgent pointer), 
+如果不是特殊的案例，0或者更多的变化会被打印。一个变化由U(urgent pointer),
 W(window), A(ack), S(secuence num), I(packet ID)标识，接着一个差值(+n或者-n)，
 或者一个新值(=n)。最后，所有的数据和压缩包头长度会被打印。
 
@@ -263,7 +264,7 @@ tcp协议行的基本格式如下：
 ```
 src > dst: flags data-seqno ack window urgent options
 ```
-src和dst是源和目标的ip地址和端口。flags是以下的组合`S`(SYN), `F`(FIN), `P`(PUSH), 
+src和dst是源和目标的ip地址和端口。flags是以下的组合`S`(SYN), `F`(FIN), `P`(PUSH),
 `R`(RST), `U`(URG), `W`(ECN CWR), `E`(ECHO-Echo), `.`(ACK)，或者空表示没有flags。
 data-seqno描述了这个包中包含数据哪部分数据。ack是另一个方向的下一个期望数据的seqno。
 window是窗口大小，表示另一方的接收buffer空间大小。urg指示这个包的数据是urgent的。

@@ -1,10 +1,12 @@
 ---
 title: libpcap入门教程
 categories:
-  - 网络
+  - "网络技术"
 tags:
-  - 网络
-  - 抓包
+  - "libpcap"
+  - "tcpdump"
+  - "network"
+  - "tutorial"
 date: 2018-12-01 18:25:04
 keywords: libpcap,tcpdump,sniffer
 ---
@@ -62,10 +64,10 @@ pcap提供打开监听设备的接口也很简单，如下：
 ```c
 pcap_t *pcap_open_live(char *device, int snaplen, int promisc, int to_ms, char *errbuf);
 ```
-device参数是我们在第1步中指定的网口。  
+device参数是我们在第1步中指定的网口。
 
 snaplen参数设定捕捉包的长度。在我们只希望查看包头的情况下，非常有用。默认的以太网包长为1518字节，
-最大为65535。在`pcap.h`头中定义了一个BUFSIZ。  
+最大为65535。在`pcap.h`头中定义了一个BUFSIZ。
 
 promisc参数指定是否打开混淆模式。关闭混淆模式，则只捕捉进入本机或者在本机路由转发的包。
 打开混淆模式会捕捉网络上所有的包。另外，这个配置还受网卡的混淆模式影响。如果网卡设置了关闭混淆模式，
@@ -105,13 +107,13 @@ int main
 ```c
 int pcap_lookupnet(const char *device, bpf_u_int32 *net, bpf_u_int32 *mask, char *errbuf);
 ```
-device参数为第1步中指定的网口。  
+device参数为第1步中指定的网口。
 
 net参数为返回网络码。
 
 mask参数返回掩码。
 
-errbuf为出错时的错误信息。 
+errbuf为出错时的错误信息。
 
 函数出错时返回-1。
 
@@ -155,7 +157,7 @@ int main()
 	char filter_exp[] = "port 23";	/* The filter expression */
 	bpf_u_int32 mask;		/* The netmask of our sniffing device */
 	bpf_u_int32 net;		/* The IP of our sniffing device */
-	
+
 	if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1) {
 	    fprintf(stderr, "Can't get netmask for device %s\n", dev);
 	    net = 0;
@@ -192,7 +194,7 @@ struct pcap_pkthdr {
 	};
 u_char *pcap_next(pcap_t *p, struct pcap_pkthdr *h);
 ```
-p参数为第2步中的返回值。 
+p参数为第2步中的返回值。
 
 h参数为传出参数。
 
@@ -289,5 +291,5 @@ void pcap_close(pcap_t *handler);
 把第2步的返回值传进行进行关闭即可。
 
 # 引用
-[http://recursos.aldabaknocking.com/libpcapHakin9LuisMartinGarcia.pdf](http://recursos.aldabaknocking.com/libpcapHakin9LuisMartinGarcia.pdf)  
-[http://www.tcpdump.org/pcap.html](http://www.tcpdump.org/pcap.html)  
+[http://recursos.aldabaknocking.com/libpcapHakin9LuisMartinGarcia.pdf](http://recursos.aldabaknocking.com/libpcapHakin9LuisMartinGarcia.pdf)
+[http://www.tcpdump.org/pcap.html](http://www.tcpdump.org/pcap.html)

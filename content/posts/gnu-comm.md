@@ -2,9 +2,11 @@
 title: comm-用于做文件比较
 date: 2024-05-30T11:41:05+08:00
 categories:
-  - 工具
+  - "工具"
 tags:
-  - 工具
+  - "comm"
+  - "cli"
+  - "tools"
 keywords: 工具,comm
 ---
 # comm工具

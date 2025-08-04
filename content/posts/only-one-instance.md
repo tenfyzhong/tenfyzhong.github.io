@@ -2,9 +2,11 @@
 title: linux只允许程序的一个进程实例运行
 date: 2017-09-16 16:06:16
 categories:
-  - 后台
-tags: 
-  - linux
+  - "操作系统"
+tags:
+  - "linux"
+  - "cron"
+  - "locking"
 keywords:
   - cron
   - crontab
@@ -42,7 +44,7 @@ unix/linux的cron可以配置定时任务，让它在指定的时间运行。但
 我们就应该立刻终止它。
 
 # 方法
-首先我们要知道当前是否有进程实例在运行，方法其实有很多。  
+首先我们要知道当前是否有进程实例在运行，方法其实有很多。
 
 ## 方法1：`ps`检查进程号
 第一种可以用ps去检查是否有当前名字的进程在运行。这种方法比较简单，但是有一个问题
@@ -74,7 +76,7 @@ unix/linux的cron可以配置定时任务，让它在指定的时间运行。但
 int main(void)
 {
     int fd = open("./foo.lock", O_WRONLY|O_CREAT);
-    if (fd < 0) 
+    if (fd < 0)
     {
         printf("open foo.lock failed\n");
         return -1;
@@ -107,11 +109,11 @@ int main(void)
 #include <sys/file.h>
 int flock(int fd, int operation);
 ```
-`fd`就是一个文件描述符，我们可以通过`open`调用来获得一个。  
-`operation`是要做的动作，它可以是以下的值：  
-`LOCK_SH`，这是一个共享锁，也叫乐观锁和读锁。多个共享锁可以同时锁定。  
-`LOCK_EX`，这是一个独享锁，也叫悲观锁和写锁。一个文件只能被一个独享锁锁定。  
-`LOCK_UN`，这个是释放锁。对使用以上的锁进行释放。  
+`fd`就是一个文件描述符，我们可以通过`open`调用来获得一个。
+`operation`是要做的动作，它可以是以下的值：
+`LOCK_SH`，这是一个共享锁，也叫乐观锁和读锁。多个共享锁可以同时锁定。
+`LOCK_EX`，这是一个独享锁，也叫悲观锁和写锁。一个文件只能被一个独享锁锁定。
+`LOCK_UN`，这个是释放锁。对使用以上的锁进行释放。
 
 另外，对于上锁操作，也就是`LOCK_SH`和`LOCK_EX`可以使用位或操作符与`LOCK_NB`位或，
 当上不了解的时候，不阻塞，而是直接返回-1。否则的话，就会一直在等待，一直到可以上
@@ -121,4 +123,3 @@ int flock(int fd, int operation);
 了`LOCK_NB`来让它不阻塞，这样我们知道有一个进程在运行时，我们就可以直接退出当前
 进程了。当进程运行结束的时候，我们再次调用`flock`和`LOCK_UN`释放锁。这样下一个
 进程启动时就可以成功上锁了。
-

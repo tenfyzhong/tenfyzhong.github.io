@@ -2,9 +2,10 @@
 title: golang channel有没buffer的区别
 date: 2017-09-20 17:40:57
 categories:
-  - 后台
+  - "编程语言"
 tags:
-  - golang
+  - "golang"
+  - "channel"
 keywords: golang,chan
 ---
 
@@ -15,10 +16,10 @@ keywords: golang,chan
 
 # 说明
 引用官方channel的介绍
-> If the capacity is zero or absent, the channel is unbuffered and communication 
-> succeeds only when both a sender and receiver are ready. Otherwise, the 
-> channel is buffered and communication succeeds without blocking if the buffer 
-> is not full (sends) or not empty (receives). 
+> If the capacity is zero or absent, the channel is unbuffered and communication
+> succeeds only when both a sender and receiver are ready. Otherwise, the
+> channel is buffered and communication succeeds without blocking if the buffer
+> is not full (sends) or not empty (receives).
 
 其实官网说得很明白。如果`make`时，容量传0或者不传的话，即创建一个没有buffer的
 channel，它们只有发送方和接收方都准备好了，才能通信成功。不然，只要buffer不满就
@@ -155,4 +156,3 @@ func main() {
 [chan1]: https://tenfy.cn/picture/golang-unbuffered-channel1.jpg
 [chan2]: https://tenfy.cn/picture/golang-unbuffered-channel2.jpg
 [chan3]: https://tenfy.cn/picture/golang-unbuffered-channel3.jpg
-

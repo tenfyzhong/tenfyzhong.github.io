@@ -2,9 +2,10 @@
 title: Golang rpc服务更优雅的error处理和打印日志
 date: 2024-05-31T00:01:36+08:00
 categories:
-  - Golang
+  - "编程语言"
 tags:
-  - golang
+  - "golang"
+  - "error-handling"
 keywords: golang,error
 ---
 

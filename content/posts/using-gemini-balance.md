@@ -2,11 +2,12 @@
 title: 优雅绕过 Gemini API 速率限制，实现“无限”免费调用
 date: 2025-07-24T20:09:24+08:00
 categories:
-  - ai
+  - "人工智能"
 tags:
-  - ai
-  - gemini
-  - api
+  - "ai"
+  - "gemini"
+  - "api"
+  - "load-balancing"
 keywords:
   - gemini, api, rate limit, balance, proxy
 ---

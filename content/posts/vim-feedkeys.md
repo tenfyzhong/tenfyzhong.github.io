@@ -1,10 +1,12 @@
 ---
 title: vim函数feedkeys使用说明
 date: 2017-09-02 17:42:23
-categories: 
-  - vim
+categories:
+  - "Vim"
 tags:
-  - vim
+  - "vim"
+  - "feedkeys"
+  - "scripting"
 ---
 
 很多人在使用feedkeys函数的时候会得取不预期的输出，怎么折腾也搞不明白为什么会得到
@@ -52,21 +54,21 @@ feedkeys({string} [, {mode}])				*feedkeys()*
 ```
 说明文档说了这个函数的使用方式，但是对于大部分人，只理解了一部分，帮而会产生很多
 不解的行为。这个函数会把参数中的`{string}`当前是用户输入的。默认的，它会把string
-的内容放到预输入的buffer(下面直接引用说明文档中的typeahead buffer)中。  
+的内容放到预输入的buffer(下面直接引用说明文档中的typeahead buffer)中。
 对于不解行为，主要都是由这个typeahead buffer产生了。这个typeahead buffer并不是我
 们所熟悉的vim与文档内容关联的buffer，下面会对它进行详细的说明。很多人认为，只要
-一调用feedkeys，它就立刻产生作用。例如下面这个例子：  
+一调用feedkeys，它就立刻产生作用。例如下面这个例子：
 ```viml
-function! Test1() 
+function! Test1()
     call feedkeys("a123\<ESC>", "n")
     call feedkeys("a456\<ESC>", "n")
 endfunction
 ```
 这个例子很明显，调用`Test1`后，会在当前的buffer(这个是大家所熟悉的与文档内容相关
 的buffer，下面对于只出现buffer的都说的是这个buffer，而对于预输入buffer会使用
-typeahead buffer)。  
+typeahead buffer)。
 
-我们再来看一个例子：  
+我们再来看一个例子：
 ```viml
 function! Test2()
     normal! a123
@@ -82,8 +84,8 @@ buffer。
 # typeahead buffer
 vim维护了一个typeahead buffer来用存放用户预输入的内容。然后vim从typeahead buffer
 中取数据当成是用户输入数据进行处理。在用户没有输入，也没有函数执行的时候，这个时
-候就会执行typeahead buffer里面的内容了。  
-那么这个typeahead buffer的内容是怎么插进去的呢？  
+候就会执行typeahead buffer里面的内容了。
+那么这个typeahead buffer的内容是怎么插进去的呢？
 - `normal`命令
 - `@r`寄存器
 - `abbreviate`的内容
@@ -117,7 +119,7 @@ int ins_typebuf(char_u *str, int noremap, int offset, int nottyped, bool silent)
 
 
 ## 以`normal`的方式说明typeahead buffer插入内容
-去nvim中找取`normal`的源码  
+去nvim中找取`normal`的源码
 ```c
 /*
 * Execute normal mode command "cmd".
@@ -149,7 +151,7 @@ void exec_normal(bool was_typed)
 }
 ```
 对于normal插入的内容，会插入到typeahead buffer的开头，并会立马就执行，一直到非
-normal或者mapping。  
+normal或者mapping。
 所以对于`Test2`的例子，它遇到`normal`会插入到typeahead buffer的开头，然后执行。
 然后`feedkeys`插入新的内容到typeahead buffer，这时`typebuf_typed`是TRUE的。
 然后又插入normal的`789`，当9插入完后，`typebuf_typed`又变成TRUE了。所以`feedkeys`
@@ -159,7 +161,7 @@ normal或者mapping。
 
 # `feedkeys`的选项`i`的作用
 默认情况下，`feedkeys`所内容加到typeahead buffer的后面。当加上`i`这个选项的时候，
-它会传0给`ins_typebuf`的`offset`字段。这时候就插在了开头。来个例子看一下效果。  
+它会传0给`ins_typebuf`的`offset`字段。这时候就插在了开头。来个例子看一下效果。
 ```viml
 function! Test3()
     call feedkeys("a123\<ESC>", "n")
@@ -167,8 +169,8 @@ function! Test3()
     normal a789
 endfunction
 ```
-这个例子，没有`i`选项，毫无疑问这个的输出是`789123456`。  
-下面这个例子加了`i`选项：  
+这个例子，没有`i`选项，毫无疑问这个的输出是`789123456`。
+下面这个例子加了`i`选项：
 ```viml
 function! Test4()
     call feedkeys("a123\<ESC>", "n")

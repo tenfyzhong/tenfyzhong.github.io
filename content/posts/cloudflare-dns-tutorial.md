@@ -2,11 +2,12 @@
 title: "DNS小白也能轻松搞定！Cloudflare域名解析超详细图文教程"
 date: 2025-08-04T10:30:00+08:00
 categories:
-  - 网络
+  - "网络技术"
 tags:
-  - DNS
-  - Cloudflare
-  - 教程
+  - "dns"
+  - "cloudflare"
+  - "tutorial"
+  - "network"
 keywords: "Cloudflare, DNS, 域名解析, 教程"
 ---
 

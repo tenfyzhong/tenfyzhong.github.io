@@ -2,9 +2,12 @@
 title: 创建homebrew/tap安装规则
 date: 2024-05-05T12:13:52+08:00
 categories:
-  - 工具
+  - "工具"
 tags:
-  - 工具
+  - "homebrew"
+  - "tap"
+  - "formula"
+  - "tools"
 keywords: 工具,homebrew
 ---
 

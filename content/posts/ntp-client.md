@@ -1,10 +1,11 @@
 ---
 title: ntp客户端同步时间
 categories:
-  - misc
+  - "运维"
 tags:
-  - linux
-  - ntp
+  - "ntp"
+  - "linux"
+  - "devops"
 date: 2019-05-13 10:03:52
 keywords: ntpdate,ntp
 ---
@@ -20,4 +21,3 @@ linux使用ntp客户端自动更新时间。
 ```sh
 */5 * * * * /usr/sbin/ntpdate 10.1.2.3; /sbin/hwclock -w
 ```
-

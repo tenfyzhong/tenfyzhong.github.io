@@ -2,9 +2,12 @@
 title: psftp,pscp自动与服务器进行sftp,scp通信python库
 date: 2017-09-04 20:32:34
 categories:
-  - 后台
+  - "编程语言"
 tags:
-  - python
+  - "python"
+  - "sftp"
+  - "scp"
+  - "tools"
 keywords: python,psftp,pscp,pexpect,pssh
 ---
 
@@ -101,7 +104,7 @@ except:
 
 # [psftp][]
 psftp比pscp多了一些命令，可以进行交互，在*nix上可以用`man sftp`可以看到它有的命令。
-对于写脚本进行自动化，主要用到以下的一些命令:  
+对于写脚本进行自动化，主要用到以下的一些命令:
 - `get` 下载到本地
 - `put` 上传到服务器
 - `cd` cd到服务器上的目录

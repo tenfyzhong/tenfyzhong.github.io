@@ -2,9 +2,15 @@
 title: "AI 赋能生产力：DeepSeek 与常用工具链整合实战"
 date: 2025-04-08T20:59:00+08:00
 categories:
-  - ai
+  - "人工智能"
 tags:
-  - ai
+  - "ai"
+  - "deepseek"
+  - "obsidian"
+  - "neovim"
+  - "fish"
+  - "raycast"
+  - "tools"
 ---
 
 # 引言

@@ -1,9 +1,11 @@
 ---
 title: 服务器超时时间和请求队列大小设置
 categories:
-  - 后台
+  - "后端开发"
 tags:
-  - 后台
+  - "timeout"
+  - "queue"
+  - "performance"
 date: 2019-03-09 12:17:31
 keywords: 后台,超时时间
 ---

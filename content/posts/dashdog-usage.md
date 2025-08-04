@@ -2,9 +2,11 @@
 title: 给dash生成doc文档
 date: 2024-05-03T11:57:04+08:00
 categories:
-  - 工具
+  - "工具"
 tags:
-  - 工具
+  - "dash"
+  - "dashdog"
+  - "tools"
 keywords: 工具,dash,dashdog
 ---
 
@@ -75,7 +77,7 @@ mkdir -p <docset name>.docset/Contents/Resources/Documents/
 6. `DashDocSetDefaultFTSEnabled`是否开启全文索引
 
 ## 4.创建SQLite表和索引
-dash使用SQLite来存储锚点和关键字的数据，搜索的时候可以进行跳到对应的锚点。SQLite的表和索引如下： 
+dash使用SQLite来存储锚点和关键字的数据，搜索的时候可以进行跳到对应的锚点。SQLite的表和索引如下：
 ```sql
 CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT);
 CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path);
@@ -105,7 +107,7 @@ toc的内容如下图，官方说明[dash toc](https://kapeli.com/dash_guide#tab
 ```html
 <a name="//dash_ref_<NAME>/<TYPE>/<NAME>/<LEVEL>" class="dashAnchor"></a>
 ```
-其中NAME, TYPE跟第5节对应。  
+其中NAME, TYPE跟第5节对应。
 LEVEL对应为以为0开始的级别。在TOC中最叶子层为0，上一层为1，跟我们写html或者markdown的级别刚好相反。
 该节点插入到文档的锚点位置上。
 
@@ -125,10 +127,10 @@ LEVEL对应为以为0开始的级别。在TOC中最叶子层为0，上一层为1
 ## 7.总结
 总结一下我们的生成思路。
 
-我们创建好目录后，下载html内容，然后解析内容，对里面的资源也下载下来，放到对应的目录，然后把资源的地址改成相对路径。  
-解析我们需要处理的关键字，然后在关键字节点上插入锚点。  
-在`<head>`节点上插入我们对应的`<link>`节点。  
-把叶子节点的锚点信息写入数据库。  
+我们创建好目录后，下载html内容，然后解析内容，对里面的资源也下载下来，放到对应的目录，然后把资源的地址改成相对路径。
+解析我们需要处理的关键字，然后在关键字节点上插入锚点。
+在`<head>`节点上插入我们对应的`<link>`节点。
+把叶子节点的锚点信息写入数据库。
 
 如果我们还需要解析html的子页面，我们需要使用dfs，处理完子页面后，把节点的路径改成相对路径。
 
@@ -209,5 +211,3 @@ dashdog使用css选择器进行选择节点，css选择器比较简单，可以�
   level: 0
   anchor_only: false
 ```
-
-

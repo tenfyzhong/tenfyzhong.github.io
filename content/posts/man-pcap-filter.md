@@ -1,10 +1,11 @@
 ---
 title: pcap-filter手册
 categories:
-  - man
+  - "网络技术"
 tags:
-  - pcap-filter
-  - tcpdump
+  - "pcap-filter"
+  - "tcpdump"
+  - "network"
 date: 2017-10-25 18:37:48
 keywords: man,pcap-filter,tcpdump
 toc: false
@@ -14,7 +15,7 @@ toc: false
 
 <!-- more -->
 # 描述
-`pcap_compile()`是用来编译一个字符串到过滤程序的函数。这导致过滤程序可以决定哪些包可以提供给`pcap_loop()`, 
+`pcap_compile()`是用来编译一个字符串到过滤程序的函数。这导致过滤程序可以决定哪些包可以提供给`pcap_loop()`,
 `pcap_dispatch()`, `pcap_next()`, `pcap_next_ex()`。
 
 过滤表达式由一个或者更多的原语组成。原语由一个id(名字或者编号)组成，id可以有一个或者多个修饰符。
@@ -22,14 +23,14 @@ toc: false
 - **类型** 修饰符表示id是什么类型的。可能的类型有`host`, `net`, `port`, `portrange`。
   例如，`host foo`, `net 128.3`, `port 20`, `portrange 6000-6008`。如果没有类型修饰符，
   则假设是`host`。
-- **方向** 修饰符指定了流的方向是到达id或者从id出发。可能的方向有`src`, `dst`, 
+- **方向** 修饰符指定了流的方向是到达id或者从id出发。可能的方向有`src`, `dst`,
   `src or dst`, `src and dst`, `ra`, `ta`, `addr1`, `addr2`, `addr3`, `addr4`。
   例如，`src foo`, `dst net 128.3`, `src or dst port ftp-data`。如果没有方向修饰符，
   则假设是`src or dst`。`ra`, `ta`, `addr1`, `addr2`, `addr3`, `addr4`修饰符符只有对IEEE 802.11
   Wireless LAN link layers有效。对于一些链路层，例如SLIP和`cooked`使用`any`捕捉任意设备或者其他的设备类型，
   `inbound`和`outbound`修饰符可以指定希望的方向。
-- **协议** 修饰符限定了匹配的特殊协议。可能的协议有：`ether`, `fddi`, `tr`, `wlan`, 
-  `ip`, `ip6`, `arp`, `rarp`, `decnet`, `tcp`, `udp`。例如，`ether src foo`, `arp net 128.3`, 
+- **协议** 修饰符限定了匹配的特殊协议。可能的协议有：`ether`, `fddi`, `tr`, `wlan`,
+  `ip`, `ip6`, `arp`, `rarp`, `decnet`, `tcp`, `udp`。例如，`ether src foo`, `arp net 128.3`,
   `tcp port 21`, `udp portrange 7000-7009`, `wlan addr2 0:2:3:4:5:6`。如果没有指定协议修饰符，
   则使用所有合法的组合。例如，`src foo`意味着`(ip or arp or rarp) src foo`，
   `net bar`意味着`(ip or arp or rarp) net bar`，`port 53`意味着`(tcp or udp) port 53`。
@@ -41,7 +42,7 @@ FDDH头还包含其他的头，但是你不能明确地在过滤表达式中指�
 类似的，`tr`和`wlan`是`ether`的别名。上一节关于FDDI头的说明同样可以用于令牌环形网络和802.11 wireless LAN头。
 对于802.11头，目标地址在DA域，源地址在SA域。]
 
-除了上述之外，还有一些原始的关键字不使用以上的模式：`gateway`, `broadcast`, `less`, 
+除了上述之外，还有一些原始的关键字不使用以上的模式：`gateway`, `broadcast`, `less`,
 `greater`和一些算法表达式。这些都在下面描述。
 
 更多复杂的过滤表达式使用`and`, `or`, `not`来组合原语。例如，`host foo and not port ftp and not port ftp-data`。
@@ -192,7 +193,7 @@ hop-by-hop选项头等。
 
 ### `ether proto <protocol>`
 如果包是ether的`<protocol>`协议则为true。`<protocol>`可以是一个数字或者
-`ip`, `ip6`, `arp`, `rarp`, `atalk`, `aarp`, `decnet`, `sca`, `lat`, `mopdl`, 
+`ip`, `ip6`, `arp`, `rarp`, `atalk`, `aarp`, `decnet`, `sca`, `lat`, `mopdl`,
 `moprc`, `iso`, `stp`, `ipx`, `netbeui`。这些修饰符都是关键闻，需要使用反斜杠转义。
 
 ### `ip`, `ip6`, `arp`, `rarp`, `atalk`, `aarp`, `decnet`, `iso`, `stp`, `ipx`, `netbeui`
@@ -229,7 +230,7 @@ ether proto <protocol>
 与`rnr`同义。
 
 ### `reason <code>`
-如果包匹配PF reason code则为true。已知的code有: `match`, `badoffset`, `fragment`, 
+如果包匹配PF reason code则为true。已知的code有: `match`, `badoffset`, `fragment`,
 `short`, `normalize`, `memory`。
 
 ### `rset <name>`
@@ -275,15 +276,15 @@ ACK控制帧。
 
 如果IEEE 802.11帧类型匹配`<wlan_type>`并且帧子类型匹匹配`<wlan_subtype>`则为true。
 
-如果`<wlan_type>`是`mgt`，则可用的`<wlan_subtype>`有：`assoc-req`, `assoc-resp`, 
-`reassoc-req`, `reassoc-resp`, `probe-req`, `probe-resp`, `beacon`, `atim`, 
+如果`<wlan_type>`是`mgt`，则可用的`<wlan_subtype>`有：`assoc-req`, `assoc-resp`,
+`reassoc-req`, `reassoc-resp`, `probe-req`, `probe-resp`, `beacon`, `atim`,
 `dissassoc`, `auth`, `deauth`。
 
-如果`<wlan_type>`是`ctl`，则可用的`<wlan_subtype>`有：`ps-poll`, `rts`, `cts`, 
+如果`<wlan_type>`是`ctl`，则可用的`<wlan_subtype>`有：`ps-poll`, `rts`, `cts`,
 `ack`, `cf-end`, `cf-end-ack`。
 
-如果`<wlan_type>`是`data`，则可用的`<wlan_subtype>`有：`data`, `data-cf-ack`, 
-`data-cf-poll`, `data-cf-ack-poll`, `null`, `cf-ack`, `cf-poll`, `cf-ack-poll`, 
+如果`<wlan_type>`是`data`，则可用的`<wlan_subtype>`有：`data`, `data-cf-ack`,
+`data-cf-poll`, `data-cf-ack-poll`, `null`, `cf-ack`, `cf-poll`, `cf-ack-poll`,
 `qos-data`, `qos-data-cf-ack`, `qos-data-cf-poll`, `qps-data-cf-ack-poll`, `qos`,
 `qos-cf-poll`, `qos-cf-ack-poll`。
 
@@ -291,7 +292,7 @@ ACK控制帧。
 如果IEEE 802.11帧的subtype匹配`<wlan_subtype>`，并且帧拥有这个`<wlan_subtype>`则为true。
 
 ### `dir <dir>`
-如果IEEE 802.11帧方向匹配`<dir>`则为true。可用的方向有：`nods`, `tods`, `fromds`, 
+如果IEEE 802.11帧方向匹配`<dir>`则为true。可用的方向有：`nods`, `tods`, `fromds`,
 `dstods`, 或者是一个数字的值。
 
 ### `vlan [vlan_id]`
@@ -356,11 +357,11 @@ IS-IS PDU类型的简写。
 如果是一个ATM包则为true。对于Solaris上的SunATM，需要ILMI circuit(VPI=0 & VCI=16)。
 
 ### `connectmsg`
-如果是一个ATM包则为true。对于Solaris上的SunATM，需要signaling circuit和Q.2931 Setup, 
+如果是一个ATM包则为true。对于Solaris上的SunATM，需要signaling circuit和Q.2931 Setup,
 Call Proceeding, Connect, Connect Ack, Release, Release Done message。
 
 ### `metaconnect`
-如果是一个ATM包则为true。对于Solaris上的SunATM，需要signaling circuit和Q.2931 Setup, 
+如果是一个ATM包则为true。对于Solaris上的SunATM，需要signaling circuit和Q.2931 Setup,
 Call Proceeding, Connect, Connect Ack, Release, Release Done message。
 
 ### `<expr> <relop> <expr>`
@@ -371,7 +372,7 @@ Call Proceeding, Connect, Connect Ack, Release, Release Done message。
 ```
 <proto> [<expr> : <size>]
 ```
-`<proto>`是以下中的一个`ether`, `fddi`, `tr`, `wlan`, `ppp`, `slip`, `link`, `ip`, 
+`<proto>`是以下中的一个`ether`, `fddi`, `tr`, `wlan`, `ppp`, `slip`, `link`, `ip`,
 `arp`, `rarp`, `tcp`, `udp`, `icmp`, `ip6`, `radio`和表示协议层的下标运算。
 (`ether`, `fddi`, `wlan`, `tr`, `ppp`, `slip`, `link`表明是链路层)。注意，`tcp`, `udp`
 和其他上层协议只对IPv4有效，IPv6无效。字节位移相对于表示的协议层，它通过`<expr>`指定。
@@ -381,12 +382,12 @@ Call Proceeding, Connect, Connect Ack, Release, Release Done message。
 `ip[6:2] & 0x1fff = 0`捕捉unfragmented IPv4数据报和frag zero of fragmented IPv4数据报。
 这个检查隐式作用于`tcp`和`udp`下标操作。例如`tcp[0]`永远意味着tcp包着的第一个字节。
 
-一些位移和域值可以使用名字替换数字。以下合法的的协议头域位移：`icmptype`(ICMP type field), 
+一些位移和域值可以使用名字替换数字。以下合法的的协议头域位移：`icmptype`(ICMP type field),
 `icmpcode`(ICMP code field), `tcpflags` (TCP flags field)。
 
-`icmptype`可用的值有：`icmp-echoreply`, `icmp-unreach`, `icmp-sourcequench`, 
-`icmp-redirect`, `icmp-echo`, `icmp-routeradvert`, `icmp-routersolicit`, `icmp-timxceed`, 
-`icmp-paramprob`, `icmp-tstamp`, `icmp-tstampreply`, `icmp-ireq`, `icmp-ireqreply`, 
+`icmptype`可用的值有：`icmp-echoreply`, `icmp-unreach`, `icmp-sourcequench`,
+`icmp-redirect`, `icmp-echo`, `icmp-routeradvert`, `icmp-routersolicit`, `icmp-timxceed`,
+`icmp-paramprob`, `icmp-tstamp`, `icmp-tstampreply`, `icmp-ireq`, `icmp-ireqreply`,
 `icmp-maskreq`, `icmp-maskreply`。
 
 `tcpflags`可用的值有：`tcp-fin`, `tcp-syn`, `tcp-rst`, `tcp-push`, `tcp-ack`, `tcp-urg`。
@@ -394,9 +395,9 @@ Call Proceeding, Connect, Connect Ack, Release, Release Done message。
 原语可以结合使用:
 使用括号括起来一组原语和操作符，在shell上括号必转义。
 
-非(`!`或者`not`)。  
-与(`&&`或者`and`)。  
-或(`||`或者`or`)。  
+非(`!`或者`not`)。
+与(`&&`或者`and`)。
+或(`||`或者`or`)。
 
 非具有最高优先级。与或具有相同的优先级，从左到右的结合方向。
 

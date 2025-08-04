@@ -1,10 +1,12 @@
 ---
 title: nf_conntrack调优
 categories:
-  - 后台
+  - "网络技术"
 tags:
-  - netfilter
-  - 调优
+  - "netfilter"
+  - "performance"
+  - "linux"
+  - "network"
 date: 2018-12-03 20:00:55
 keywords: linux,conntrack,iptables,netfilter
 ---
@@ -134,8 +136,8 @@ total_mem_used(MB) = (655360*328+163840*8)/1024^2 = 206.25
 
 # 引用
 1. [netfilter-hacking-HOWTO](https://netfilter.org/documentation/HOWTO/netfilter-hacking-HOWTO.txt)
-2. [nf_conntrack-sysctl](https://www.kernel.org/doc/Documentation/networking/nf_conntrack-sysctl.txt)  
-3. [wiki netfilter](https://en.wikipedia.org/wiki/Netfilter)  
-4. [Netfilter's connection tracking system](http://people.netfilter.org/pablo/docs/login.pdf)  
+2. [nf_conntrack-sysctl](https://www.kernel.org/doc/Documentation/networking/nf_conntrack-sysctl.txt)
+3. [wiki netfilter](https://en.wikipedia.org/wiki/Netfilter)
+4. [Netfilter's connection tracking system](http://people.netfilter.org/pablo/docs/login.pdf)
 5. [Iptables-tutorial](https://www.frozentux.net/documents/iptables-tutorial/)
 6. [openstack底层技术-netfilter框架研究](https://opengers.github.io/openstack/openstack-base-netfilter-framework-overview/)

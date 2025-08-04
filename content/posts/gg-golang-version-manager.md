@@ -2,22 +2,23 @@
 title: golang多版本管理
 date: 2023-12-28T13:19:05+08:00
 categories:
-  - 后台
+  - "工具"
 tags:
-  - 后台
-  - golang
+  - "golang"
+  - "version-manager"
+  - "tools"
 keywords: golang,后台
 ---
 
-在我们的开发环境中，使多个golang版本并存。  
+在我们的开发环境中，使多个golang版本并存。
 <!-- more -->
 
-大部分情况下，一个比较新的golang版本就能满足我们的日常的开发需求。  
-但是项目中，因为协作的原因，或者由于项目启动比较早，可能我们不同的工程需要用不同的golang版本。甚至有些工作用比较新的版本编译不了。  
+大部分情况下，一个比较新的golang版本就能满足我们的日常的开发需求。
+但是项目中，因为协作的原因，或者由于项目启动比较早，可能我们不同的工程需要用不同的golang版本。甚至有些工作用比较新的版本编译不了。
 这时候，我们就需要让本地的开发环境支持多个golang版本。
 
 # 官方解决方案
-当前，golang提供了一个官方的解决方案，我们只要`go install`对应的go版本，然后就能使用特定的版本进行工作了。  
+当前，golang提供了一个官方的解决方案，我们只要`go install`对应的go版本，然后就能使用特定的版本进行工作了。
 官方repo：[golang.org/dl](https://github.com/golang/dl)
 
 使用方式也比较简单，比如我们要安装一个1.18的版本，只需要两步
@@ -27,7 +28,7 @@ keywords: golang,后台
 之后只需要用`go1.18`替换`go`命令，即可使用特定的这个版本进行go相关的工作了。
 
 但是`go1.18`比`go`多了好几个字符，而且由于肌肉记忆，可能我们敲了go之后就会敲后面的内容了。为了让`go`直接当成特定的版本使用，我们可以设置环境变量，
-设置好`GOROOT`和把特定版本的go放到`PATH`前面即可。  
+设置好`GOROOT`和把特定版本的go放到`PATH`前面即可。
 如下，我们把下面的内容设置到我们的shell加载配置里。
 ```bash
 export GOROOT=$(go1.18 env GOROOT)
@@ -107,7 +108,7 @@ gg remove 1.18
 
 ## `gg use`使用特定的版本
 这个命令会把特定版本需要的环境变量打印出来，可以直接进行`source`或者重定向到`.envrc`上。
-比如对于bash的环境变量  
+比如对于bash的环境变量
 ```bash
 gg use --bash 1.18
 ```
@@ -138,7 +139,7 @@ set -gx GOROOT (go1.18 env GOROOT)
 fish_add_path $GOROOT/bin
 ```
 
-如果不指定特定的shell，它会指定为当前的登录shell。  
+如果不指定特定的shell，它会指定为当前的登录shell。
 如果要使用direnv，则需要指定为bash
 
 # 总结
