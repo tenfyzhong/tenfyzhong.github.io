@@ -15,11 +15,11 @@ Cloudflare 的电子邮件路由（Email Routing）是一项非常实用且免�
 
 本文将详细介绍如何配置 Cloudflare 的电子邮件路由，包括设置单个地址转发和 catch-all 全域地址转发。
 
-### 前提条件
+# 前提条件
 
 在开始之前，请确保你拥有一个已经添加到 Cloudflare 并正常托管 DNS 的域名。
 
-### 步骤一：启用电子邮件路由并添加 DNS 记录
+# 步骤一：启用电子邮件路由并添加 DNS 记录
 
 1. 登录到你的 Cloudflare 仪表板。
 2. 选择你需要配置的域名。
@@ -29,7 +29,7 @@ Cloudflare 的电子邮件路由（Email Routing）是一项非常实用且免�
 
 你通常只需要点击 “**添加记录并启用**” 按钮，Cloudflare 就会自动为你配置好所有必需的 DNS 记录。等待几分钟，DNS 记录生效后，你的域名就具备了接收邮件并进行路由转发的能力。
 
-### 步骤二：配置单个地址转发
+# 步骤二：配置单个地址转发
 
 如果你希望为特定的目的创建邮箱地址，例如 `contact@yourdomain.com` 或 `support@yourdomain.com`，可以按照以下步骤操作。
 
@@ -45,7 +45,7 @@ Cloudflare 的电子邮件路由（Email Routing）是一项非常实用且免�
 
 验证通过后，任何发送到 `contact@yourdomain.com` 的邮件都会被自动转发到 `your.personal.email@gmail.com`。
 
-### 步骤三：配置 Catch-all 全域地址转发
+# 步骤三：配置 Catch-all 全域地址转发
 
 Catch-all（全域捕获）规则非常强大，它能将所有发送到你域名下、但又没有精确匹配路由规则的任意邮箱地址的邮件，全部转发到指定的邮箱。例如，有人将邮件发送到 `random-stuff@yourdomain.com`，你依然可以收到它。
 
@@ -58,6 +58,6 @@ Catch-all（全域捕获）规则非常强大，它能将所有发送到你域�
 
 启用 Catch-all 规则后，你就再也不用担心因为别人输错邮箱前缀而收不到邮件了。
 
-### 总结
+# 总结
 
 通过以上简单的几步，你就成功配置了 Cloudflare 强大的电子邮件路由功能。它不仅完全免费，而且配置简单、运行稳定，是你管理域名邮箱的绝佳选择。无论是为不同场景创建独立的邮箱地址，还是通过 Catch-all 规则确保不漏掉任何一封邮件，Cloudflare Email Routing 都能轻松满足你的需求。
