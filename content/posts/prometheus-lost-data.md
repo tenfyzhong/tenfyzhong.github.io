@@ -2,10 +2,11 @@
 title: prometheus丢数据调试与处理
 date: 2017-09-02 17:38:57
 categories:
-  - 后台
+  - "运维"
 tags:
-  - prometheus
-  - 监控
+  - "prometheus"
+  - "monitoring"
+  - "devops"
 ---
 influxdb数据旁路一份到prometheus后，prometheus的图有时延时很大，主要是在业务忙的
 时候，闲的时候是可以处理到数据的。而influxdb的数据是可以正常显示的。而且这时牛逼
@@ -45,22 +46,22 @@ tcpdump -i docker0 host 172.17.0.102 and 172.17.0.99
 ```
 ![](http://ac-HSNl7zbI.clouddn.com/Cf84G8kdkTc9ctNhhaQGzzACYBLs4C6FxeFgVxQf.jpg)
 
-在13:32:28.162的时候prometheus发起握手，完了之后，发请求到influxdb_exporter拉数据  
+在13:32:28.162的时候prometheus发起握手，完了之后，发请求到influxdb_exporter拉数据
 在13:32:32.112的时候influxdb\_exporter发了数据包。然后prometheus接着就回了一下
 rst的包了。后面influxdb\_exporter应该是还没收到prometheus的rst包，继续发第二段包。
 所以这个包prometheus是没有收到的。
 
 找到prometheus的配置：
 
-> scrape_configs:  
->  - job_name: 'prometheus'  
->    scrape_interval: 5s  
->    static_configs:  
->      - targets:  
->         - "influxdb_exporter:9122"  
+> scrape_configs:
+>  - job_name: 'prometheus'
+>    scrape_interval: 5s
+>    static_configs:
+>      - targets:
+>         - "influxdb_exporter:9122"
 
 配置了5s去influxdb_exporter抓一次数据。而prometheus发rst包的时候，差不多在4s的时
 间隔上。prometheus的5s配置包括了收包前后的处理和收包的过程，在13:32:32.112的时候
-就回rst，以免雪崩。  
-把配置改成10s，重新拉起服务。可以看数据正常了。  
+就回rst，以免雪崩。
+把配置改成10s，重新拉起服务。可以看数据正常了。
 ![](http://ac-HSNl7zbI.clouddn.com/kS2CbBWltaxcrswhlWGut6lK5XwwmF7OBN7J8FBz.jpg)

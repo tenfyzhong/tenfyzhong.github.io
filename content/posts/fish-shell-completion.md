@@ -2,10 +2,11 @@
 title: 编写fish-shell自定义补全
 date: 2024-05-05T15:50:08+08:00
 categories:
-  - shell
+  - "工具"
 tags:
-  - shell
-  - fish
+  - "shell"
+  - "fish"
+  - "tutorial"
 keywords: shell,fish
 ---
 
@@ -20,7 +21,7 @@ fish的补全，只需要用`complete`命令，一行行的把需要补全的选
 
 补全声明放到与程序同名的fish文件中。最后把这个文件放到`$fish_complete_path`环境变量下的任意路径即可。
 
-对于fish shell，我们可以以写插件的形式来编写我们的脚本和补全，最后用插件管理器安装即可。  
+对于fish shell，我们可以以写插件的形式来编写我们的脚本和补全，最后用插件管理器安装即可。
 如使用[fisher](https://github.com/jorgebucaran/fisher)，我们建好Github工程，然后把补全放到`completions`目录下，上传到Github上后。再使用`fisher install username/repo`命令安装即可。fisher会把补全文件拷贝到`~/.config/fish/completions`目录。
 
 
@@ -41,11 +42,11 @@ complete -c dashdog -s h -l help -d 'show help'
 complete -c dashdog -s v -l version -d 'print the version'
 ```
 
-`-c`参数说明是对dashdog这一个程序进行实例  
-`-f`参数说明这个程序后面不以文件路径作为补全  
-`-r`表示这个选项后，需要添加一个参数，`-F`表示这个参数添加的是文件路径的参数  
-`-s`和`-l`表示的是知选项和长选项  
-`-d`是这个补全选项的描述  
+`-c`参数说明是对dashdog这一个程序进行实例
+`-f`参数说明这个程序后面不以文件路径作为补全
+`-r`表示这个选项后，需要添加一个参数，`-F`表示这个参数添加的是文件路径的参数
+`-s`和`-l`表示的是知选项和长选项
+`-d`是这个补全选项的描述
 
 # 例子gg说明
 上面的例子的实例都是选项。再用[gg](https://github.com/tenfyzhong/gg/blob/main/completions/gg.fish)来说明一下，这个例子说明了有子命令的情况。
@@ -73,10 +74,9 @@ complete -c gg -f -n '__fish_seen_subcommand_from use' -s h -l help -d 'show hel
 complete -c gg -f -k -n '__fish_seen_subcommand_from use' -a "(__gg-ls)"
 ```
 
-这个例子比较复杂的点在于子命令的处理。第2~8行，都使用了`-n`，并且还有`! __fish_seen_subcommand_from`。  
-`-n`表示需要符合后面的条件才应用这一条规则，后面的参数就是条件。  
-`__fish_seen_subcommand_from`是fish的一个自带函数，用来表示当前命令行的输入内容是否包含它的参数。`!`表示取非。fish自带了一堆函数，可以用来做补全，可以通过查看环境变量`$fish_function_path`来查看函数的路径，以及有哪些函数。  
-第2~8行表示，没有对应的子合集或者没有`-h`,`--help`参数，则声明子命令。这样我们就可以把我们所有的子命令都声明出来了。  
-第9行之后，还是使用了`-n`和`__fish_seen_subcommand_from`条件，不过这次没有取非，这样可以对对应的子命令的选项进行场景。一个子命令，还可以用多行场景。比如最后5行都是对use子命令的声明，其他的选项都是一样的。  
+这个例子比较复杂的点在于子命令的处理。第2~8行，都使用了`-n`，并且还有`! __fish_seen_subcommand_from`。
+`-n`表示需要符合后面的条件才应用这一条规则，后面的参数就是条件。
+`__fish_seen_subcommand_from`是fish的一个自带函数，用来表示当前命令行的输入内容是否包含它的参数。`!`表示取非。fish自带了一堆函数，可以用来做补全，可以通过查看环境变量`$fish_function_path`来查看函数的路径，以及有哪些函数。
+第2~8行表示，没有对应的子合集或者没有`-h`,`--help`参数，则声明子命令。这样我们就可以把我们所有的子命令都声明出来了。
+第9行之后，还是使用了`-n`和`__fish_seen_subcommand_from`条件，不过这次没有取非，这样可以对对应的子命令的选项进行场景。一个子命令，还可以用多行场景。比如最后5行都是对use子命令的声明，其他的选项都是一样的。
 另外，最后一行还有一个`-a`选项，该选项列举补全列表，可以空格分配。
-

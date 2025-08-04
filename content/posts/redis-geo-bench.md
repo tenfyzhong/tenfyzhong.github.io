@@ -1,11 +1,12 @@
 ---
 title: redis geohash的性能测试
 categories:
-  - 数据库
+  - "数据库"
 tags:
-  - redis
-  - 数据库
-  - 后台
+  - "redis"
+  - "geohash"
+  - "performance"
+  - "database"
 date: 2019-06-24 14:28:19
 keywords: redis,数据库,后台
 ---
@@ -14,7 +15,7 @@ redis于3.2版本加入了geohash的数据库结构。使坐标的计算变得�
 下面对redis的geohash做性能测试，看可以支持怎样的并发。
 <!-- more -->
 # 环境
-redis版本:使用了docker的redis:5-alpine的版本。  
+redis版本:使用了docker的redis:5-alpine的版本。
 服务器配置如下图：
 ![lscpu-free](https://tenfy.cn/picture/241-lscpu-free.png)
 

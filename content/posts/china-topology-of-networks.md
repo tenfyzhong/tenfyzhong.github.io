@@ -2,9 +2,10 @@
 title: '中国计算机网络拓扑结构'
 date: 2023-12-27T21:20:00+08:00
 categories:
-  - 网络
+  - "网络技术"
 tags:
-  - 网络
+  - "network"
+  - "china"
 keywords: 网络
 ---
 
@@ -60,7 +61,7 @@ CN2线路中的高端产品
 CN2-GIA的省级/出国/国际骨干节点的全程和回程全部都以 59.43 开头
 
 # 中国网络国际出口
-全球95%以上的国际通信流量都是通过海底光缆进行传输的。  
+全球95%以上的国际通信流量都是通过海底光缆进行传输的。
 ![中国网络国际出口](https://tenfy.cn/picture/network-internal-outbound.png)
 
 ![中国登陆海缆统计表](https://tenfy.cn/picture/network-submarine-cable.png)
@@ -71,7 +72,7 @@ https://tools.ipip.net/traceroute.php
 ![traceroute-20-205-243-166](https://tenfy.cn/picture/network-20-205-243-166-traceroute.png)
 
 ## GFW
-GFW是一个分布式的入侵检测系统，而不是一个防火墙。防火墙是在网络链路上的网络设备，但是GFW并不是网络链路上。  
+GFW是一个分布式的入侵检测系统，而不是一个防火墙。防火墙是在网络链路上的网络设备，但是GFW并不是网络链路上。
 ![gfw](https://tenfy.cn/picture/network-gfw.png)
 
 GFW的工作流程

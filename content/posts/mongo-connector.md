@@ -1,9 +1,11 @@
 ---
 title: mongo跨集群复制集同步
 categories:
-  - 后台
+  - "数据库"
 tags:
-  - mongo
+  - "mongodb"
+  - "database"
+  - "devops"
 date: 2018-02-06 16:39:10
 keywords: mongo,mongo-connector
 ---
@@ -99,8 +101,8 @@ rs.reconfig(cfg)
 这样即初始化了第一个集群。同样操作第二个注意，注意把端口改成37017，我们在docker-compose里配了这个端口。
 
 ### 配置mongo-connector
-mongo-connector的[wiki](https://github.com/mongodb-labs/mongo-connector/wiki)  
-配置[模板](https://github.com/mongodb-labs/mongo-connector/blob/master/config.json)  
+mongo-connector的[wiki](https://github.com/mongodb-labs/mongo-connector/wiki)
+配置[模板](https://github.com/mongodb-labs/mongo-connector/blob/master/config.json)
 ```json
 {
     "mainAddress": "10.11.12.13:17017",

@@ -2,9 +2,11 @@
 title: nginx旁路
 date: 2017-09-22 17:50:16
 categories:
-  - 后台
-tags: 
-  - nginx
+  - "运维"
+tags:
+  - "nginx"
+  - "lua"
+  - "devops"
 keywords: nginx
 ---
 
@@ -68,8 +70,8 @@ http {
             proxy_pass http://route0;
         }
         location /route1{
-            proxy_connect_timeout 100ms; 
-            proxy_read_timeout 100ms; 
+            proxy_connect_timeout 100ms;
+            proxy_read_timeout 100ms;
             proxy_send_timeout 100ms;
             rewrite ^/route1(.*)$ $1 break;
             proxy_pass http://route1;
@@ -103,7 +105,7 @@ http {
 我们监听8080的端口，然后代理转发到route0:8080和route1:8080上去，然后route0和
 route1的回包。
 
-对于route1的旁路，我们限制了proxy_connect_timeout, proxy_read_timeout, 
+对于route1的旁路，我们限制了proxy_connect_timeout, proxy_read_timeout,
 proxy_send_timeout的超时都为100ms，这样即使旁路的处理非常慢，也不会对我们主流程
 产生较大的影响。
 

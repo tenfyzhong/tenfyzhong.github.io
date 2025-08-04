@@ -2,9 +2,12 @@
 title: 告别手写 commit message, gitai-让AI成为你的git贴心助手
 date: 2025-07-26T16:24:09+08:00
 categories:
-  - ai
+  - "人工智能"
 tags:
-  - ai
+  - "ai"
+  - "git"
+  - "cli"
+  - "tools"
 keywords:
 ---
 

@@ -1,7 +1,12 @@
 ---
 title: 制作U盘启动盘
 categories:
-  - 操作系统
+  - "操作系统"
+tags:
+  - "usb"
+  - "bootable"
+  - "linux"
+  - "macos"
 date: 2017-09-26 17:09:54
 ---
 
@@ -23,9 +28,9 @@ hdiutil convert -format UDRW -o ubuntu.dmg ubuntu.iso
 df -h
 ```
 我的输出如下：
-> Filesystem      Size  Used Avail Use% Mounted on  
-> /dev/disk1      233G  190G   44G  82% /  
-> /dev/disk2s1     28G   18G  9.8G  65% /Volumes/Aþ?EAUU  
+> Filesystem      Size  Used Avail Use% Mounted on
+> /dev/disk1      233G  190G   44G  82% /
+> /dev/disk2s1     28G   18G  9.8G  65% /Volumes/Aþ?EAUU
 
 这里disk1为电脑的硬盘，disk2s1为U盘
 ### 4. 卸载U盘

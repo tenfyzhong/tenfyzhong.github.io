@@ -2,9 +2,11 @@
 title: introduce-docker
 date: 2017-09-08 09:14:21
 categories:
-  - 后台
-tags: 
-  - docker
+  - "运维"
+tags:
+  - "docker"
+  - "devops"
+  - "tutorial"
 keywords: docker
 ---
 这篇文章是只是简单的入门，所以这里会教你怎么可以简单的上手。比如以前完全没有用过
@@ -31,7 +33,7 @@ docker很好的把各个服务给隔离了，不会因为其他服务而影响�
 [开发者可以使用Docker做什么？](http://dockone.io/article/378)
 
 # 怎么使用docker
-docker的使用只有两步：  
+docker的使用只有两步：
 1. 打包image
 2. 使用image拉起一个container，然后这个container就可以进行服务了。
 
@@ -106,16 +108,16 @@ COPY helloworld /opt/helloworld/bin/helloworld
 EXPOSE 12345
 CMD /opt/helloworld/bin/helloworld
 ```
-dockerfile也是非常简单。  
+dockerfile也是非常简单。
 `FROM`使用一个基础镜像，alpine:3.6，这个基础镜像就是一个linux系统，然后在这个系
-统上再加上其他东西。后面的`:3.6`指定了使用3.6版本的镜像。  
-`MAINTAINER`只是简单的加上维护者信息。  
-`COPY`把当前上下文（下面会讲到）的helloworld复制到指定的目录里去。  
-`EXPOSE`告诉用户这个image要使用12345端口。  
+统上再加上其他东西。后面的`:3.6`指定了使用3.6版本的镜像。
+`MAINTAINER`只是简单的加上维护者信息。
+`COPY`把当前上下文（下面会讲到）的helloworld复制到指定的目录里去。
+`EXPOSE`告诉用户这个image要使用12345端口。
 `CMD`就是指定了这个镜像的入口启动程序了。这里指定的话，就不用像上面的例子那样在
 启动时指定了。
 
-step 4，构建image  
+step 4，构建image
 ```sh
 docker build --tag helloworld:1.0.0 .
 ```
@@ -158,11 +160,11 @@ curl localhost:12345
 查看当前运行中的container，加上`-a`参数，还可以看到已经停止了的container。
 
 ### `docker stop`
-`Usage:  docker stop [OPTIONS] CONTAINER [CONTAINER...]`  
+`Usage:  docker stop [OPTIONS] CONTAINER [CONTAINER...]`
 停止一个container，可以传入docker的名字或者`docker ps`看到的第一个字段id。
 
 ### `docker start`
-`Usage:  docker start [OPTIONS] CONTAINER [CONTAINER...]`  
+`Usage:  docker start [OPTIONS] CONTAINER [CONTAINER...]`
 启动通过stop命令停止的container。
 
 ### `docker rm`
@@ -173,7 +175,7 @@ curl localhost:12345
 
 ### `docker pull`
 从仓库拉取一个镜像。
-eg: 
+eg:
 ```sh
 docker pull alpine:3.6
 ```
@@ -182,4 +184,3 @@ docker pull alpine:3.6
 
 ### `docker build`
 这个在上面已经介绍过。
-

@@ -1,9 +1,11 @@
 ---
 title: vim宏的使用
 categories:
-  - vim
+  - "Vim"
 tags:
-  - vim
+  - "vim"
+  - "macro"
+  - "tutorial"
 date: 2017-09-27 14:37:20
 keywords: vim,macro
 ---
@@ -12,7 +14,7 @@ keywords: vim,macro
 
 <!-- more -->
 # 宏是什么
-vim的宏就是把一系列动作录制起来，然后可以进行播放可以执行同样动作的功能。  
+vim的宏就是把一系列动作录制起来，然后可以进行播放可以执行同样动作的功能。
 它是vim中最具有魔法的操作了。可能会有人觉得`.`重复操作更具有魔法，但是`.`只能记
 重复上一次命令，能做的事情有限，所以它最多就是最经常使用的命令而已，并没有魔法。
 
@@ -98,7 +100,7 @@ enum Cmd
     k3,
 };
 ```
-需要对以上kOne赋0，kTwo赋1...  
+需要对以上kOne赋0，kTwo赋1...
 由于这个例子比较复杂，而且也是非常能体现魔法的例子，下面录了一个视频说明：
 <video src="https://blog-1254258176.cossh.myqcloud.com/vim-macro-32.mp4" controls="controls" controlsList="nodownload" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;">
 your browser does not support the video tag
@@ -123,4 +125,3 @@ your browser does not support the video tag
 3. 回到开头，插入进入插入模式，然后插入i的值  `0i<c-r>=i<cr> <esc>`
 4. 移到下一行 `j`
 5. 播放`9@a`
-

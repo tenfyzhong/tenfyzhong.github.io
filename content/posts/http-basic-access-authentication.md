@@ -2,10 +2,11 @@
 title: nginx配置http basic认证
 date: 2017-09-21 19:37:26
 categories:
-  - 后台
-tags: 
-  - http
-  - nginx
+  - "网络技术"
+tags:
+  - "http"
+  - "nginx"
+  - "security"
 keywords: http,authentication,nginx
 ---
 
@@ -16,8 +17,8 @@ http basic认证允许我们对自己的web服务器做简单的认证。可以�
 
 # 为什么需要http basic认证
 对于一些简单的web服务需要做简单的认证。比如:
-- 有时我们的web服务很简单，没有账号体系。  
-- 开源系统提供的web控制台，比如prometheus,consul等。  
+- 有时我们的web服务很简单，没有账号体系。
+- 开源系统提供的web控制台，比如prometheus,consul等。
 
 因为基本的浏览器都支持http basic认证，非常方便用户使用。但是如果链路不安全的话，
 会很容易就会被抓取到密码。所以只适合我们做一些基本的认证。
@@ -36,7 +37,7 @@ http basic认证允许我们对自己的web服务器做简单的认证。可以�
 
 # 启动http basic认证
 ## 生成账号密码
-我们需要使用`htpasswd`这个工具生成账号密码。  
+我们需要使用`htpasswd`这个工具生成账号密码。
 对于centos，安装httpd-tools
 ```sh
 yum install httpd-tools
@@ -49,7 +50,7 @@ apt install apache2-utils
 ```sh
 htpasswd -c /etc/nginx/htpsswd tenfy
 ```
-执行后会要求你输入密码，完了就完成了账号密码的生成。  
+执行后会要求你输入密码，完了就完成了账号密码的生成。
 
 如果/etc/nginx/htpasswd已经存在，并且是想往里面去增加账号密码，则不要使用`-c`参
 数，否则它重新创建一个文件，原来的记录会被刷掉。密码文件也可以放到其他路径下，只

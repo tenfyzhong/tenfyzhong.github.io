@@ -1,19 +1,21 @@
 ---
 title: fdump tcp抓包框架
 categories:
-  - 网络
+  - "工具"
 tags:
-  - 后台
-  - 网络
+  - "tcpdump"
+  - "network"
+  - "golang"
+  - "tools"
 date: 2019-06-25 13:21:30
 keywords: 后台,网络,tcpdump
 ---
 
-fdump是一个创建抓二进制包解析程序的框架。  
+fdump是一个创建抓二进制包解析程序的框架。
 对于自定义的二进制通信协议，在调试的时候会很困难。无论tcpdump还是wireshark抓到包都不能直接看到里面的内容。
 
 fdump做的事情就是抓包，并且把内容给到调用函数进行解析并返回一个可以阅读的对象，
-fdump把它做展示。  
+fdump把它做展示。
 <!-- more -->
 # 简介
 fdump的仓库地址：https://github.com/tenfyzhong/fdump
@@ -21,8 +23,8 @@ fdump的仓库地址：https://github.com/tenfyzhong/fdump
 fdump的面板由三部分构造，左边为抓到的每一个包，称之为简介面板。右边为包的详细显示内容，
 称之为详情面板。下边为状态栏。
 
-以下图采自fdump中的tcp的程序的例子:   
-https://github.com/tenfyzhong/fdump/tree/master/_examples/tcp  
+以下图采自fdump中的tcp的程序的例子:
+https://github.com/tenfyzhong/fdump/tree/master/_examples/tcp
 ![fdump-example-tcp](https://tenfy.cn/picture/fdump-example-tcp.png)
 
 fdump支持以下的特性：
