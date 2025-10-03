@@ -67,6 +67,22 @@ Google 的 Gemini 2.5 Pro 模型无疑是当今性能最顶尖的 AI 模型之�
 
 获取到足量的 API Key 后，就可以部署 `gemini-balance` 了。你可以根据官方文档的指引，将其部署在本地、个人服务器（VPS）或者 Heroku、Vercel 等云平台上。
 
+`gemini-balance` 需要的环境变量:
+
+```bash
+ADMIN_SESSION_EXPIRE=86400
+ALLOWED_TOKENS=["xxx"]
+API_KEYS=["token1","token2"]
+AUTH_TOKEN=auth_token
+AUTO_DELETE_REQUEST_LOGS_DAYS=7
+AUTO_DELETE_REQUEST_LOGS_ENABLED=true
+BASE_URL=https://gateway.ai.cloudflare.com/v1/xxxx/project-name/google-ai-studio/v1beta
+DATABASE_TYPE=sqlite
+ERROR_LOG_RECORD_REQUEST_BODY=true
+SQLITE_DATABASE=default_db
+TZ=Asia/Shanghai
+```
+
 部署完成后，你的所有 AI 应用（如 `gemini-cli`、VSCode 插件、各类开发工具等）不再需要直连 Google API，而是将请求指向你的 `gemini-balance` 服务地址。
 
 以 `gemini-cli` 为例，只需配置两个环境变量即可：
