@@ -1,5 +1,5 @@
 ---
-title: "openclaw-docker：一条命令启动 OpenClaw 网关"
+title: "openclaw-docker：一条命令启动 OpenClaw"
 date: 2026-03-14T00:18:12+08:00
 categories:
   - "运维"
@@ -22,7 +22,7 @@ keywords: "openclaw,docker,openclaw-docker,compose,tutorial"
 我一开始也是按官方方式折腾 Docker 运行 OpenClaw，但实际体验里有几个明显门槛：
 
 1. 需要先 clone 官方仓库再走一套安装流程，对只想快速跑起来的人来说步骤偏多。
-2. 初次运行时经常要根据日志继续调整配置，容错和上手成本都不低。
+2. 初次运行时会出错，要根据日志继续调整配置，容错和上手成本都不低。
 3. 对于“我只想先把网关跑起来再说”的场景，不够直接。
 
 所以我做了 `openclaw-docker`，目标很明确：
@@ -36,6 +36,10 @@ keywords: "openclaw,docker,openclaw-docker,compose,tutorial"
 仓库地址：<https://github.com/tenfyzhong/openclaw-docker>
 
 ### 1. 获取仓库
+
+获取这个仓库或者复制 docker-compose.yml。
+
+###
 
 ```bash
 git clone https://github.com/tenfyzhong/openclaw-docker.git
