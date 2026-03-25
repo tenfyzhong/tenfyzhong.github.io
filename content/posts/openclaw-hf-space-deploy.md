@@ -1,6 +1,6 @@
 ---
 title: "用 Hugging Face Spaces 部署 OpenClaw（含自动备份与恢复）"
-date: 2026-03-25T18:39:18+08:00
+date: 2026-03-25T21:39:18+08:00
 categories:
   - "运维"
 tags:
