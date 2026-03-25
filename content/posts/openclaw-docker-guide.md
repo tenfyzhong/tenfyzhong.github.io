@@ -81,8 +81,8 @@ openclaw onboard
 1. onboarding 过程中网关可能会重启，终端断开属于正常现象。
 2. 如果中断，重新进入容器再次执行 `openclaw onboard` 即可，已有进度会复用。
 3. 配置文件和工作目录默认持久化在本机：
-   - `./.docker/openclaw/config`
-   - `./.docker/openclaw/workspace`
+   - `./openclaw-data/config`
+   - `./openclaw-data/workspace`
 
 如果你想在首次启动前就指定端口或 token，可以在仓库根目录新建 `.env`，例如：
 
