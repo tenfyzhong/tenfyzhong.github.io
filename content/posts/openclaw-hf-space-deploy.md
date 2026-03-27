@@ -38,11 +38,11 @@ keywords: "openclaw,hugging face,spaces,docker,backup,restore,sshx"
 
 账号准备好后，按下面步骤创建 token（用于脚本配置备份与 Space）：
 
-![](https://tenfy.cn/picture/create-new-hf-access-token.png)
+![](https://tenfy.cn/picture/20260327192630134.png)
 
 1. 打开 Hugging Face Token 页面：<https://huggingface.co/settings/tokens>
 2. 创建一个新 token（建议命名为 `deploy-openclaw`）
-3. 至少授予 `write` 权限
+3. 授予以上图片的权限
 4. 复制 token（形如 `hf_xxx...`）
 
 本地可先登录并校验：
