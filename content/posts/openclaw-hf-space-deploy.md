@@ -208,6 +208,7 @@ echo "https://${SPACE_HOST}/healthz"
 2. 在浏览器打开该链接进入容器 shell，执行 `openclaw onboard` 按引导完成配置。
 3. onboarding 过程中 OpenClaw 可能重启，`sshx` 链接也可能变化；若当前链接失效，回到日志获取新链接继续执行。
 4. 官方向导可参考：<https://docs.openclaw.ai/start/wizard>
+5. 配置完成后，记得回到 `Settings -> Variables and secrets`，将 `OPENCLAW_SSHX_AUTO_START` 改为 `false`（或删除该变量），然后重启 Space，把 `sshx` 关闭。
 
 如果你修改了 OpenClaw 配置并希望立即生效，可以重启对应进程（示例）：
 
@@ -285,6 +286,8 @@ sshx
 ```bash
 nohup sshx >/proc/1/fd/1 2>/proc/1/fd/2 &
 ```
+
+后续如果临时需要 `sshx`，也可以通过 IM 让 OpenClaw 启动一个；使用完成后，记得再通过 IM 让 OpenClaw 把 `sshx` 关掉。
 
 使用结束后建议及时清理：
 
