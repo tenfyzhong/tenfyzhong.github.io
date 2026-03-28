@@ -102,7 +102,7 @@ powershell -ExecutionPolicy ByPass -File .\scripts\bootstrap-hf.ps1
 `openclaw-hf` README 提供了 Agent 专用提示词，你可以直接发给 AI Agent：
 
 ```text
-Please deploy OpenClaw to Hugging Face by strictly following the "Agent Deployment SOP (Collapsed)" section in https://github.com/tenfyzhong/openclaw-hf/blob/main/README.md
+Please deploy OpenClaw to Hugging Face by strictly following the deployment skill in https://github.com/tenfyzhong/openclaw-hf/blob/main/SKILL.md
 ```
 
 Agent 按 README SOP 通常会做这些事：
