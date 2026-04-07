@@ -5,7 +5,7 @@ categories:
   - "工具"
 tags:
   - "fish"
-  - "shell-completion"
+  - "scripting"
   - "tutorial"
 keywords: shell,fish
 ---

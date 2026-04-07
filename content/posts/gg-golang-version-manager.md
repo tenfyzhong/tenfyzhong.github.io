@@ -4,10 +4,9 @@ date: 2023-12-28T13:19:05+08:00
 categories:
   - "工具"
 tags:
-  - "gg"
   - "golang"
-  - "version-manager"
-  - "direnv"
+  - "toolchain"
+  - "tutorial"
 keywords: golang,后台
 ---
 

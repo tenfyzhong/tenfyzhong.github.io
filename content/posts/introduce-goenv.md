@@ -3,10 +3,9 @@ title: tenfyzhong/goenv库介绍
 categories:
   - "编程语言"
 tags:
-  - "goenv"
   - "golang"
-  - "environment-variable"
   - "toolchain"
+  - "tutorial"
 date: 2017-10-17 18:57:26
 keywords: go,golang,goenv,env
 ---

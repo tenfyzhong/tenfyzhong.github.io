@@ -6,7 +6,7 @@ categories:
 tags:
   - "vim"
   - "feedkeys"
-  - "scripting"
+  - "reference"
 ---
 
 很多人在使用feedkeys函数的时候会得取不预期的输出，怎么折腾也搞不明白为什么会得到

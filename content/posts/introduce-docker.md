@@ -6,7 +6,7 @@ categories:
 tags:
   - "docker"
   - "tutorial"
-  - "container"
+  - "deployment"
 keywords: docker
 ---
 这篇文章是只是简单的入门，所以这里会教你怎么可以简单的上手。比如以前完全没有用过

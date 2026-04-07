@@ -4,10 +4,8 @@ date: 2023-12-27T21:20:00+08:00
 categories:
   - "网络技术"
 tags:
-  - "china"
   - "network-topology"
   - "bgp"
-  - "backbone-network"
 keywords: 网络
 ---
 

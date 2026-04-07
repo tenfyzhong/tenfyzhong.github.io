@@ -6,7 +6,6 @@ tags:
   - "load-balancing"
   - "nginx"
   - "algorithm"
-  - "weighted-round-robin"
 date: 2018-11-12 19:54:47
 keywords:
 ---

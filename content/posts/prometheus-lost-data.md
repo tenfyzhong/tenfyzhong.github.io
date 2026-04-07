@@ -6,8 +6,7 @@ categories:
 tags:
   - "prometheus"
   - "monitoring"
-  - "data-loss"
-  - "troubleshooting"
+  - "tutorial"
 ---
 influxdb数据旁路一份到prometheus后，prometheus的图有时延时很大，主要是在业务忙的
 时候，闲的时候是可以处理到数据的。而influxdb的数据是可以正常显示的。而且这时牛逼

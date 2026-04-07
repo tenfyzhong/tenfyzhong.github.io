@@ -3,7 +3,6 @@ title: nf_conntrack调优
 categories:
   - "网络技术"
 tags:
-  - "conntrack"
   - "netfilter"
   - "performance"
   - "linux"

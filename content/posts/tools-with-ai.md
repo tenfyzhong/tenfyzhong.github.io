@@ -7,8 +7,7 @@ tags:
   - "deepseek"
   - "obsidian"
   - "neovim"
-  - "fish"
-  - "raycast"
+  - "tutorial"
 ---
 
 # 引言

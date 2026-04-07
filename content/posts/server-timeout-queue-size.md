@@ -4,9 +4,8 @@ categories:
   - "后端开发"
 tags:
   - "timeout"
-  - "queue"
   - "performance"
-  - "capacity-planning"
+  - "reference"
 date: 2019-03-09 12:17:31
 keywords: 后台,超时时间
 ---

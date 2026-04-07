@@ -6,7 +6,7 @@ categories:
 tags:
   - "http"
   - "nginx"
-  - "basic-auth"
+  - "authentication"
   - "security"
 keywords: http,authentication,nginx
 ---

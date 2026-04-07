@@ -7,8 +7,7 @@ tags:
   - "n8n"
   - "hugging-face-spaces"
   - "supabase"
-  - "automation"
-  - "free-tier"
+  - "tutorial"
 keywords: "n8n,hugging face,supabase,free deploy,automation"
 ---
 

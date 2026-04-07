@@ -3,10 +3,9 @@ title: 制作U盘启动盘
 categories:
   - "操作系统"
 tags:
-  - "usb"
-  - "bootable-usb"
   - "linux"
   - "macos"
+  - "tutorial"
 date: 2017-09-26 17:09:54
 ---
 

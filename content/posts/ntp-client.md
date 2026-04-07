@@ -5,7 +5,7 @@ categories:
 tags:
   - "ntp"
   - "linux"
-  - "time-sync"
+  - "tutorial"
 date: 2019-05-13 10:03:52
 keywords: ntpdate,ntp
 ---

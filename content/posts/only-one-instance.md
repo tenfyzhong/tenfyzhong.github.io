@@ -5,9 +5,8 @@ categories:
   - "操作系统"
 tags:
   - "linux"
-  - "cron"
-  - "process-lock"
-  - "singleton-process"
+  - "process-control"
+  - "tutorial"
 keywords:
   - cron
   - crontab

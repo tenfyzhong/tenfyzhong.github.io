@@ -6,8 +6,7 @@ categories:
 tags:
   - "nginx"
   - "lua"
-  - "traffic-mirroring"
-  - "request-duplication"
+  - "tutorial"
 keywords: nginx
 ---
 

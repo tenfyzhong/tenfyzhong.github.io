@@ -6,7 +6,6 @@ categories:
 tags:
   - "openclaw"
   - "docker"
-  - "docker-compose"
   - "tutorial"
 keywords: "openclaw,docker,openclaw-docker,compose,tutorial"
 ---

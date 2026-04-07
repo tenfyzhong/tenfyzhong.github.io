@@ -4,9 +4,8 @@ categories:
   - "数据库"
 tags:
   - "mongodb"
-  - "mongo-connector"
   - "replication"
-  - "disaster-recovery"
+  - "deployment"
 date: 2018-02-06 16:39:10
 keywords: mongo,mongo-connector
 ---

@@ -6,9 +6,8 @@ categories:
 tags:
   - "gemini"
   - "api"
-  - "rate-limit"
   - "load-balancing"
-  - "proxy"
+  - "tutorial"
 keywords:
   - gemini, api, rate limit, balance, proxy
 ---

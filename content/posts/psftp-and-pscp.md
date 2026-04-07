@@ -5,8 +5,6 @@ categories:
   - "编程语言"
 tags:
   - "python"
-  - "psftp"
-  - "pscp"
   - "sftp"
   - "scp"
 keywords: python,psftp,pscp,pexpect,pssh

@@ -40,12 +40,14 @@ This document provides guidelines for contributing to tenfy's blog repository. I
   - `Golang` -> `编程语言`
   - `Vim` -> `工具`
   - `技术` -> replace with the most specific canonical category. In the current content set, deployment-oriented posts such as `deploy-n8n-on-hf.md` should fall under `运维`.
-- Treat `tags` as controlled but extensible metadata. Use 2-5 tags per post, all in lowercase English `kebab-case`.
+- Treat `tags` as controlled but extensible metadata. Prefer 2-4 tags per post, all in lowercase English `kebab-case`.
 - Prefer a tag mix of:
   - one product/tool/framework tag, such as `docker`, `cloudflare`, `openclaw`
   - one or two technical/topic tags, such as `dns`, `json`, `shared-memory`, `load-balancing`
   - one environment or article-form tag when it adds signal, such as `linux`, `macos`, `tutorial`, `benchmark`
+- Prefer reusable tags that can group multiple posts or represent durable technologies. Avoid inventing long-tail tags that only restate one article's exact scenario.
 - Avoid tags that only restate the category (`network`, `database`, `tools`, `ai`) unless the post spans categories and the umbrella tag materially improves discovery.
+- Avoid stacking near-duplicate tags for the same post. If `docker` is already present, do not also add `docker-compose` unless the compose-specific angle is central and likely to recur across posts.
 - Do not use spaces, Chinese, title case, or promotional wording in tags.
 - Normalize legacy tag values when touching old posts:
   - `JSON` -> `json`

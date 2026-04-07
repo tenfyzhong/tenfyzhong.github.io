@@ -6,9 +6,8 @@ categories:
 tags:
   - "openclaw"
   - "hugging-face-spaces"
-  - "docker"
   - "backup"
-  - "restore"
+  - "tutorial"
 keywords: "openclaw,hugging face,spaces,docker,backup,restore,sshx"
 ---
 

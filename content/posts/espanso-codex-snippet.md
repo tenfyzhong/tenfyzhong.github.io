@@ -5,9 +5,8 @@ categories:
   - "人工智能"
 tags:
   - "codex"
-  - "espanso"
-  - "snippet"
-  - "prompt-workflow"
+  - "tutorial"
+  - "automation"
 keywords: codex,espanso,snippet,skill,prompt
 ---
 

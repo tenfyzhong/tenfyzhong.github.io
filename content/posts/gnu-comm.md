@@ -4,9 +4,8 @@ date: 2024-05-30T11:41:05+08:00
 categories:
   - "工具"
 tags:
-  - "comm"
   - "cli"
-  - "file-comparison"
+  - "reference"
 keywords: 工具,comm
 ---
 # comm工具

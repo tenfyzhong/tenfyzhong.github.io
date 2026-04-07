@@ -4,10 +4,9 @@ date: 2025-07-26T16:24:09+08:00
 categories:
   - "人工智能"
 tags:
-  - "gitai"
   - "git"
   - "cli"
-  - "commit-message"
+  - "tutorial"
 keywords:
 ---
 

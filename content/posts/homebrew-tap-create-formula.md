@@ -5,9 +5,8 @@ categories:
   - "工具"
 tags:
   - "homebrew"
-  - "tap"
-  - "formula"
   - "tutorial"
+  - "cli"
 keywords: 工具,homebrew
 ---
 

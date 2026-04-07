@@ -5,9 +5,8 @@ categories:
   - "编程语言"
 tags:
   - "golang"
-  - "shared-memory"
   - "linux"
-  - "ipc"
+  - "performance"
 ---
 
 Golang不使用cgo，直接操作共享内存。

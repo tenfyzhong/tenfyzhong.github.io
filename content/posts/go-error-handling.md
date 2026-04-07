@@ -6,7 +6,6 @@ categories:
 tags:
   - "golang"
   - "error-handling"
-  - "rpc"
   - "logging"
 keywords: golang,error
 ---
