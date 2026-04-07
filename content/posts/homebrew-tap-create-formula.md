@@ -7,7 +7,7 @@ tags:
   - "homebrew"
   - "tap"
   - "formula"
-  - "tools"
+  - "tutorial"
 keywords: 工具,homebrew
 ---
 

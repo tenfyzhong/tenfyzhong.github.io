@@ -2,7 +2,7 @@
 title: vim函数feedkeys使用说明
 date: 2017-09-02 17:42:23
 categories:
-  - "Vim"
+  - "工具"
 tags:
   - "vim"
   - "feedkeys"

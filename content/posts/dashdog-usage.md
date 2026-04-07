@@ -6,7 +6,8 @@ categories:
 tags:
   - "dash"
   - "dashdog"
-  - "tools"
+  - "docset"
+  - "tutorial"
 keywords: 工具,dash,dashdog
 ---
 

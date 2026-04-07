@@ -3,11 +3,12 @@ title: '实测五款 Go JSON 库：谁才是性能之王？'
 date: 2026-01-03T17:24:31+08:00
 draft: false
 categories:
-  - Golang
+  - "编程语言"
 tags:
-  - JSON
-  - 性能优化
-  - Benchmark
+  - "golang"
+  - "json"
+  - "benchmark"
+  - "performance"
 keywords:
   - Go JSON 性能对比
   - golang json benchmark

@@ -5,7 +5,7 @@ categories:
   - "网络技术"
 tags:
   - "cloudflare"
-  - "email"
+  - "email-routing"
   - "dns"
   - "tutorial"
 keywords: "cloudflare,email routing,dns,free email forward,catch-all"

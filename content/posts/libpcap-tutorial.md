@@ -4,9 +4,9 @@ categories:
   - "网络技术"
 tags:
   - "libpcap"
-  - "tcpdump"
-  - "network"
   - "tutorial"
+  - "packet-capture"
+  - "sniffer"
 date: 2018-12-01 18:25:04
 keywords: libpcap,tcpdump,sniffer
 ---

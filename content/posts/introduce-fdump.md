@@ -1,12 +1,12 @@
 ---
 title: fdump tcp抓包框架
 categories:
-  - "工具"
+  - "编程语言"
 tags:
-  - "tcpdump"
-  - "network"
+  - "fdump"
   - "golang"
-  - "tools"
+  - "packet-capture"
+  - "tui"
 date: 2019-06-25 13:21:30
 keywords: 后台,网络,tcpdump
 ---

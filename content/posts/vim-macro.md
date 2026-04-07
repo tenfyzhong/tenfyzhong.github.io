@@ -1,7 +1,7 @@
 ---
 title: vim宏的使用
 categories:
-  - "Vim"
+  - "工具"
 tags:
   - "vim"
   - "macro"

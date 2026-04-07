@@ -7,6 +7,7 @@ tags:
   - "golang"
   - "shared-memory"
   - "linux"
+  - "ipc"
 ---
 
 Golang不使用cgo，直接操作共享内存。

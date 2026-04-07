@@ -7,7 +7,7 @@ tags:
   - "dns"
   - "cloudflare"
   - "tutorial"
-  - "network"
+  - "domain-management"
 keywords: "Cloudflare, DNS, 域名解析, 教程"
 ---
 

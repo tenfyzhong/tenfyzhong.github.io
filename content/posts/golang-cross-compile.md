@@ -4,7 +4,8 @@ categories:
   - "编程语言"
 tags:
   - "golang"
-  - "cross-compile"
+  - "cross-compilation"
+  - "toolchain"
 date: 2017-10-17 09:00:35
 keywords: golang,cross,compile
 ---

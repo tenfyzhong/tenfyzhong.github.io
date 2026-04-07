@@ -6,7 +6,8 @@ categories:
 tags:
   - "linux"
   - "cron"
-  - "locking"
+  - "process-lock"
+  - "singleton-process"
 keywords:
   - cron
   - crontab

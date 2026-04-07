@@ -7,8 +7,7 @@ tags:
   - "codex"
   - "espanso"
   - "snippet"
-  - "ai"
-  - "tools"
+  - "prompt-workflow"
 keywords: codex,espanso,snippet,skill,prompt
 ---
 

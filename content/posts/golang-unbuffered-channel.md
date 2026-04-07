@@ -6,6 +6,7 @@ categories:
 tags:
   - "golang"
   - "channel"
+  - "concurrency"
 keywords: golang,chan
 ---
 

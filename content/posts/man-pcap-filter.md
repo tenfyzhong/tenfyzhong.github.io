@@ -5,7 +5,8 @@ categories:
 tags:
   - "pcap-filter"
   - "tcpdump"
-  - "network"
+  - "packet-filter"
+  - "reference"
 date: 2017-10-25 18:37:48
 keywords: man,pcap-filter,tcpdump
 toc: false

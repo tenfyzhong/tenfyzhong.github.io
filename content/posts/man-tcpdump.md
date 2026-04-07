@@ -4,7 +4,8 @@ categories:
   - "网络技术"
 tags:
   - "tcpdump"
-  - "network"
+  - "packet-capture"
+  - "reference"
 date: 2017-10-24 18:48:09
 keywords: man,tcpdump
 ---

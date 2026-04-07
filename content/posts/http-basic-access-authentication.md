@@ -2,10 +2,11 @@
 title: nginx配置http basic认证
 date: 2017-09-21 19:37:26
 categories:
-  - "网络技术"
+  - "运维"
 tags:
   - "http"
   - "nginx"
+  - "basic-auth"
   - "security"
 keywords: http,authentication,nginx
 ---

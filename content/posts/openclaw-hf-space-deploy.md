@@ -5,10 +5,10 @@ categories:
   - "运维"
 tags:
   - "openclaw"
-  - "hugging face"
-  - "hf spaces"
+  - "hugging-face-spaces"
   - "docker"
-  - "tutorial"
+  - "backup"
+  - "restore"
 keywords: "openclaw,hugging face,spaces,docker,backup,restore,sshx"
 ---
 

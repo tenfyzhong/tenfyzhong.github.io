@@ -4,13 +4,11 @@ date: 2025-04-08T20:59:00+08:00
 categories:
   - "人工智能"
 tags:
-  - "ai"
   - "deepseek"
   - "obsidian"
   - "neovim"
   - "fish"
   - "raycast"
-  - "tools"
 ---
 
 # 引言

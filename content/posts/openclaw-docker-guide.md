@@ -4,9 +4,9 @@ date: 2026-03-14T00:18:12+08:00
 categories:
   - "运维"
 tags:
-  - "docker"
   - "openclaw"
-  - "devops"
+  - "docker"
+  - "docker-compose"
   - "tutorial"
 keywords: "openclaw,docker,openclaw-docker,compose,tutorial"
 ---

@@ -4,10 +4,11 @@ date: 2025-07-24T20:09:24+08:00
 categories:
   - "人工智能"
 tags:
-  - "ai"
   - "gemini"
   - "api"
+  - "rate-limit"
   - "load-balancing"
+  - "proxy"
 keywords:
   - gemini, api, rate limit, balance, proxy
 ---

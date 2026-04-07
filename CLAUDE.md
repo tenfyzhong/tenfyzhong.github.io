@@ -27,3 +27,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Frontmatter**: YAML format.
 - **Language**: `zh-CN` (Chinese, Simplified).
 - **Drafts**: Set `draft: true` in frontmatter to prevent publication. Use `-D` flag with `hugo server` to view locally.
+- **Categories**: Use exactly one canonical Chinese category per post: `人工智能` / `工具` / `网络技术` / `运维` / `编程语言` / `数据库` / `操作系统` / `后端开发`.
+- **Category boundaries**: Language-centric topics belong to `编程语言`; deployment/observability topics belong to `运维`; editor/CLI/tool workflow posts belong to `工具`; DNS/packet/protocol topics belong to `网络技术`.
+- **Do not use legacy categories**: Avoid `技术`, `Golang`, `Vim`. Normalize them to the canonical set when touching older posts.
+- **Tags**: Use 2-5 tags, all lowercase English in `kebab-case`. No Chinese, spaces, or title case.
+- **Tag composition**: Prefer `product/tool + technical topic + environment or article form`, for example `docker`, `dns`, `linux`, `tutorial`.
+- **Normalize legacy tags**: `JSON` -> `json`, `Benchmark` -> `benchmark`, `hugging face` -> `hugging-face`, `hf spaces` -> `hugging-face-spaces`, `性能优化` -> `performance`, `自动化` -> `automation`.
+- **Avoid redundant umbrella tags**: Do not add tags like `tools`, `network`, `database`, or `ai` if they only repeat the category and do not improve discovery.

@@ -2,13 +2,13 @@
 title: "在 Hugging Face 上免费部署自更新的 n8n"
 date: 2025-08-30T15:45:39+08:00
 categories:
-  - "技术"
+  - "运维"
 tags:
   - "n8n"
-  - "hugging face"
+  - "hugging-face-spaces"
   - "supabase"
-  - "免费部署"
-  - "自动化"
+  - "automation"
+  - "free-tier"
 keywords: "n8n,hugging face,supabase,free deploy,automation"
 ---
 

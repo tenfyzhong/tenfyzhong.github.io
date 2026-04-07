@@ -6,7 +6,7 @@ categories:
 tags:
   - "comm"
   - "cli"
-  - "tools"
+  - "file-comparison"
 keywords: 工具,comm
 ---
 # comm工具

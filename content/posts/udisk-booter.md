@@ -4,7 +4,7 @@ categories:
   - "操作系统"
 tags:
   - "usb"
-  - "bootable"
+  - "bootable-usb"
   - "linux"
   - "macos"
 date: 2017-09-26 17:09:54

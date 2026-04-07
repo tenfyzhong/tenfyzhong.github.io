@@ -6,7 +6,7 @@ tags:
   - "redis"
   - "geohash"
   - "performance"
-  - "database"
+  - "benchmark"
 date: 2019-06-24 14:28:19
 keywords: redis,数据库,后台
 ---

@@ -2,11 +2,12 @@
 title: nginx旁路
 date: 2017-09-22 17:50:16
 categories:
-  - "运维"
+  - "后端开发"
 tags:
   - "nginx"
   - "lua"
-  - "devops"
+  - "traffic-mirroring"
+  - "request-duplication"
 keywords: nginx
 ---
 

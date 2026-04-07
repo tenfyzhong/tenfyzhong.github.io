@@ -4,8 +4,8 @@ date: 2024-05-05T15:50:08+08:00
 categories:
   - "工具"
 tags:
-  - "shell"
   - "fish"
+  - "shell-completion"
   - "tutorial"
 keywords: shell,fish
 ---
