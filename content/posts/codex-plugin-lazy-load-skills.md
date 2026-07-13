@@ -26,7 +26,7 @@ keywords:
 
 我最后的解决方案不是继续压缩每个 description，而是把同一领域的 skills 收进一个 Codex Plugin，只向 Codex 注册一个轻量的 router skill。用户请求命中 router 后，再扫描插件内部的 skill 元数据，选择并读取真正需要的 `SKILL.md`。
 
-本文会以我做的 [lark-cli-skills Plugin](https://github.com/tenfyzhong/openai-plugins-hub/tree/main/plugins/lark-cli-skills) 为例，拆解这套按需加载方案。
+本文会以我做的 [lark-cli-skills Plugin](https://github.com/tenfyzhong/agent-plugins-hub/tree/main/plugins/lark-cli-skills) 为例，拆解这套按需加载方案。
 
 <!-- more -->
 
@@ -119,7 +119,7 @@ lark-cli-skills/
 
 manifest 使用标准的 `skills/` 路径，而这个目录里只放 router。具体工作流放在 `internal-skills/`，不会被当成 Plugin 的顶层 skills 自动发现。
 
-实际项目中的 manifest 还应保留作者、界面展示等完整字段，可以直接参考 [lark-cli-skills 的 plugin.json](https://github.com/tenfyzhong/openai-plugins-hub/blob/main/plugins/lark-cli-skills/.codex-plugin/plugin.json)。
+实际项目中的 manifest 还应保留作者、界面展示等完整字段，可以直接参考 [lark-cli-skills 的 plugin.json](https://github.com/tenfyzhong/agent-plugins-hub/blob/main/plugins/lark-cli-skills/.codex-plugin/plugin.json)。
 
 ## 第二步：用一个短 description 覆盖整个领域
 
@@ -141,7 +141,7 @@ router 被选中后，再执行以下流程：
 3. 完整读取每个被选中的 `SKILL.md`。
 4. 按内部 skill 的要求继续读取 references、调用 scripts 或执行命令。
 
-完整路由规则可以查看 [router skill](https://github.com/tenfyzhong/openai-plugins-hub/blob/main/plugins/lark-cli-skills/skills/lark/SKILL.md)。
+完整路由规则可以查看 [router skill](https://github.com/tenfyzhong/agent-plugins-hub/blob/main/plugins/lark-cli-skills/skills/lark/SKILL.md)。
 
 ## 第三步：动态生成内部 skill 目录
 
@@ -184,7 +184,7 @@ def discover_skills(skills_directory):
 
 为什么要返回绝对路径？因为 Plugin 安装后的缓存目录不应该被硬编码。脚本从自身位置推导 Plugin 根目录，再返回实际安装位置，router 才能稳定地读取目标文件。
 
-完整的 frontmatter 解析和错误处理见 [discover_internal_skills.py](https://github.com/tenfyzhong/openai-plugins-hub/blob/main/plugins/lark-cli-skills/skills/lark/scripts/discover_internal_skills.py)。
+完整的 frontmatter 解析和错误处理见 [discover_internal_skills.py](https://github.com/tenfyzhong/agent-plugins-hub/blob/main/plugins/lark-cli-skills/skills/lark/scripts/discover_internal_skills.py)。
 
 ## 一次请求实际会怎样执行
 
@@ -261,8 +261,8 @@ discovery 阶段只需要 `name`、`description` 和 `path`。如果脚本把所
 如果想直接体验这套结构，可以把我的 Plugin marketplace 加到 Codex：
 
 ```bash
-codex plugin marketplace add tenfyzhong/openai-plugins-hub --ref main
-codex plugin add lark-cli-skills@openai-plugins-hub
+codex plugin marketplace add tenfyzhong/agent-plugins-hub --ref main
+codex plugin add lark-cli-skills@tenfyzhong-agent-plugins-hub
 ```
 
 安装后新开一个会话，再输入 Lark 或飞书相关请求即可。
