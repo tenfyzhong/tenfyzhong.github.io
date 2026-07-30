@@ -23,6 +23,11 @@ This document provides guidelines for contributing to tenfy's blog repository. I
 - **File Naming**: Use kebab-case for filenames (e.g., `my-new-post.md`).
 - **Formatting**: Ensure files are UTF-8 encoded.
 
+## Image Assets
+
+- Upload images used in blog posts to the [tenfyzhong/picture](https://github.com/tenfyzhong/picture) repository.
+- Reference uploaded images in blog posts through the `https://tenfy.cn/picture/` URL prefix.
+
 ## Post Taxonomy Guidelines
 
 - Treat `categories` as a controlled vocabulary. Each post should have exactly one primary category in Chinese.
