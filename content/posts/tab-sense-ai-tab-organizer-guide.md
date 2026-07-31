@@ -93,9 +93,9 @@ chrome://extensions
 
 # 第四步：申请 Agnes 免费 API Key
 
-AI 分组需要一个可以调用大模型的 API。这里使用 [Agnes AI](https://agnes-ai.com/) 举例，因为它提供 OpenAI 兼容接口，而且本文写作时 `agnes-2.0-flash` 的输入和输出 Token 当前价格均为 `$0 / 1M tokens`。免费政策和限额可能会调整，请以 [Agnes 官方模型文档](https://agnes-ai.com/zh-Hans/docs/agnes-20-flash) 为准。
+AI 分组需要一个可以调用大模型的 API。这里使用 [Agnes AI](https://agnes-ai.cn/) 举例，因为它提供 OpenAI 兼容接口，而且本文写作时 `agnes-2.0-flash` 的输入和输出 Token 当前价格均为 `$0 / 1M tokens`。免费政策和限额可能会调整，请以 [Agnes 官方模型文档](https://agnes-ai.cn/zh-Hans/docs/agnes-20-flash) 为准。
 
-先打开 [Agnes 开发者平台](https://platform.agnes-ai.com/)，注册或登录账户，然后进入“设置”里的“API 密钥”页面。
+先打开 [Agnes 开发者平台](https://platform.agnes-ai.cn/)，注册或登录账户，然后进入“设置”里的“API 密钥”页面。
 
 点击“创建新的密钥”，给它起一个容易识别的名字，例如：
 
@@ -119,7 +119,7 @@ tab-sense
 | --- | --- |
 | 服务商名称 | `Agnes 免费 API`，也可以填写其他便于识别的名字 |
 | AI 服务商 | `OpenAI Completions` |
-| API 基础地址 | `https://apihub.agnes-ai.com/v1` |
+| API 基础地址 | `https://api.agnes-ai.cn/v1` |
 | API 密钥 | 粘贴刚才从 Agnes 复制的完整 API Key |
 
 ![配置 Agnes OpenAI 兼容接口](https://tenfy.cn/picture/tab-sense-agnes-settings.jpg)
@@ -131,7 +131,7 @@ tab-sense
 填写完成后，按下面的顺序操作：
 
 1. 点击“刷新模型”。
-2. Chrome 询问是否允许访问 `apihub.agnes-ai.com` 时，点击允许。
+2. Chrome 询问是否允许访问 `api.agnes-ai.cn` 时，点击允许。
 3. 等待模型列表刷新成功。
 4. 在“模型”下拉框中选择 `agnes-2.0-flash`。
 5. 点击“测试模型”。
@@ -197,7 +197,7 @@ API Key 保存在 Chrome 扩展的本地存储中，不会由 Tab Sense 同步�
 依次检查：
 
 1. “AI 服务商”是否选的是 `OpenAI Completions`。
-2. API 基础地址是否完整填写为 `https://apihub.agnes-ai.com/v1`。
+2. API 基础地址是否完整填写为 `https://api.agnes-ai.cn/v1`。
 3. API Key 前后是否误带了空格。
 4. Chrome 弹出服务商访问权限时是否点击了允许。
 5. Agnes 服务当前是否正常，账户是否触发了调用限额。
