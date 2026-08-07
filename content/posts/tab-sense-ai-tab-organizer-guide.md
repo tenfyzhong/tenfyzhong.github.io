@@ -1,23 +1,25 @@
 ---
-title: "Tab Sense：用 AI 一键整理 Chrome 标签页，安装与 Agnes 免费 API 配置教程"
+title: "Tab Sense：用 AI 一键整理浏览器标签页，Chrome / Edge / Firefox 安装与 Agnes 免费 API 配置教程"
 date: 2026-07-30T00:30:00+08:00
 categories:
   - "人工智能"
 tags:
   - "tab-sense"
   - "chrome-extension"
+  - "firefox-extension"
+  - "edge-extension"
   - "agnes"
   - "tutorial"
-keywords: "Tab Sense, Chrome 标签页, AI 分组, Agnes API, Chrome 插件安装"
+keywords: "Tab Sense, 浏览器标签页, AI 分组, Agnes API, Chrome 插件, Firefox 插件, Edge 插件"
 ---
 
-如果你平时会同时打开很多网页，Chrome 顶部的标签页很快就会挤成一排：工作文档、GitHub、AI 工具、购物页面混在一起，想找刚才看过的内容只能一个个点。
+如果你平时会同时打开很多网页，浏览器顶部的标签页很快就会挤成一排：工作文档、GitHub、AI 工具、购物页面混在一起，想找刚才看过的内容只能一个个点。
 
 我原本只是想找一个“让 AI 帮我整理标签页”的插件，需求其实很简单：点一下按钮，自动把相同主题的标签页放进同一个分组。可是在插件市场里找了一圈，很多产品都塞进了会话管理、云同步、收藏夹、稍后阅读等大量功能。它们并不是不好，只是对我来说太复杂了。
 
-所以我做了 [Tab Sense](https://github.com/tenfyzhong/tab-sense)：一个专注于标签页去重和 AI 分组的 Chrome 插件。它没有自己的后端，也不要求绑定某一家 AI 服务。你可以使用自己的 API Key，并选择 OpenAI、Anthropic、Google Gemini 或 OpenAI 兼容服务。
+所以我做了 [Tab Sense](https://github.com/tenfyzhong/tab-sense)：一个专注于标签页去重和 AI 分组的浏览器插件（支持 Chrome、Edge 和 Firefox）。它没有自己的后端，也不要求绑定某一家 AI 服务。你可以使用自己的 API Key，并选择 OpenAI、Anthropic、Google Gemini 或 OpenAI 兼容服务。
 
-这篇文章从零开始，介绍如何下载和安装 Tab Sense，并以目前可以免费使用的 Agnes API 为例完成配置。即使你从来没有手动安装过 Chrome 插件，也可以跟着做。
+这篇文章从零开始，介绍如何安装 Tab Sense：Firefox 和 Edge 可以直接从官方扩展商店安装，Chrome 则需要从 GitHub Release 手动安装。文中以目前可以免费使用的 Agnes API 为例完成配置。即使你从来没有手动安装过浏览器插件，也可以跟着做。
 
 <!-- more -->
 
@@ -30,7 +32,7 @@ Tab Sense 主要解决四件事：
 3. **全部解除分组**：需要重新整理时，可以把当前窗口里的所有标签页移出分组。
 4. **撤销上一次操作**：误操作后可以撤销最近一次去重、AI 分组或解除分组。
 
-它只处理当前 Chrome 窗口。固定的标签页不会被关闭，也不会被 AI 重新分组；已经放进分组的标签页也不会被随意移动。
+它只处理当前浏览器窗口。固定的标签页不会被关闭，也不会被 AI 重新分组；已经放进分组的标签页也不会被随意移动。
 
 ![Tab Sense 操作面板](https://tenfy.cn/picture/tab-sense-popup.jpg)
 
@@ -41,9 +43,35 @@ Tab Sense 主要解决四件事：
 
 macOS 键盘上的 `Alt` 就是 `Option（⌥）`。如果快捷键与其他软件冲突，可以在 Tab Sense 设置页右上角点击“配置快捷键”修改。
 
-# 第一步：下载 Tab Sense
+# 第一步：Firefox 和 Edge：从扩展商店直接安装
 
-Tab Sense 暂时没有上架 Chrome 应用商店，需要从 GitHub Release 下载打包好的版本。
+Tab Sense 已经上架 Firefox 和 Edge 的官方扩展商店。使用这两个浏览器的朋友不用下载文件，直接在商店页面点击安装即可，之后扩展还会自动更新。
+
+## Firefox
+
+打开下面的地址：
+
+```text
+https://addons.mozilla.org/zh-CN/firefox/addon/tab-sense/
+```
+
+点击页面上的“添加到 Firefox”按钮，在弹出的确认对话框中点击“添加”。安装完成后，浏览器工具栏会出现 Tab Sense 图标。
+
+## Edge
+
+打开下面的地址：
+
+```text
+https://microsoftedge.microsoft.com/addons/detail/tab-sense/jfcefmhpbafaeccfpjcapadgbphokgoo
+```
+
+点击页面上的“获取”按钮，在弹出的确认对话框中点击“添加扩展”。安装完成后，浏览器工具栏会出现 Tab Sense 图标。
+
+Firefox 和 Edge 用户安装完成后，可以直接跳到“第五步：申请 Agnes 免费 API Key”开始配置。使用 Chrome 的朋友请继续阅读下面的第二步。
+
+# 第二步：Chrome：下载 Tab Sense
+
+Tab Sense 目前还没有上架 Chrome 应用商店，需要从 GitHub Release 下载打包好的版本，再手动安装。如果你用的是 Firefox 或 Edge，请跳过第二步到第四步，直接阅读“第五步：申请 Agnes 免费 API Key”。
 
 插件要求 Chrome 116 或更高版本。如果你的 Chrome 很久没有更新，可以先打开 `chrome://settings/help`，等待浏览器完成版本检查和更新。
 
@@ -61,7 +89,7 @@ tab-sense-0.1.1-chrome.zip
 
 > 请把解压后的文件夹放在一个不会被清理的位置，例如“文稿”目录。安装后不要删除或移动它，否则 Chrome 下次可能无法继续加载插件。
 
-# 第二步：开启 Chrome 开发者模式
+# 第三步：Chrome：开启开发者模式
 
 在 Chrome 地址栏输入下面的地址并回车：
 
@@ -77,7 +105,7 @@ chrome://extensions
 
 开发者模式听起来有点吓人，但这里的作用只是允许 Chrome 加载没有经过应用商店发布的插件。后续更新也需要在这个页面操作。
 
-# 第三步：安装插件
+# 第四步：Chrome：安装插件
 
 点击“加载未打包的扩展程序”，在弹出的文件选择窗口中，选中刚才**解压后的文件夹**，然后点击“选择”。
 
@@ -91,7 +119,7 @@ chrome://extensions
 
 为了以后方便使用，可以点击 Chrome 工具栏上的拼图图标，在扩展程序列表里找到 Tab Sense，再点击旁边的图钉。固定以后，工具栏上会一直显示 Tab Sense 图标。
 
-# 第四步：申请 Agnes 免费 API Key
+# 第五步：申请 Agnes 免费 API Key
 
 AI 分组需要一个可以调用大模型的 API。这里使用 [Agnes AI](https://agnes-ai.cn/) 举例，因为它提供 OpenAI 兼容接口，而且本文写作时 `agnes-2.0-flash` 的输入和输出 Token 当前价格均为 `$0 / 1M tokens`。免费政策和限额可能会调整，请以 [Agnes 官方模型文档](https://agnes-ai.cn/zh-Hans/docs/agnes-20-flash) 为准。
 
@@ -109,7 +137,7 @@ tab-sense
 
 > API Key 就像密码，不要把完整内容发给别人，也不要放进截图、博客或公开代码仓库。如果怀疑已经泄露，请立即回到 Agnes 控制台删除旧密钥并创建新密钥。
 
-# 第五步：在 Tab Sense 中配置 Agnes
+# 第六步：在 Tab Sense 中配置 Agnes
 
 点击 Chrome 工具栏上的 Tab Sense 图标，再点击面板右上角的齿轮，进入设置页。
 
@@ -141,7 +169,7 @@ tab-sense
 
 设置页还有“AI 分组前关闭重复标签页”选项。开启后，每次 AI 分组都会先清理重复页面；如果去重失败，插件会停止后续分组。新手可以先保持关闭，熟悉之后再决定是否启用。
 
-# 第六步：让 AI 整理标签页
+# 第七步：让 AI 整理标签页
 
 配置成功后，先在当前窗口打开几个不同主题的网页。例如同时打开几篇 GitHub 文档、几篇 AI 新闻和几个购物页面。
 
@@ -199,7 +227,7 @@ API Key 保存在 Chrome 扩展的本地存储中，不会由 Tab Sense 同步�
 1. “AI 服务商”是否选的是 `OpenAI Completions`。
 2. API 基础地址是否完整填写为 `https://api.agnes-ai.cn/v1`。
 3. API Key 前后是否误带了空格。
-4. Chrome 弹出服务商访问权限时是否点击了允许。
+4. 浏览器弹出服务商访问权限时是否点击了允许。
 5. Agnes 服务当前是否正常，账户是否触发了调用限额。
 
 ## 3. “使用 AI 分组”按钮是灰色的
@@ -208,11 +236,15 @@ API Key 保存在 Chrome 扩展的本地存储中，不会由 Tab Sense 同步�
 
 ## 4. 插件重启 Chrome 后不见了
 
+这个问题只影响 Chrome 手动安装的版本，Firefox 和 Edge 商店安装的版本不受影响。
+
 检查安装时选择的解压文件夹是否被删除或移动。重新解压发布包，再到 `chrome://extensions` 重新加载即可。
 
 ## 5. 如何更新 Tab Sense？
 
-到 [Releases 页面](https://github.com/tenfyzhong/tab-sense/releases) 下载新版本的 `-chrome.zip` 文件并解压。在 `chrome://extensions` 中移除旧版本，再用“加载未打包的扩展程序”选择新文件夹。移除插件会删除它的本地配置，因此更新前请先记好 API 地址和模型，并确认自己仍能在 Agnes 控制台管理或重新创建 API Key。
+Firefox 和 Edge 商店安装的版本会自动更新，不需要手动操作。
+
+Chrome 手动安装的版本需要到 [Releases 页面](https://github.com/tenfyzhong/tab-sense/releases) 下载新版本的 `-chrome.zip` 文件并解压。在 `chrome://extensions` 中移除旧版本，再用“加载未打包的扩展程序”选择新文件夹。移除插件会删除它的本地配置，因此更新前请先记好 API 地址和模型，并确认自己仍能在 Agnes 控制台管理或重新创建 API Key。
 
 # 总结
 
