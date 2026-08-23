@@ -312,12 +312,23 @@ sudo systemctl enable --now alloy
 
 ## 2. 获取 Grafana Cloud Prometheus 凭据
 
-1. 登录 [Grafana Cloud Portal](https://grafana.com/)，找到你创建的 Stack。
-2. 在 **Prometheus** 卡片上点击 **Details**：
-   - 记录 **Remote Write Endpoint**（格式形如 `https://prometheus-prod-XX-prod-XX.grafana.net/api/prom/push`）。
-   - 记录 **Instance ID / Username**（这是一串数字，例如 `1234567`，注意不是你的 Grafana 登录邮箱）。
-3. 前往 **Access Policies** 页面，创建一个只包含 `metrics:write` 最小权限的策略（Policy），并为其生成一个 Token，将其作为密码保存。
+为了让本地的 Grafana Alloy 能够将采集到的指标推送到 Grafana Cloud，我们需要获取 Prometheus 的 Remote Write 端点、用户名（Instance ID）以及具有写入权限的 Access Policy Token：
 
+1. 打开 [Grafana Cloud Portal](https://grafana.com/)，在 **Manage your Grafana Cloud stack** 下点击 **Launch** 打开你的 Grafana 实例：
+
+   ![打开 Grafana Cloud 并点击 Launch](https://tenfy.cn/picture/modeltap-grafana-cloud-launch.webp)
+
+2. 进入 Grafana 后，在左侧导航菜单找到 **Connections** -> **Data sources**，搜索 `prometheus`，并点击进入 Prometheus 数据源详情：
+
+   ![在 Connections 中查找 Prometheus 数据源](https://tenfy.cn/picture/modeltap-grafana-cloud-datasource-prometheus.webp)
+
+3. 复制 **Connection** 下的 **Prometheus server URL**，作为 Alloy 的 `config.env` 中的 `AGENT_USAGE_PROMETHEUS_URL`；复制 **Authentication** 下的 **User**（数字 ID），作为 Alloy 的 `config.env` 中的 `AGENT_USAGE_PROMETHEUS_USERNAME`：
+
+   ![复制 Prometheus server URL 与 User](https://tenfy.cn/picture/modeltap-grafana-cloud-prometheus-connection-user.webp)
+
+4. 返回 Grafana Cloud Portal，在左侧菜单 **SECURITY** 下点击 **Access Policies**，创建一个新的支持所有写操作的策略，或者复用已有包含 `set:alloy-data-write` 权限的 Policy，点击 **Add token** 生成一个 Token，复制保存作为 Alloy 的 `config.env` 中的 `AGENT_USAGE_PROMETHEUS_PASSWORD`：
+
+   ![在 Access Policies 中创建 Token](https://tenfy.cn/picture/modeltap-grafana-cloud-access-policies-token.webp)
 ## 3. 安全配置环境变量
 
 为了避免将敏感 Token 硬编码在配置文件中，建议使用环境变量注入：
