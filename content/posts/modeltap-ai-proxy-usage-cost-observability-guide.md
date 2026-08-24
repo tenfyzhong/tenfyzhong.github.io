@@ -1,51 +1,46 @@
 ---
-title: "ModelTap 实战指南：透明监控 AI 编程 Agent Token 消耗与成本，结合 Grafana Alloy 与 Grafana Cloud 搭建可观测大盘"
+title: "用 ModelTap 监控 AI 编程工具的 Token 用量与成本"
 date: 2026-08-22T11:09:16+08:00
 categories:
   - "人工智能"
-  - "工具"
 tags:
   - "modeltap"
   - "grafana-cloud"
   - "grafana-alloy"
   - "opentelemetry"
-  - "ai-proxy"
-  - "cursor"
-  - "claude-code"
-  - "oh-my-pi"
 keywords: "ModelTap, Grafana Alloy, Grafana Cloud, AI Proxy, Token 监控, 大模型成本, Cursor, Claude Code, oh-my-pi, OpenTelemetry, OTLP"
 ---
 
-在日常使用各种 AI Coding Agent（如 Claude Code、Cursor、Codex、oh-my-pi、Gemini CLI、OpenCode 等）进行软件开发时，多轮对话、上下文回溯、代码库搜索与子任务规划往往会在不知不觉中消耗惊人数量的 Token。
+使用 Claude Code、Cursor、Codex、oh-my-pi、Gemini CLI 或 OpenCode 写代码时，一次任务往往会包含多轮对话、代码库搜索和上下文回溯。Token 用量很容易超过预期。
 
-但在这个过程中，很多开发者都会遇到类似的困扰：
+我主要想弄清楚三件事：
 
-1. **消耗不透明**：刚才跑完的一个复杂重构任务到底消耗了多少 Prompt Token 和 Completion Token？Prompt 缓存（Cache Read / Cache Write）到底命中了多少？
-2. **成本难以核算**：今天调用不同厂商的大模型（OpenAI、Anthropic、Gemini、DeepSeek 等）一共花了多少钱？DeepSeek 这类区分高峰期与低谷期分时计价的模型，实际费用如何精准折算？
-3. **缺乏统一大盘**：不同工具、不同 SDK 各自为政，没有一个统一、集中且低开销的可观测看板来跟踪日常调用趋势、模型分布与代理延迟。
+1. 一次任务分别用了多少输入、输出和缓存 Token？
+2. 不同厂商和模型的费用累计是多少？对 DeepSeek 这类分时计价模型，费用如何计算？
+3. 能否把不同 CLI 和 SDK 的用量放到同一个看板里，同时看到代理延迟？
 
-为了解决这些问题，[ModelTap](https://github.com/tenfyzhong/modeltap) 应运而生。它是一个采用 Rust 开发的高性能显式 HTTP/HTTPS 代理与 AI 用量监控工具。通过无侵入的 TLS MITM 嗅探与流式旁路解析，ModelTap 能自动识别主流大模型协议并计算实时成本，再通过标准 OpenTelemetry（OTLP/HTTP）将指标推送给 Grafana Alloy 并汇聚到 Grafana Cloud 中，从而构建起一套完整的 AI 模型用量与成本可观测大盘。
+这篇文章用 [ModelTap](https://github.com/tenfyzhong/modeltap) 处理这些问题。它是用 Rust 写的显式 HTTP/HTTPS 代理，能从常见模型 API 的响应中提取用量信息，并按配置的价格规则计算成本。指标通过 OpenTelemetry（OTLP/HTTP）发送给 Grafana Alloy，再写入 Grafana Cloud。
 
-本文将从零开始，详细介绍 ModelTap 的工作原理、安装部署、CA 根证书配置、Grafana Alloy 管道搭建以及 Grafana Cloud 大盘的导入与实战使用。
+下面依次说明代理的工作方式、根证书配置、Alloy 管道，以及 Grafana Cloud 看板的导入。
 
 <!-- more -->
 
-# ModelTap 的核心特性与工作架构
+# ModelTap 的工作方式
 
-ModelTap 的设计原则是**透明、零缓冲、低开销与高精度**。它在保证客户端流式体验不受影响的前提下，完成所有指标的采集与计算。
+ModelTap 将流量转发与用量解析分开处理：客户端的数据流继续转发，解析器从旁路读取需要的信息并记录指标。
 
-## 核心特性
+## 主要特性
 
-- **零缓冲流式转发 (Zero-Buffering Streaming)**：支持 HTTP/1.1 与 HTTP/2。对于 SSE（Server-Sent Events）流式响应与长连接 WebSocket（如 Codex 使用的 `chatgpt.com` 端点），ModelTap 采用流式直通转发，不等待完整响应包体；针对 WebSocket 握手开启的 `permessage-deflate` 压缩，仅在旁路解压并提取 `response.completed` 事件中的 Token 数据，原数据流原样无损传递。
-- **自动协议识别 (Automatic Protocol Detection)**：内部自动识别 OpenAI Chat/Responses/Embeddings、Anthropic Messages、Google Gemini metadata、DeepSeek（同时兼容 OpenAI 与 Anthropic 格式）以及 Cursor Connect/Protobuf 协议，无需手动为每个站点配置冗余的协议类型。
-- **Agent CLI 智能识别**：自动根据请求头嗅探客户端来源，打上 `claude_code`、`codex`、`gemini_cli`、`oh_my_pi`、`opencode` 或 `unknown` 的 `agent_cli` 标签。
-- **灵活的计费引擎 (Pricing Engine)**：支持基于百万 Token 的精确定价规则，覆盖 Input、Output、Cache Read 与 Cache Write。支持时区感知的峰谷阶梯时段（`peak_windows`），完美适配 DeepSeek 等国内模型的北京时间分时计费规则。
-- **级联出口代理 (Egress Cascading)**：支持上游级联代理（HTTP、HTTPS、SOCKS5、Privoxy、GOST 等），并允许针对特定站点进行路由覆盖（例如 DeepSeek 走直连 `direct`，其他流量走 Privoxy）。
-- **标准 OpenTelemetry 导出**：提供 `ai_proxy_requests`、`ai_proxy_tokens`、`ai_proxy_cost` 以及多维度的微秒级代理延迟直方图，通过 OTLP/HTTP 异步批量导出。
+- **流式转发**：支持 HTTP/1.1、HTTP/2、SSE 和 WebSocket。响应不会等到完整包体到齐再转发。对启用了 `permessage-deflate` 的 WebSocket，ModelTap 在旁路解压后读取 `response.completed` 事件中的 Token 数据。
+- **协议识别**：可识别 OpenAI Chat、Responses 和 Embeddings，Anthropic Messages、Google Gemini metadata、DeepSeek 的 OpenAI/Anthropic 格式，以及 Cursor Connect/Protobuf。
+- **CLI 来源标签**：按请求头标记 `claude_code`、`codex`、`gemini_cli`、`oh_my_pi`、`opencode` 或 `unknown`。
+- **计费规则**：按每百万 Token 配置 input、output、cache read 和 cache write 的价格；`peak_windows` 可用于按时区设置峰谷价格。
+- **上游代理**：可配置 HTTP、HTTPS、SOCKS5、Privoxy 或 GOST 等出口代理，并按站点覆盖路由。
+- **OpenTelemetry 指标**：通过 OTLP/HTTP 导出 `ai_proxy_requests`、`ai_proxy_tokens`、`ai_proxy_cost` 和代理延迟直方图。
 
 ## 整体架构与数据流
 
-整个系统的调用流与度量数据流如下图所示：
+调用流和指标流如下：
 
 ```text
 AI 客户端 / CLI (Claude Code / Cursor / oh-my-pi / SDK)
@@ -81,11 +76,11 @@ Grafana Dashboard (可视化大盘：请求数、Token 消耗、费用、延迟)
 
 ## 1. 安装 ModelTap
 
-你可以通过以下几种方式获取并安装 ModelTap：
+可按自己的环境选择安装方式：
 
 ### 方式 A：通过 Homebrew 安装（macOS / Linux）
 
-如果你在 macOS 或 Linux 上使用 Homebrew，可以直接通过官方 Tap 安装：
+macOS 或 Linux 上使用 Homebrew 时：
 
 ```bash
 brew install tenfyzhong/tap/modeltap
@@ -93,7 +88,7 @@ brew install tenfyzhong/tap/modeltap
 
 ### 方式 B：从 GitHub Release 下载预编译二进制文件
 
-访问 [ModelTap Releases](https://github.com/tenfyzhong/modeltap/releases) 页面，下载对应平台的归档包并解压到 `PATH` 路径下：
+从 [ModelTap Releases](https://github.com/tenfyzhong/modeltap/releases) 下载对应平台的归档包，解压后把可执行文件放到 `PATH` 中：
 
 - `modeltap-<version>-aarch64-apple-darwin.tar.gz`（macOS Apple Silicon）
 - `modeltap-<version>-x86_64-unknown-linux-gnu.tar.gz`（Linux x86_64）
@@ -112,7 +107,7 @@ make build
 
 ### 方式 D：通过 Docker / Docker Compose 运行
 
-仓库中提供了现成的 `Dockerfile` 与 `docker-compose.yml`，可以直接容器化部署：
+仓库提供了 `Dockerfile` 与 `docker-compose.yml`：
 
 ```bash
 docker compose up --build -d
@@ -120,7 +115,7 @@ docker compose up --build -d
 
 ## 2. 生成本地 Root CA 根证书
 
-ModelTap 只会对你在配置文件 `sites` 列表中显式指定的域名进行 TLS MITM 解密，其余域名保持纯透明隧道转发。为了让客户端信任 ModelTap 动态签发的证书，首先需要生成一对专用的本地根证书与私钥：
+ModelTap 只会解密 `sites` 中列出的域名；其他域名仍按隧道转发。客户端要信任代理动态签发的证书，先生成一套本地根证书和私钥：
 
 ```bash
 mkdir -p certs
@@ -159,17 +154,17 @@ curl --proxy http://127.0.0.1:2080 \
   https://api.openai.com/v1/models
 ```
 
-如果返回 OpenAI 的 `401 Unauthorized`（因为没有带实际的 API Key），即证明代理、TLS MITM 解密与上游转发链路完全正常！
+如果得到 OpenAI 的 `401 Unauthorized`，说明请求已通过代理完成 TLS 解密并到达上游；这里没有携带 API Key，返回 401 是预期结果。
 
 ## 4. 编写配置文件 `config.yaml`
 
-复制仓库中的 `config.sample.yaml` 并根据自身环境调整：
+复制仓库中的示例配置，再按自己的网络环境修改：
 
 ```bash
 cp config.sample.yaml config.yaml
 ```
 
-一份典型的生产/开发配置示例如下：
+示例：
 
 ```yaml
 proxy:
@@ -271,7 +266,7 @@ pricing:
 
 ### 配置检查与启动
 
-ModelTap 提供了非常实用的语法与规则静态校验命令，无需启动端口即可检验配置合法性：
+先检查配置，再启动代理：
 
 ```bash
 # 验证配置文件正确性
@@ -285,7 +280,7 @@ modeltap run --config config.yaml
 
 # 第二步：安装与配置 Grafana Alloy
 
-[Grafana Alloy](https://grafana.com/docs/alloy/latest/) 是 Grafana 官方推出的 OpenTelemetry 采集与管道处理代理。我们将用 Alloy 接收 ModelTap 发出的 OTLP/HTTP 指标，并通过 `remote_write` 将指标无缝推送到 Grafana Cloud 托管的 Prometheus 中。
+[Grafana Alloy](https://grafana.com/docs/alloy/latest/) 负责接收 ModelTap 的 OTLP/HTTP 指标，并用 `remote_write` 写入 Grafana Cloud 托管的 Prometheus。
 
 ## 1. 安装 Grafana Alloy
 
@@ -312,7 +307,7 @@ sudo systemctl enable --now alloy
 
 ## 2. 获取 Grafana Cloud Prometheus 凭据
 
-为了让本地的 Grafana Alloy 能够将采集到的指标推送到 Grafana Cloud，我们需要获取 Prometheus 的 Remote Write 端点、用户名（Instance ID）以及具有写入权限的 Access Policy Token：
+需要准备 Prometheus Remote Write 地址、用户名（Instance ID）和有写入权限的 Access Policy Token：
 
 1. 打开 [Grafana Cloud Portal](https://grafana.com/)，在 **Manage your Grafana Cloud stack** 下点击 **Launch** 打开你的 Grafana 实例：
 
@@ -326,12 +321,13 @@ sudo systemctl enable --now alloy
 
    ![复制 Prometheus server URL 与 User](https://tenfy.cn/picture/modeltap-grafana-cloud-prometheus-connection-user.webp)
 
-4. 返回 Grafana Cloud Portal，在左侧菜单 **SECURITY** 下点击 **Access Policies**，创建一个新的支持所有写操作的策略，或者复用已有包含 `set:alloy-data-write` 权限的 Policy，点击 **Add token** 生成一个 Token，复制保存作为 Alloy 的 `config.env` 中的 `AGENT_USAGE_PROMETHEUS_PASSWORD`：
+4. 返回 Grafana Cloud Portal，在 **SECURITY** 的 **Access Policies** 中创建或复用包含 `set:alloy-data-write` 权限的策略。点击 **Add token** 生成 Token，保存为 Alloy `config.env` 的 `AGENT_USAGE_PROMETHEUS_PASSWORD`：
 
    ![在 Access Policies 中创建 Token](https://tenfy.cn/picture/modeltap-grafana-cloud-access-policies-token.webp)
+
 ## 3. 安全配置环境变量
 
-为了避免将敏感 Token 硬编码在配置文件中，建议使用环境变量注入：
+不要把 Token 写进 `config.alloy`，用环境变量传入：
 
 ### macOS 环境
 
@@ -408,11 +404,11 @@ sudo systemctl restart alloy
 sudo journalctl -u alloy -f
 ```
 
-打开浏览器访问 `http://127.0.0.1:12345`，可以进入 Alloy 的 Web 状态页面，确认 `otelcol.receiver.otlp.agent_usage` 和 `prometheus.remote_write.default` 各组件均处于运行健康的绿色状态。
+打开 `http://127.0.0.1:12345`，在 Alloy 状态页确认 `otelcol.receiver.otlp.agent_usage` 和 `prometheus.remote_write.default` 正常运行。
 
 ---
 
-# 第三步：Grafana Cloud 大盘导入与监控实战
+# 第三步：导入 Grafana Cloud 看板并查看指标
 
 ## 1. 验证指标上报
 
@@ -422,44 +418,44 @@ sudo journalctl -u alloy -f
 - `ai_proxy_tokens`：累计消耗的 Token 计数器
 - `ai_proxy_cost`：累计消耗的成本（USD）
 
-如果能正常查到数据序列，说明从 ModelTap 到 Grafana Cloud 的全链路已经完全连通！
+能查到这些时间序列，说明数据已从 ModelTap 写入 Grafana Cloud。
 
 ## 2. 导入官方预置 Dashboard
 
-ModelTap 仓库在 `grafana/modeltap-dashboard.json` 中内置了经过精心调优的可视化大盘，包含请求聚合、Token 细分、费用核算与延迟分析等全套视图。
+ModelTap 仓库的 `grafana/modeltap-dashboard.json` 包含请求、Token、费用和延迟视图。
 
-导入步骤非常简单：
+导入步骤：
 
 1. 在 Grafana Cloud 左侧导航栏点击 **Dashboards** -> **New** -> **Import**。
 2. 上传 ModelTap 仓库中的 `grafana/modeltap-dashboard.json` 文件（或者复制 JSON 内容粘贴到文本框）。
 3. 在底部的 **Prometheus** 下拉框中，选择你刚刚推送指标的 Grafana Cloud Prometheus 数据源。
-4. 点击 **Import** 即可完成创建。
+4. 点击 **Import**。
 
-## 3. 大盘看板深度解读
+## 3. 看板内容
 
-导入后，你将获得一个全功能的多维度大盘：
+看板包含以下内容：
 
 1. **顶部核心概览指标卡 (Stat Cards)**：
-   - **Cumulative requests**：累计请求次数。
-   - **Total tokens in selected range**：当前选定时间范围内的总 Token 消耗增量。
-   - **Cost in selected range (USD)**：当前时间范围内的总花费金额。
+   - **Cumulative requests**：累计请求数。
+   - **Total tokens in selected range**：所选时间范围内的 Token 增量。
+   - **Cost in selected range (USD)**：所选时间范围内的费用。
 2. **多维分布与消耗趋势 (Timeseries Charts)**：
    - **Cumulative requests by model**：按模型细分的请求增长曲线。
-   - **Cumulative tokens by agent_cli, site, model, and type**：细分到具体的 Agent 工具（如 `oh_my_pi` vs `claude_code`）、站点服务商、模型名称以及 Token 类型（`input`、`output`、`cache_read`、`cache_write`）。
-   - **Cumulative cost by agent_cli, site, model, and type**：各模型各维度的费用累计走势。
+   - **Cumulative tokens by agent_cli, site, model, and type**：按 Agent 工具、服务商、模型和 Token 类型（`input`、`output`、`cache_read`、`cache_write`）拆分。
+   - **Cumulative cost by agent_cli, site, model, and type**：按相同维度拆分的费用曲线。
 3. **模型费用明细表 (Cost Table)**：
-   - **Cost by model in selected range (USD)**：以表格形式展示选定区间内消耗最高的前几名模型及其具体成本。
+   - **Cost by model in selected range (USD)**：列出所选时间范围内各模型的费用。
 4. **级联筛选变量 (Cascading Template Variables)**：
-   - 顶部提供 `Agent CLI -> Site -> Model` 级联选择器。选择特定的 Agent 后，站点和模型下拉列表会自动进行联动过滤，方便快速排查单个工具或单个模型的调用情况。
+   - 顶部提供 `Agent CLI -> Site -> Model` 选择器；选定 Agent 后，站点和模型列表会相应过滤。
 5. **性能与代理开销看板 (Latency & Overhead)**：
    - **Upstream first response latency**：监控从 ModelTap 接收请求到上游 API 返回首包 Header 的耗时。
-   - **ai_proxy_local_processing_duration_microseconds**：监控 ModelTap 本地解析分块（Chunk）与记录遥测指标的微秒级开销（通常 p95 耗时仅在微秒级别），证明代理不会对流式交互带来任何可感知的延迟。
+   - **ai_proxy_local_processing_duration_microseconds**：记录 ModelTap 解析分块和写入遥测指标的本地耗时。可结合 p95 观察代理处理对交互的影响。
 
 ---
 
-# 第四步：各 AI 客户端与 Agent CLI 的配置实战
+# 第四步：配置 AI 客户端与 Agent CLI
 
-配置完代理与监控后，只需要将客户端流量导向 ModelTap 即可。
+配置好代理和监控后，把客户端流量指向 ModelTap。
 
 ## 1. 通用环境变量配置
 
@@ -490,7 +486,7 @@ omp
 
 ## 3. Claude Code / Codex / Gemini CLI 接入
 
-对于其他主流 CLI 工具，只需在同一 Shell 会话下设置好上述代理变量和 `NODE_EXTRA_CA_CERTS`，直接启动 CLI 工具即可自动享受用量与成本的透明监控。
+其他 CLI 工具也在同一 Shell 会话中设置代理变量和 `NODE_EXTRA_CA_CERTS` 后启动即可。
 
 ---
 
@@ -504,15 +500,15 @@ omp
 
 # 总结
 
-通过 **ModelTap + Grafana Alloy + Grafana Cloud** 的组合，我们以极低的性能开销和完全透明的方式，搭建起了一套专属于开发者的 AI 模型可观测体系：
+这套组合的职责比较清晰：
 
-- **ModelTap**：专注于高效、零缓冲地抓取和解析流量，精准核算 Token 与成本；
-- **Grafana Alloy**：充当可靠的本地 OpenTelemetry 收集与转发管道；
-- **Grafana Cloud**：提供稳定免运维的时序存储与丰富的多维可视化看板。
+- **ModelTap** 代理请求、提取用量并计算成本；
+- **Grafana Alloy** 接收并转发 OpenTelemetry 指标；
+- **Grafana Cloud** 存储指标并提供查询和看板。
 
-无论你是重度使用 AI 辅助编程的开发者，还是希望对团队大模型 API 消耗进行精细化成本管控的工程师，ModelTap 都是一个轻量、优雅且功能强大的选择。
+如果你需要按模型、CLI 或 Token 类型查看 AI 编程工具的用量，可以先从本地代理和一组基础价格规则开始。确认数据流正常后，再补充看板变量和告警规则。
 
 - **GitHub 仓库**：[https://github.com/tenfyzhong/modeltap](https://github.com/tenfyzhong/modeltap)
 - **在线文档与 Alloy 指南**：[ModelTap Documentation](https://github.com/tenfyzhong/modeltap/tree/main/docs)
 
-欢迎体验并给项目点个 Star！如果在配置过程中有任何问题，也欢迎在仓库中提交 Issue 或 PR 参与建设。
+遇到配置问题可在仓库提交 Issue；改进文档或功能也欢迎提交 PR。
