@@ -1,7 +1,7 @@
 ---
 title: "给 Agent 搭一个自己掌控的知识库"
 date: 2026-08-31T15:40:04+08:00
-draft: true
+draft: false
 categories:
   - "人工智能"
 tags:
