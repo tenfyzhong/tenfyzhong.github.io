@@ -1,0 +1,32 @@
+name: Validate patched Hugo build
+on:
+  pull_request:
+    branches: [source]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GOENV: "off"
+      GOTOOLCHAIN: local
+      HUGO_VERSION: 0.145.0
+      HUGO_ENVIRONMENT: production
+      TZ: America/Los_Angeles
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.10'
+          cache: false
+      - name: Build Hugo CLI with patched Go
+        run: |
+          go install -tags extended github.com/gohugoio/hugo@v${HUGO_VERSION}
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+          go version -m "$(go env GOPATH)/bin/hugo" | tee "${{ runner.temp }}/hugo-build-info.txt"
+          grep -F ': go1.26.10' "${{ runner.temp }}/hugo-build-info.txt"
+      - name: Build site without deploying
+        run: hugo --gc --minify --cacheDir "${{ runner.temp }}/hugo_cache"
